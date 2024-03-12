@@ -5,10 +5,10 @@ FROM arangodb:latest
 ENV ARANGO_NO_AUTH=1
 
 # Copy the custom entrypoint script into the container
-COPY custom-entrypoint.sh /usr/local/bin/custom-entrypoint.sh
+COPY ./docker-entrypoint.sh /usr/local/bin/docker-entrypoint.sh
 
-# Make sure the custom entrypoint script is executable
-RUN chmod +x /usr/local/bin/custom-entrypoint.sh
+# Make sure the docker entrypoint script is executable
+RUN chmod +x /usr/local/bin/docker-entrypoint.sh
 
 # Set the volume to persist data
 VOLUME ["/var/lib/arangodb3"]
@@ -16,5 +16,5 @@ VOLUME ["/var/lib/arangodb3"]
 # Expose the port ArangoDB runs on
 EXPOSE 8529
 
-# Run the custom entrypoint script
-ENTRYPOINT ["custom-entrypoint.sh"]
+# Run the docker entrypoint script
+ENTRYPOINT ["docker-entrypoint.sh"]
