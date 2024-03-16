@@ -1,6 +1,5 @@
 from arango import ArangoClient
 import csv
-
 import uuid
 
 client = ArangoClient(hosts="http://localhost:8529")
@@ -14,11 +13,9 @@ else:
 
 vertices = db.collection("imdb_vertices")
 edges = db.collection("imdb_edges")
+graph = db.graph("imdb")
+edge_def = graph.edge_collection("imdb_edges")
 
-"""cursor = db.aql.execute('FOR doc IN imdb_vertices FILTER doc.label == @value RETURN doc',
-    bind_vars={'value': "The Shawshank Redemption"})
-
-movie_keys = [doc['_key'] for doc in cursor]"""
 
 class MovieRecord:
     def __init__(self, id, name, year, song_name, written_by, performed_by, composed_by, lyrics_by, written_performed_by, music_by, courtesy_of, conducted_by, libretto_by, under_license_from):
@@ -45,7 +42,7 @@ class MovieRecord:
 
 class DatabaseEdge:
     def __init__(self, key, from_vertex, to_vertex, label):
-        self._key = 170000 + key
+        self._key = str(250000 + int(key))
         self._id = "imdb_edges/" + str(self._key)
         self._from = from_vertex
         self._to = to_vertex
@@ -65,6 +62,7 @@ class DatabaseEdge:
 
 def read_csv_to_objects(filepath):
     records = []
+    id = 1
     with open(filepath, 'r', encoding='utf-8') as file:
         reader = csv.DictReader(file)
         for row in reader:
@@ -84,13 +82,16 @@ def read_csv_to_objects(filepath):
                 libretto_by=row['libretto_by'],
                 under_license_from=row['under_license_from']
             )
-            #metadata = vertices.insert(record.to_dict())
-            #assert metadata['_id'] == 'imdb_vertices/' + record._key
-            #assert metadata['_key'] == record._key
+            metadata = vertices.insert(record.to_dict())
+            assert metadata['_id'] == 'imdb_vertices/' + record._key
+            assert metadata['_key'] == record._key
             q = vertices.find({'title': record.name})
             if not q.empty():
-                print(q.batch())
-                break
+                movie = q.batch()
+                edge = DatabaseEdge(id, movie[0]['_id'], "imdb_vertices/" + str(record._key), "has_song")
+                metadata = edge_def.insert(edge.to_dict())
+                assert metadata['_key'] == edge._key
+                id += 1
 
 if __name__ == "__main__":
     filepath = '../arangodb/sound_track_imdb_top_250_movie_tv_series.csv'
