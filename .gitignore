@@ -1,2 +1,8 @@
 
+/Lab1-redis/vendor/
+
 mongo-data/
+
+/proj/arangodb/
+
+.DS_Store
