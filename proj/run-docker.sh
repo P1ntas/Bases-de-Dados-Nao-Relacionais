@@ -11,7 +11,7 @@ docker build -t $IMAGE_NAME .
 if [ $? -eq 0 ]; then
     echo "Build succeeded, running the Docker container..."
     # Command to run the Docker container
-    docker run -e ARANGO_NO_AUTH=1 -p 8529:8529 -d -v $(pwd)/Documents/Uni/BDNR/proj/arangodb:/var/lib/arangodb3 $IMAGE_NAME
+    docker run -e ARANGO_NO_AUTH=1 -p 8529:8529 -d -v $(pwd)/arangodb:/var/lib/arangodb3 $IMAGE_NAME
 else
     echo "Docker build failed, aborting..."
     exit 1
