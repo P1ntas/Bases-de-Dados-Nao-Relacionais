@@ -4,6 +4,6 @@
 mongo-data/
 
 Lab2-mongo/node_modules
-/proj/arangodb/
+/proj/initialization/arangodb/
 
 .DS_Store
