@@ -94,5 +94,7 @@ def read_csv_to_objects(filepath):
                 id += 1
 
 if __name__ == "__main__":
-    filepath = '../arangodb/sound_track_imdb_top_250_movie_tv_series.csv'
+    filepath = 'sound_track_imdb_top_250_movie_tv_series.csv'
     records = read_csv_to_objects(filepath)
+    #print(edge_def.edges('imdb_vertices/3372', direction='out'))
+    #print(edge_def.edges('imdb_vertices/6746', direction='out'))
