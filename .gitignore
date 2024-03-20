@@ -4,6 +4,9 @@
 mongo-data/
 
 Lab2-mongo/node_modules
+
+Lab3-cassandra/cassandra-data/
+
 /proj/initialization/arangodb/
 
 Lab3-cassandra/cassandra-data
