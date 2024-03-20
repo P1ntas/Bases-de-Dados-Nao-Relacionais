@@ -3,7 +3,11 @@ require 'vendor/autoload.php';
 
 $redis = new Predis\Client();
 
+echo '<h1>Bookit!</h1>';
+
 function getRecentBookmarks($redis, $count = 15) {
+    echo '<h3>Latest Bookmarks</h3>';
+    
     $ids = $redis->zrevrange('bookmarks:sorted_by_time', 0, $count - 1);
     $bookmarks = [];
     foreach ($ids as $id) {
@@ -57,7 +61,7 @@ foreach ($bookmarks as $bookmark) {
 
 }
 
-echo '<a href="add.html"><button>Add Bookmark</button></a>';
+echo '<a href="add.html">Add another bookmark</a>';
 
 ?>
 
