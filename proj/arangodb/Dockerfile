@@ -7,6 +7,8 @@ ENV ARANGO_NO_AUTH=1
 # Copy the custom entrypoint script into the container
 COPY docker-entrypoint.sh /usr/local/bin/docker-entrypoint.sh
 
+COPY users.json /tmp/users.json
+
 # Make sure the docker entrypoint script is executable
 RUN chmod +x /usr/local/bin/docker-entrypoint.sh
 
