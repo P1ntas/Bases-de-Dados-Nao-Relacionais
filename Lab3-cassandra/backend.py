@@ -26,7 +26,7 @@ def add_bookmark():
 
 @app.route('/tags')
 def display_tags():
-    tag_url_pairs = get_tag_url_pairs()
+    urls_with_tags = get_urls_and_tags()
     html = """
     <!DOCTYPE html>
     <html lang="en">
@@ -37,15 +37,21 @@ def display_tags():
     <body>
         <h1>Tagged Bookmarks</h1>
         <div>
-            {% for pair in tag_url_pairs %}
-                <div><p>Tags: <a href="/tags/{{ pair.tag }}">{{ pair.tag }}</a></p> <p>URL: <a href="{{ pair.url if pair.url.startswith('http://') or pair.url.startswith('https://') else 'http://' + pair.url }}">{{ pair.url }}</a></p><br> </div>
+            {% for url, tags in urls_with_tags.items() %}
+                <div><p>URL: <a href="{{ url if url.startswith('http://') or url.startswith('https://') else 'http://' + url }}">{{ url }}</a></p>
+                <p>Tags: 
+                    {% for tag in tags %}
+                        <a href="/tags/{{ tag }}">{{ tag }}</a>{% if not loop.last %}, {% endif %}
+                    {% endfor %}
+                </p><br></div>
             {% endfor %}
         </div>
         <a href="/">Add another bookmark</a>
     </body>
     </html>
     """
-    return render_template_string(html, tag_url_pairs=tag_url_pairs)
+    return render_template_string(html, urls_with_tags=urls_with_tags)
+
 
 
 
@@ -95,6 +101,22 @@ def get_tags_and_urls():
         urls_with_tags[bookmark.url] = [tag.tag for tag in tags_result]
     
     return urls_with_tags
+
+def get_urls_and_tags():
+    urls_with_tags = {}
+    # Fetch all bookmarks and their tags
+    bookmarks = session.execute("SELECT id, url FROM bookmarks")
+    for bookmark in bookmarks:
+        tags_result = session.execute(
+            "SELECT tag FROM bookmark_tags WHERE bookmark_id = %s",
+            (bookmark.id,)
+        )
+        if bookmark.url not in urls_with_tags:
+            urls_with_tags[bookmark.url] = set()
+        urls_with_tags[bookmark.url].update(tag.tag for tag in tags_result)
+    
+    return urls_with_tags
+
 
 
 def get_tag_url_pairs():
