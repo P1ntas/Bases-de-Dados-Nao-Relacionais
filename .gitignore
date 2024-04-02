@@ -10,3 +10,5 @@ Lab3-cassandra/cassandra-data
 /proj/backend/node_modules/
 
 .DS_Store
+
+/proj/initialization/
