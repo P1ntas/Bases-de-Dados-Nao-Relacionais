@@ -54,6 +54,41 @@ def display_tags():
 
 
 
+def get_bookmarks_by_two_tags(tag1, tag2):
+    # Fetch bookmark_ids for each tag
+    bookmarks_tag1 = session.execute(
+        "SELECT bookmark_id FROM bookmark_tags WHERE tag = %s ALLOW FILTERING",
+        (tag1,)
+    )
+    bookmarks_url1 = set()
+    for bookmark_id in bookmarks_tag1:
+        query_result = session.execute(
+            "SELECT url FROM bookmarks WHERE id = %s ALLOW FILTERING",
+            (bookmark_id.bookmark_id,)
+        )
+        for row in query_result:
+            bookmarks_url1.add(row.url)
+
+    bookmarks_tag2 = session.execute(
+        "SELECT bookmark_id FROM bookmark_tags WHERE tag = %s ALLOW FILTERING",
+        (tag2,)
+    ) 
+
+    bookmarks_url2 = set()
+    for bookmark_id in bookmarks_tag2:
+        query_result = session.execute(
+            "SELECT url FROM bookmarks WHERE id = %s ALLOW FILTERING",
+            (bookmark_id.bookmark_id,)
+        )
+        for row in query_result:
+            bookmarks_url2.add(row.url)
+
+    # Find the intersection of bookmark IDs associated with both tags
+    common_bookmark_ids = bookmarks_url1.intersection(bookmarks_url2)
+
+    return common_bookmark_ids
+
+
 
 
 def get_all_tags():
@@ -176,6 +211,29 @@ def bookmarks_by_tag(tag):
     </html>
     """
     return render_template_string(html, tag=tag, bookmarks=bookmarks)
+
+@app.route('/tags/<tag1>,<tag2>')
+def bookmarks_by_two_tags(tag1, tag2):
+    bookmarks = get_bookmarks_by_two_tags(tag1, tag2)
+    return render_template_string("""
+    <!DOCTYPE html>
+    <html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <title>Bookmarks for Tags: {{ tag1 }} and {{ tag2 }}</title>
+    </head>
+    <body>
+        <h1>Bookmarks for Tags: "{{ tag1 }}" and "{{ tag2 }}"</h1>
+        <ul>
+            {% for url in bookmarks %}
+                <li><a href="{{ url }}" target="_blank">{{ url }}</a></li>
+            {% endfor %}
+        </ul>
+        <a href="/tags">Back to All Tags</a>
+    </body>
+    </html>
+    """, tag1=tag1, tag2=tag2, bookmarks=bookmarks)
+
 
 
 
