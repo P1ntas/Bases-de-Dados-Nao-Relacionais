@@ -1,11 +1,11 @@
 
 /Lab1-redis/vendor/
 
-mongo-data/
+/mongo-data/
 
 Lab2-mongo/node_modules
 
-Lab3-cassandra/cassandra-data
+/cassandra-data
 
 /proj/backend/node_modules/
 
