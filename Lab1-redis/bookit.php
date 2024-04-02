@@ -7,7 +7,8 @@ $url = $_POST['url'];
 $tagsInput = $_POST['tags'];
 $tags = explode(' ', $tagsInput);
 
-$id = $redis->incr('next_bookmark_id');
+$id = sha1($url);
+
 $timestamp = time();
 
 $redis->zadd('bookmarks:sorted_by_time', [$id => $timestamp]);
@@ -21,4 +22,3 @@ foreach ($tags as $tag) {
 header('Location: index.php');
 exit();
 ?>
-
