@@ -12,3 +12,7 @@ Lab2-mongo/node_modules
 .DS_Store
 
 /proj/initialization/
+
+/Lab4-neo4j/neo4j-data/
+
+/Lab4-neo4j/vendor/
