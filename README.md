@@ -4,35 +4,62 @@ FEUP - Bases de Dados Não Relacionais
 
 ## Queries
 
-1. Visualizar detalhes de um filme/ator/diretor/genero
+### Read, write, update and delete operations
 
-2. Pesquisar por um filme/ator/diretor/genero
+- Fazer um comentário sobre um filme
 
-3. Fazer um comentário sobre um filme
+-  Classificar um filme/ator/diretor/genero como gosto ou não gosto
 
-4. Ver comentários de um filme
+- Seguir um utilizador
 
-5. Classificar um filme/ator/diretor/genero como gosto ou não gosto
+- Visualizar os meus seguidores
 
-6. Ver os filme/ator/diretor/genero que gostei
-
-7. Seguir um utilizador
-
-8. Visualizar os meus seguidores
-
-9. Visualizar quem eu sigo
+- Visualizar quem eu sigo
  
-10. Visualizar a minha timeline
+- Ver os filme/ator/diretor/genero que gostei
 
-11. Ver os gostos de um utilizador que sigo
+- Editar perfil
 
-12. Recomendações de filmes com base nos meus gostos
-
-13. Visualizar filmes semelhantes a um determinado filme
-
-14. Ver filmes em que um ator/diretor participou
+- Apagar comentário
 
 
+### Lookups based on keys and individual attributes
+
+- Ver o perfil de um user
+
+- Ver os gostos de um utilizador que sigo
+
+
+### Operations over multiples aggregates
+
+- Retrieve movies along with their associated actors/directors and genres
+
+- Visualizar a minha timeline
+
+- Ver filmes em que um ator/diretor participou
+
+### Aggregation and projection operations (e.g. total orders per customer; monthly sales per product)
+
+- Numero total de likes e dislikes de cada filme
+
+- Numero total de seguidores de um user
+
+### Keyword-based search over text fields (e.g. full-text search)
+
+- Pesquisar por um filme/ator/diretor/genero
+
+### Use of specific features of the selected NoSQL technology.
+
+- Recomendações de filmes com base nos meus gostos
+
+- Visualizar filmes semelhantes a um determinado filme
+
+
+## Aggregates
+
+Movie Details (dados, atores que participaram, diretor, genero, comentários feitos por users)
+
+User Profile
 
 
 

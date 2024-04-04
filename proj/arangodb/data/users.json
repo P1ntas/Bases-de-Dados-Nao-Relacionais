@@ -1,19 +1,54 @@
 {
   "users": [
     {
-      "username": "user1",
-      "email": "user1@example.com",
-      "name": "User One"
+      "username": "ana_silva",
+      "email": "ana.silva@example.com",
+      "name": "Ana Silva"
     },
     {
-      "username": "user2",
-      "email": "user2@example.com",
-      "name": "User Two"
+      "username": "joao_pereira",
+      "email": "joao.pereira@example.com",
+      "name": "João Pereira"
     },
     {
-      "username": "user3",
-      "email": "user3@example.com",
-      "name": "User Three"
+      "username": "maria_santos",
+      "email": "maria.santos@example.com",
+      "name": "Maria Santos"
+    },
+    {
+      "username": "carlos_oliveira",
+      "email": "carlos.oliveira@example.com",
+      "name": "Carlos Oliveira"
+    },
+    {
+      "username": "sandra_rodrigues",
+      "email": "sandra.rodrigues@example.com",
+      "name": "Sandra Rodrigues"
+    },
+    {
+      "username": "tiago_costa",
+      "email": "tiago.costa@example.com",
+      "name": "Tiago Costa"
+    },
+    {
+      "username": "patricia_gomes",
+      "email": "patricia.gomes@example.com",
+      "name": "Patrícia Gomes"
+    },
+    {
+      "username": "luis_silveira",
+      "email": "luis.silveira@example.com",
+      "name": "Luís Silveira"
+    },
+    {
+      "username": "rita_fernandes",
+      "email": "rita.fernandes@example.com",
+      "name": "Rita Fernandes"
+    },
+    {
+      "username": "andre_martins",
+      "email": "andre.martins@example.com",
+      "name": "André Martins"
     }
   ]
 }
