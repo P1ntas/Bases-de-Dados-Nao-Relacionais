@@ -1,3 +1,8 @@
+## Read, write, update and delete operations
+
+Adding a new movie to the database
+Updating an actor's profile, or deleting a movie record would showcase these operations
+
 
 ## Lookups based on keys and individual attributes:
 
