@@ -1,14 +1,10 @@
 const express = require('express');
-const { Database } = require('arangojs');
 const cors = require('cors');
-const app = express();
-const port = process.env.PORT || 3000;
+const moviesRoutes = require("./routes/movies");
+const db = require('./database');
 
-// Database connection configuration
-const db = new Database({
-  url: 'http://localhost:8529',
-  databaseName: 'IMDB'
-});
+const app = express();
+const port = 3000;
 
 app.use(cors());
 
@@ -18,10 +14,11 @@ app.get('/', async (req, res) => {
         const count = result.count; // Extract count from result
         res.json({ count }); // Send count as JSON
     } catch (error) {
-        console.log(error.message)
         res.status(500).json({ error: error.message });
     }
 });
+
+app.use("/movies", moviesRoutes);
 
 app.listen(port, () => {
     console.log(`Server is running on port ${port}`);

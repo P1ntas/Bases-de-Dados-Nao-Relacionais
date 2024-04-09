@@ -1,0 +1,24 @@
+version: '3.8'
+
+services:
+  arangodb:
+    build: ./arangodb
+    image: my-arangodb
+    environment:
+      - ARANGO_NO_AUTH=1
+    ports:
+      - "8529:8529"
+    volumes:
+      - ./arangodb:/var/lib/arangodb3
+
+  backend:
+    build: ./backend
+    image: my-node-backend
+    ports:
+      - "3000:3000"
+
+  frontend:
+    build: ./frontend
+    image: my-react-frontend
+    ports:
+      - "8080:3000"
