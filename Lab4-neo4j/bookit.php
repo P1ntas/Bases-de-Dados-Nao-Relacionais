@@ -10,24 +10,27 @@ $client = ClientBuilder::create()
     ->withDefaultDriver('http')
     ->build();
 
-if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-    $url = $_POST['url'];
-    $tags = explode(' ', $_POST['tags']); // Split tags into an array
+// Assuming you're receiving a URL and tags from a form submission
+$url = $_POST['url'];
+$tags = explode(',', $_POST['tags']); // Assuming tags are submitted as a comma-separated string
 
-    // Create a bookmark node
-    $client->run('CREATE (b:Bookmark {url: $url}) RETURN b', ['url' => $url]);
+// Check if the URL already exists and create it if not
+$client->run('MERGE (b:Bookmark {url: $url})', ['url' => $url]);
 
-    // Create tags and associate with the bookmark
-    foreach ($tags as $tag) {
-        $client->run(<<<'CYPHER'
-            MATCH (b:Bookmark {url: $url})
-            MERGE (t:Tag {name: $tagName})
-            MERGE (b)-[:HAS_TAG]->(t)
-        CYPHER, ['url' => $url, 'tagName' => $tag]);
-    }
+// For each tag, check if it exists and create it if not, then create the relationship
+foreach ($tags as $tagName) {
+    $tagName = trim($tagName); // Trim whitespace
+    $client->run(<<<CYPHER
+        MATCH (b:Bookmark {url: \$url})
+        MERGE (t:Tag {name: \$tagName})
+        MERGE (b)-[:HAS_TAG]->(t)
+    CYPHER, ['url' => $url, 'tagName' => $tagName]);
 
     // Redirect to view_bookmarks.php
     header('Location: view_bookmarks.php');
     exit;
 }
+
+
+    
 ?>
