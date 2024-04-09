@@ -1,0 +1,9 @@
+[
+    {
+      "_from": "blabla/123", //id do user
+      "_to": "blabla/123", //id do filme
+      "content":  "horrivell" //texto
+      "date":
+      ""
+    }
+]

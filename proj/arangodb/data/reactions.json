@@ -1,0 +1,7 @@
+[
+    {
+      "_from": "blabla/123", //id do user
+      "_to": "blabla/123", //id da entidade (filme pessoa...)
+      "like":  1 //1 se gostou, 0 se nao
+    }
+]
