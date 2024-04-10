@@ -8,10 +8,7 @@ ENV ARANGO_NO_AUTH=1
 COPY docker-entrypoint.sh /usr/local/bin/docker-entrypoint.sh
 
 # Make sure the docker entrypoint script is executable
-RUN chmod +x /usr/local/bin/docker-entrypoint.sh
-
-# Set the volume to persist data
-VOLUME ["/var/lib/arangodb3"]
+RUN chmod +x /usr/local/bin/docker-entrypoint.sh    
 
 # Expose the port ArangoDB runs on
 EXPOSE 8529

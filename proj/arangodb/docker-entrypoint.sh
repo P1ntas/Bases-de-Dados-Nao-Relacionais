@@ -11,7 +11,6 @@ done
 echo "ArangoDB started."
 
 # Your command to download the dataset
-
 wget https://github.com/arangodb/example-datasets/releases/download/imdb-graph-dump-rev2/imdb_graph_dump_rev2.zip -P /var/lib/arangodb3
 unzip /var/lib/arangodb3/imdb_graph_dump_rev2.zip
 arangorestore --server.endpoint tcp://localhost:8529 --server.database IMDB --create-database --include-system-collections --input-directory dump

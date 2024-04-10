@@ -11,8 +11,6 @@ const MainPage = () => {
     token: { colorBgContainer, borderRadiusLG },
   } = theme.useToken();
   const [movies, setMovies] = useState([]);
-  const [poster, setPoster] = useState();
-
 
   useEffect(() => {
     const fetchData = async () => {
@@ -28,28 +26,7 @@ const MainPage = () => {
 
   }, []);
 
-  useEffect(() => {
-    const fetchPosters = async () => {
-      const updatedMovies = [];
 
-      for (const movie of movies) {
-        try {
-          const response = await axios.get(`https://www.myapifilms.com/imdb/idIMDB?idIMDB=${movie.imdbId}&token=ce7119d2-fb30-4d9e-a51e-c87f7357acde`);
-          const posterUrl = response.data.data.movies[0].urlPoster;
-          updatedMovies.push({ ...movie, posterUrl });
-        } catch (error) {
-          console.error(`Error fetching poster for movie ${movie.title}:`, error);
-          updatedMovies.push(movie);
-        }
-      }
-
-      setMovies(updatedMovies);
-    };
-
-    if (movies.length > 0) {
-      //fetchPosters();
-    }
-  }, [movies]);
 
   return (
     <BaseLayout>
@@ -58,8 +35,7 @@ const MainPage = () => {
           <Link to={`/movie/${encodeURIComponent(movie._id)}`} key={movie._id}>
             <Card
               hoverable
-              style={{ width: 200, margin: '12px' }} // Adjusted width and margin
-              cover={<img alt={movie.title} src={movie.posterUrl} style={{ height: 280 }} />} // Adjusted image height
+              title="Card title" bordered={false} style={{ width: 300 }}
             >
               <Meta title={movie.title} description="www.instagram.com" />
             </Card>

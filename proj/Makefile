@@ -5,6 +5,7 @@
 POPULATE := ./arangodb/scripts/populate.py
 CLEAN_DB := ./arangodb/scripts/cleanDatabase.py
 
+
 USERS := ./arangodb/data/users.json
 DB_NAME := IMDB
 
@@ -32,6 +33,10 @@ help:
 
 run: down build
 	@echo "Waiting for build to complete..."
-	@sleep 10  # Wait for 10 seconds
+ifeq ($(OS),Windows_NT)
+	@timeout /t 10 > nul
+else
+	@sleep 10
+endif
 	@echo "Build completed, loading data into the database..."
 	@make seed
