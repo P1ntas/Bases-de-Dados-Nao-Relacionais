@@ -17,6 +17,7 @@ clean:
 seed:
 	python ${POPULATE} --database ${DB_NAME} --collection Users --type document --file-path ${USERS}
 
+
 down:
 	docker compose down
 

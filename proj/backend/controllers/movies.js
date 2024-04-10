@@ -19,10 +19,11 @@ exports.getMovies = async (req, res) => {
 
 exports.getMovie = async (req, res) => {
     const { id } = req.params;
+    
     try {
         const query = `
             FOR movie IN imdb_vertices
-            FILTER movie._id == ${id}
+            FILTER movie._id == '${id}'
             RETURN movie
         `;
         const cursor = await db.query(query);
