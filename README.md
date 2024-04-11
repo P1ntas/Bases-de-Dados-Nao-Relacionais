@@ -1,12 +1,19 @@
 # FEUP-BDNR
 FEUP - Bases de Dados Não Relacionais
 
+- cd proj
+- make run
 
-- Recomendações de filmes com base nos meus gostos
+Em um terminal:
 
-- Visualizar filmes semelhantes a um determinado filme
+- cd backend
+- npm install
+- npm start
 
+Em outro terminal
 
-
+- cd frontend
+- npm install
+- npm start
 
 

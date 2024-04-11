@@ -1,10 +1,8 @@
 import React, { useState, useEffect } from 'react';
-import { Breadcrumb, Layout, Menu, theme, Card, Button, ConfigProvider } from 'antd';
+import { theme, Card } from 'antd';
 import axios from 'axios';
-import { UserOutlined } from '@ant-design/icons';
 import { Link } from 'react-router-dom';
 import BaseLayout from '../components/BaseLayout';
-const { Meta } = Card;
 
 const MainPage = () => {
   const {
@@ -35,9 +33,10 @@ const MainPage = () => {
           <Link to={`/movie/${encodeURIComponent(movie._id)}`} key={movie._id}>
             <Card
               hoverable
-              title="Card title" bordered={false} style={{ width: 300 }}
+              title={movie.title} bordered={false} style={{ width: 200, height:200, margin: '10px' }}
             >
-              <Meta title={movie.title} description="www.instagram.com" />
+              <p>Card content</p>
+              <p>{movie.runtime} minutes</p>
             </Card>
           </Link>
         ))}

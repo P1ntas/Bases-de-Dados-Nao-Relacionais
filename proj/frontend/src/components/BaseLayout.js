@@ -2,6 +2,7 @@
 import React from 'react';
 import { Layout } from 'antd';
 import { UserOutlined } from '@ant-design/icons';
+import { Link } from 'react-router-dom';
 
 const { Header, Sider, Content } = Layout;
 
@@ -19,7 +20,9 @@ const BaseLayout = ({ children }) => {
         type="primary"
       >
         <div className="demo-logo" />
-        <UserOutlined style={{ color: '#ffffff', fontSize: '1.5em' }} />
+        <Link to={'/profile'}>
+          <UserOutlined style={{ color: '#ffffff', fontSize: '1.5em' }} />
+        </Link>
       </Header>
           <Content
             style={{

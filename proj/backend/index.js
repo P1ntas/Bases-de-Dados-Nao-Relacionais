@@ -1,12 +1,17 @@
 const express = require('express');
 const cors = require('cors');
 const moviesRoutes = require("./routes/movies");
+const authRoutes = require("./routes/auth");
+const bodyParser = require('body-parser');
+
 const db = require('./database');
 
 const app = express();
 const port = 3000;
 
 app.use(cors());
+
+app.use(bodyParser.json());
 
 app.get('/', async (req, res) => {
     try {
@@ -19,6 +24,8 @@ app.get('/', async (req, res) => {
 });
 
 app.use("/movies", moviesRoutes);
+app.use("/auth", authRoutes);
+
 
 app.listen(port, () => {
     console.log(`Server is running on port ${port}`);

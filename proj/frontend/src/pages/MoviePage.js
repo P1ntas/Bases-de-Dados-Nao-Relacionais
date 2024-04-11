@@ -2,7 +2,8 @@ import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import { useParams } from 'react-router-dom';
 import BaseLayout from '../components/BaseLayout';
-import { Alert, Flex, Spin } from 'antd';
+import { Alert } from 'antd';
+import ReactPlayer from 'react-player'
 
 function MoviePage() {
   const [movie, setMovie] = useState(null);
@@ -26,7 +27,16 @@ function MoviePage() {
   return (
     <BaseLayout>
       {movie ? (
-          <h2>{movie.title}</h2>
+          <>
+            <h1>{movie.title}</h1>
+            <h3>{movie.tagline ? movie.tagline : ''}</h3>
+            <p>Card content</p>
+            <p>Runtime: {movie.runtime} minutes</p>
+            <p>Description: {movie.description}</p>
+            <ReactPlayer url={movie.trailer}/>
+
+
+          </>
       ) : (
         <Alert message="Movie not found" type="error" />
       )}
