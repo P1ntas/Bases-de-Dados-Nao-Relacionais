@@ -1,7 +1,252 @@
 [
     {
-      "_from": "blabla/123", //id do user
-      "_to": "blabla/123", //id da entidade (filme pessoa...)
-      "like":  1 //1 se gostou, 0 se nao
+        "_from": "Users/886",
+        "_to": "imdb_vertices/1203",
+        "like": "Dislikes"
+    },
+    {
+        "_from": "Users/886",
+        "_to": "imdb_vertices/880",
+        "like": "Dislikes"
+    },
+    {
+        "_from": "Users/886",
+        "_to": "imdb_vertices/469",
+        "like": "Likes"
+    },
+    {
+        "_from": "Users/886",
+        "_to": "imdb_vertices/783",
+        "like": "Dislikes"
+    },
+    {
+        "_from": "Users/886",
+        "_to": "imdb_vertices/592",
+        "like": "Dislikes"
+    },
+    {
+        "_from": "Users/888",
+        "_to": "imdb_vertices/461",
+        "like": "Dislikes"
+    },
+    {
+        "_from": "Users/888",
+        "_to": "imdb_vertices/916",
+        "like": "likes"
+    },
+    {
+        "_from": "Users/888",
+        "_to": "imdb_vertices/520",
+        "like": "Dislikes"
+    },
+    {
+        "_from": "Users/888",
+        "_to": "imdb_vertices/1082",
+        "like": "likes"
+    },
+    {
+        "_from": "Users/888",
+        "_to": "imdb_vertices/1152",
+        "like": "likes"
+    },
+    {
+        "_from": "Users/890",
+        "_to": "imdb_vertices/825",
+        "like": "Dislikes"
+    },
+    {
+        "_from": "Users/890",
+        "_to": "imdb_vertices/1036",
+        "like": "Dislikes"
+    },
+    {
+        "_from": "Users/890",
+        "_to": "imdb_vertices/735",
+        "like": "Dislikes"
+    },
+    {
+        "_from": "Users/890",
+        "_to": "imdb_vertices/703",
+        "like": "Dislikes"
+    },
+    {
+        "_from": "Users/890",
+        "_to": "imdb_vertices/1160",
+        "like": "likes"
+    },
+    {
+        "_from": "Users/892",
+        "_to": "imdb_vertices/1156",
+        "like": "likes"
+    },
+    {
+        "_from": "Users/892",
+        "_to": "imdb_vertices/625",
+        "like": "likes"
+    },
+    {
+        "_from": "Users/892",
+        "_to": "imdb_vertices/569",
+        "like": "Dislikes"
+    },
+    {
+        "_from": "Users/892",
+        "_to": "imdb_vertices/663",
+        "like": "Dislikes"
+    },
+    {
+        "_from": "Users/892",
+        "_to": "imdb_vertices/1249",
+        "like": "Dislikes"
+    },
+    {
+        "_from": "Users/894",
+        "_to": "imdb_vertices/930",
+        "like": "likes"
+    },
+    {
+        "_from": "Users/894",
+        "_to": "imdb_vertices/1212",
+        "like": "likes"
+    },
+    {
+        "_from": "Users/894",
+        "_to": "imdb_vertices/716",
+        "like": "Dislikes"
+    },
+    {
+        "_from": "Users/894",
+        "_to": "imdb_vertices/930",
+        "like": "likes"
+    },
+    {
+        "_from": "Users/894",
+        "_to": "imdb_vertices/1095",
+        "like": "Dislikes"
+    },
+    {
+        "_from": "Users/896",
+        "_to": "imdb_vertices/445",
+        "like": "likes"
+    },
+    {
+        "_from": "Users/896",
+        "_to": "imdb_vertices/512",
+        "like": "likes"
+    },
+    {
+        "_from": "Users/896",
+        "_to": "imdb_vertices/759",
+        "like": "Dislikes"
+    },
+    {
+        "_from": "Users/896",
+        "_to": "imdb_vertices/983",
+        "like": "likes"
+    },
+    {
+        "_from": "Users/896",
+        "_to": "imdb_vertices/774",
+        "like": "likes"
+    },
+    {
+        "_from": "Users/898",
+        "_to": "imdb_vertices/664",
+        "like": "likes"
+    },
+    {
+        "_from": "Users/898",
+        "_to": "imdb_vertices/876",
+        "like": "Dislikes"
+    },
+    {
+        "_from": "Users/898",
+        "_to": "imdb_vertices/documentary",
+        "like": "likes"
+    },
+    {
+        "_from": "Users/898",
+        "_to": "imdb_vertices/843",
+        "like": "likes"
+    },
+    {
+        "_from": "Users/898",
+        "_to": "imdb_vertices/465",
+        "like": "Dislikes"
+    },
+    {
+        "_from": "Users/900",
+        "_to": "imdb_vertices/703",
+        "like": "likes"
+    },
+    {
+        "_from": "Users/900",
+        "_to": "imdb_vertices/533",
+        "like": "likes"
+    },
+    {
+        "_from": "Users/900",
+        "_to": "imdb_vertices/714",
+        "like": "likes"
+    },
+    {
+        "_from": "Users/900",
+        "_to": "imdb_vertices/398",
+        "like": "Dislikes"
+    },
+    {
+        "_from": "Users/900",
+        "_to": "imdb_vertices/1310",
+        "like": "likes"
+    },
+    {
+        "_from": "Users/902",
+        "_to": "imdb_vertices/1263",
+        "like": "Dislikes"
+    },
+    {
+        "_from": "Users/902",
+        "_to": "imdb_vertices/727",
+        "like": "Dislikes"
+    },
+    {
+        "_from": "Users/902",
+        "_to": "imdb_vertices/805",
+        "like": "likes"
+    },
+    {
+        "_from": "Users/902",
+        "_to": "imdb_vertices/1166",
+        "like": "Dislikes"
+    },
+    {
+        "_from": "Users/902",
+        "_to": "imdb_vertices/687",
+        "like": "Dislikes"
+    },
+    {
+        "_from": "Users/904",
+        "_to": "imdb_vertices/846",
+        "like": "likes"
+    },
+    {
+        "_from": "Users/904",
+        "_to": "imdb_vertices/1212",
+        "like": "likes"
+    },
+    {
+        "_from": "Users/904",
+        "_to": "imdb_vertices/653",
+        "like": "likes"
+    },
+    {
+        "_from": "Users/904",
+        "_to": "imdb_vertices/1268",
+        "like": "Dislikes"
+    },
+    {
+        "_from": "Users/904",
+        "_to": "imdb_vertices/415",
+        "like": "likes"
     }
 ]
