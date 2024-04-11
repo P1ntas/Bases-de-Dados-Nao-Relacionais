@@ -16,3 +16,5 @@ Lab3-cassandra/cassandra-data
 /Lab4-neo4j/neo4j-data/
 
 /Lab4-neo4j/vendor/
+
+/proj/arangodb/arangoData/*

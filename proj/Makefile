@@ -18,7 +18,6 @@ clean:
 seed:
 	python ${POPULATE} --database ${DB_NAME} --collection Users --type document --file-path ${USERS}
 
-
 down:
 	docker compose down
 
@@ -34,9 +33,9 @@ help:
 run: down build
 	@echo "Waiting for build to complete..."
 ifeq ($(OS),Windows_NT)
-	@timeout /t 10 > nul
+	@timeout /t 15 > nul
 else
-	@sleep 10
+	@sleep 15
 endif
 	@echo "Build completed, loading data into the database..."
 	@make seed
