@@ -7,6 +7,9 @@ CLEAN_DB := ./arangodb/scripts/cleanDatabase.py
 
 
 USERS := ./arangodb/data/users.json
+REACTIONS := ./arangodb/data/reactions.json
+COMMENTS := ./arangodb/data/comments.json
+
 DB_NAME := IMDB
 
 build:

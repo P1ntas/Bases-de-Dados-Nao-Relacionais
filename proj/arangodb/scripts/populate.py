@@ -86,12 +86,13 @@ def generate_reactions(filepath, n, vertices, users):
     for user_id in user_ids:
         for _ in range(n):
             movie_id = random.choice(movie_ids)
-            like = random.choice(["Likes", "Dislikes"])
+            like = random.choice([1, 0])
 
             reactions.append({
                 "_from": user_id,
                 "_to": movie_id,
-                "like": like
+                "like": like,
+                "$label": "reacts"
             })
     
     with open(filepath, 'w') as file:
@@ -125,13 +126,15 @@ def generate_comments(filepath, n, vertices, users):
     for user_id in user_ids:
         for _ in range(n):
             movie_id = random.choice(movie_ids)
-            like = random.choice(texts)
+            text = random.choice(texts)
 
             comments.append({
                 "_from": user_id,
                 "_to": movie_id,
-                "content": like,
-                "timestamp":str(start_date + timedelta(seconds=random_seconds))
+                "content": text,
+                "timestamp":str(start_date + timedelta(seconds=random_seconds)),
+                "$label": "comments"
+
             })
     
     with open(filepath, 'w') as file:
