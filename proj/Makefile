@@ -10,16 +10,16 @@ USERS := ./arangodb/data/users.json
 DB_NAME := IMDB
 
 build:
-	docker compose up -d --build
+	sudo docker compose up -d --build
 
 clean:
-	python ${CLEAN_DB}
+	python3 ${CLEAN_DB}
 	
 seed:
-	python ${POPULATE} --database ${DB_NAME} --collection Users --type document --file-path ${USERS}
+	python3 ${POPULATE} --database ${DB_NAME} --collection Users --type document --file-path ${USERS}
 
 down:
-	docker compose down
+	sudo docker compose down
 
 help:
 	@echo "Available commands:"
