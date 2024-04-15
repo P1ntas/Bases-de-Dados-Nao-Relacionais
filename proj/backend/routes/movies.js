@@ -4,6 +4,7 @@ const router = express.Router();
 
 router.get('/', controller.getMovies);
 router.get('/:id', controller.getMovie);
+router.get('/:id/actors', controller.getMovieActors);
 
 
 module.exports = router; 

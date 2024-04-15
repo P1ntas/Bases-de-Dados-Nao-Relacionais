@@ -24,6 +24,25 @@ function MoviePage() {
   }, [movieId]);
 
 
+
+
+
+  const [actors, setActors] = useState(null);
+
+  useEffect(() => {
+    async function fetchActors() {
+      try {
+        const response = await axios.get(`http://localhost:3000/movies/${encodeURIComponent(movieId)}/actors`);
+        console.log(response.data)
+        setActors(response.data);
+      } catch (error) {
+        console.error('Failed to fetch actors:', error);
+      }
+    }
+    fetchActors();
+  }, [movieId]);
+
+
   return (
     <BaseLayout>
       {movie ? (
@@ -39,6 +58,13 @@ function MoviePage() {
           </>
       ) : (
         <Alert message="Movie not found" type="error" />
+      )}
+      {actors ? (
+          <>
+            <h1>{actors[0].name}</h1>
+          </>
+      ) : (
+        <Alert message="Actors not found" type="error" />
       )}
     </BaseLayout>
   );
