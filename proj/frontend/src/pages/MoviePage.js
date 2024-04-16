@@ -46,26 +46,29 @@ function MoviePage() {
   return (
     <BaseLayout>
       {movie ? (
-          <>
-            <h1>{movie.title}</h1>
-            <h3>{movie.tagline ? movie.tagline : ''}</h3>
-            <p>Card content</p>
-            <p>Runtime: {movie.runtime} minutes</p>
-            <p>Description: {movie.description}</p>
-            <ReactPlayer url={movie.trailer}/>
+        <>
+          <h1>{movie.title}</h1>
+          <h3>{movie.tagline ? movie.tagline : ''}</h3>
+          <p>Card content</p>
+          <p>Runtime: {movie.runtime} minutes</p>
+          <p>Description: {movie.description}</p>
+          <ReactPlayer url={movie.trailer} />
 
 
-          </>
+        </>
       ) : (
         <Alert message="Movie not found" type="error" />
       )}
-      {actors ? (
-          <>
-            <h1>{actors[0].name}</h1>
-          </>
+      {actors && actors.length > 0 ? (
+        <>
+          {actors.map(actor => (
+            <h1 key={actor._id}>{actor.name}</h1>
+          ))}
+        </>
       ) : (
         <Alert message="Actors not found" type="error" />
       )}
+
     </BaseLayout>
   );
 }

@@ -37,21 +37,26 @@ exports.getMovie = async (req, res) => {
     }
 };
 
+
 exports.getMovieActors = async (req, res) => {
     const { id } = req.params;
+    const decodedId = decodeURIComponent(id);
+    
+    console.log("Encoded ID:", id);
+    console.log("Decoded ID:", decodedId);
     
     try {
         const query = `
             FOR movie IN imdb_vertices
-            FILTER movie._id == '${id}'
-            FOR actor, edge IN 1..1 OUTBOUND movie imdb_edges
-                FILTER edge.$label == 'ACTS_IN'
-                RETURN actor
+            FILTER movie._id == '${decodedId}'
+            FOR edge IN imdb_edges
+                FILTER edge._to == movie._id && edge.$label == 'ACTS_IN'
+                RETURN DOCUMENT(edge._from)
         `;
         const cursor = await db.query(query);
         const actors = await cursor.all();
         if (actors.length === 0) {
-            return res.status(404).json({ error: 'Movie Actors not found' });
+            return res.status(404).json({ error: 'Movie Actors not found for ID: ' + decodedId });
         }
         res.status(200).json(actors);
     } catch (error) {
