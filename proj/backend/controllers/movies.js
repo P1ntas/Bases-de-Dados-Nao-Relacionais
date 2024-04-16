@@ -64,7 +64,7 @@ exports.getMovieActors = async (req, res) => {
     }
 };
 
-exports.getMovie = async (req, res) => {
+exports.getComment = async (req, res) => {
     const { id } = req.params;
     const decodedId = decodeURIComponent(id);
 

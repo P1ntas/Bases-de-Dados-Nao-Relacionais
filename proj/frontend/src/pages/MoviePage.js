@@ -36,7 +36,6 @@ function MoviePage() {
     async function fetchActors() {
       try {
         const response = await axios.get(`http://localhost:3000/movies/${encodeURIComponent(movieId)}/actors`);
-        console.log(response.data)
         setActors(response.data);
       } catch (error) {
         console.error('Failed to fetch actors:', error);
@@ -72,6 +71,8 @@ function MoviePage() {
         <Alert message="Actors not found" type="error" />
       )}
 
+      {/* TODO: Add comments */}
+
       {comment && comment.length > 0 ? (
           <>
           {comment.map(com => (
@@ -79,7 +80,7 @@ function MoviePage() {
           ))}
         </>
       ) : (
-        <Alert message="Actors not found" type="error" />
+        <Alert message="Comments not found" type="error" />
       )}
 
     </BaseLayout>

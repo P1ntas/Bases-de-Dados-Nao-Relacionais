@@ -5,7 +5,7 @@ const router = express.Router();
 router.get('/', controller.getMovies);
 router.get('/:id', controller.getMovie);
 router.get('/:id/actors', controller.getMovieActors);
-router.get('/:id/comment', controller.getMovie);
+router.get('/:id/comment', controller.getComment);
 
 
 module.exports = router; 
