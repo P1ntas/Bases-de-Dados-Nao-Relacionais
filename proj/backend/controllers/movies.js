@@ -64,3 +64,20 @@ exports.getMovieActors = async (req, res) => {
     }
 };
 
+exports.getMovie = async (req, res) => {
+    const { id } = req.params;
+    const decodedId = decodeURIComponent(id);
+
+    try {
+        const cursor = await db.query(`
+        FOR comments in imdb_edges 
+            FILTER comments._to == '${decodedId}' AND
+            comments.$label == 'comments'
+            RETURN comments`)
+
+        const movies = await cursor.all();
+        res.status(200).json(movies);
+    } catch (error) {
+        res.status(500).json({ error: error.message });
+    }
+}

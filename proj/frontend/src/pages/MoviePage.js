@@ -7,6 +7,7 @@ import ReactPlayer from 'react-player'
 
 function MoviePage() {
   const [movie, setMovie] = useState(null);
+  const [comment, setComment] = useState(null);
 
   const { movieId } = useParams();
 
@@ -16,6 +17,8 @@ function MoviePage() {
         const response = await axios.get(`http://localhost:3000/movies/${encodeURIComponent(movieId)}`);
         console.log(response.data)
         setMovie(response.data);
+        const responseComment = await axios.get(`http://localhost:3000/movies/${encodeURIComponent(movieId)}/comment`);
+        setComment(responseComment.data);
       } catch (error) {
         console.error('Failed to fetch movie:', error);
       }
@@ -63,6 +66,16 @@ function MoviePage() {
         <>
           {actors.map(actor => (
             <h1 key={actor._id}>{actor.name}</h1>
+          ))}
+        </>
+      ) : (
+        <Alert message="Actors not found" type="error" />
+      )}
+
+      {comment && comment.length > 0 ? (
+          <>
+          {comment.map(com => (
+            <h1 key={com._id}>{com.content}</h1>
           ))}
         </>
       ) : (

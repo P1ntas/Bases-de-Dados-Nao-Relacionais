@@ -54,6 +54,29 @@ class DatabaseEdge:
             "$label": self.label 
         }
 
+class DatabaseEdgeComments:
+    def __init__(self, key, from_vertex, to_vertex, label, comment, timestamp):
+        self._key = str(250000 + int(key))
+        self._id = "imdb_edges/" + str(self._key)
+        self._from = from_vertex
+        self._to = to_vertex
+        self._rev = f"_{uuid.uuid4().hex}-"
+        self.label = label
+        self.comment = comment
+        self.timestamp = timestamp
+
+    def to_dict(self):
+        return {
+            "_key": self._key,
+            "_id": self._id,
+            "_from": self._from,
+            "_to": self._to,
+            "_rev": self._rev,
+            "$label": self.label, 
+            "content": self.comment,
+            "timestamp": self.timestamp
+        }
+
 def populate_likes(filepath, edge_def):
 
     with open(filepath, 'r') as file:
@@ -71,7 +94,7 @@ def populate_comments(filepath, edge_def):
     id = 251000
 
     for item in data:
-        edge = DatabaseEdge(id, item['_from'], item['_to'], item['content'])
+        edge = DatabaseEdgeComments(id, item['_from'], item['_to'], "comments", item['content'], item['timestamp'])
         metadata = edge_def.insert(edge.to_dict())
         assert metadata['_key'] == edge._key
         id += 1
