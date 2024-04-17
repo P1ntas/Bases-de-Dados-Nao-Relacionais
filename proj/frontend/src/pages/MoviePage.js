@@ -4,9 +4,11 @@ import { useParams } from 'react-router-dom';
 import BaseLayout from '../components/BaseLayout';
 import { Alert, Input, Button } from 'antd';
 import ReactPlayer from 'react-player'
+import { FaHeart } from 'react-icons/fa'; 
 
 function MoviePage() {
   const [movie, setMovie] = useState(null);
+  const [isFavorite, setIsFavorite] = useState(false);
   const [comments, setComments] = useState([]);
   const [newComment, setNewComment] = useState('');
   const { movieId } = useParams();
@@ -28,7 +30,11 @@ function MoviePage() {
       }
     }
     fetchMovieDetails();
-  }, [movieId]);
+    axios.get(`http://localhost:3000/movies/${encodeURIComponent(movieId)}/like`)
+    .then(response => setIsFavorite(response.data === 1))
+    .catch(error => console.error('Failed to fetch like status:', error));
+}, [movieId]);
+
 
 
   const [actors, setActors] = useState(null);
@@ -53,7 +59,6 @@ function MoviePage() {
       timestamp: new Date().toISOString(),
       $label: "comments"
     };
-    console.log('Payload:', payload);
 
     try {
       axios.post(`http://localhost:3000/movies/${encodeURIComponent(movieId)}/comment`, payload)
@@ -67,12 +72,21 @@ function MoviePage() {
     }
   };
 
+  const handleLike = () => {
+    const newLikeStatus = isFavorite ? 0 : 1;
+    axios.post(`http://localhost:3000/movies/${encodeURIComponent(movieId)}/like`, { like: newLikeStatus })
+      .then(() => setIsFavorite(newLikeStatus === 1))
+      .catch(error => console.error('Failed to update like status:', error));
+  };
+
 
   return (
     <BaseLayout>
       {movie ? (
         <>
-          <h1>{movie.title}</h1>
+          <h1>
+            {movie.title} <FaHeart style={{ color: isFavorite ? 'red' : 'black', cursor: 'pointer' }} onClick={handleLike} />
+          </h1>
           <h3>{movie.tagline ? movie.tagline : ''}</h3>
           <p>Card content</p>
           <p>Runtime: {movie.runtime} minutes</p>
