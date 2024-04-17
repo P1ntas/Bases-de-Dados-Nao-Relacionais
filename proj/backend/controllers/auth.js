@@ -1,4 +1,5 @@
 const db = require('../database');
+const jwt = require('jsonwebtoken');
 
 exports.register = async (req, res) => {
     const { username, password, email } = req.body;
@@ -33,7 +34,6 @@ exports.register = async (req, res) => {
 
 exports.login = async (req, res) => {
     const { username, password } = req.body;
-
     try {
         const cursor = await db.query(`
           FOR user IN Users
@@ -43,14 +43,15 @@ exports.login = async (req, res) => {
     
         const user = await cursor.next();
         if (user) {
-          //const token = jwt.sign({ username: user.username }, 'your_secret_key', { expiresIn: '1h' }); // Change 'your_secret_key' with your actual secret key
+          const token = jwt.sign({ username: user.username }, process.env.ACCESS_TOKEN_SECRET, { expiresIn: '1h' });
+          console.log(username)
 
-          res.status(200).json({ success: true, message: 'Login successful' });
+          res.status(200).json({ success: true, message: 'Login successful', token: token});
         } else {
           res.status(401).json({ success: false, message: 'Invalid username or password' });
         }
       } catch (error) {
-        console.error('Error during login:', error);
-        res.status(500).json({ success: false, message: 'Internal server error' });
+        console.log(error)
+        res.status(500).json({ success: false, message: 'Error during login' });
       }
 };

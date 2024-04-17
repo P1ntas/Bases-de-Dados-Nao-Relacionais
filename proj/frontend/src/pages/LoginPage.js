@@ -21,9 +21,11 @@ const LoginPage = () => {
       const response = await axios.post('http://localhost:3000/auth/login', values);
       if (response.data.success) {
         message.success(response.data.message);
+        const token = response.data.token
         setAuth({
-            username, email
+            username, email, token
           });
+        localStorage.setItem('token', token);
         navigate('/');
       } else {
         message.error(response.data.message);

@@ -4,7 +4,9 @@
   "dependencies": {
     "arangojs": "^8.8.1",
     "cors": "^2.8.5",
-    "express": "^4.17.1"
+    "dotenv": "^16.4.5",
+    "express": "^4.17.1",
+    "jsonwebtoken": "^9.0.2"
   },
   "description": "",
   "main": "index.js",

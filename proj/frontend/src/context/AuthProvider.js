@@ -7,7 +7,7 @@ export function AuthProvider({ children }) {
 
   const logout = useCallback(() => {
     setAuth({});
-    //localStorage.removeItem('accessToken');
+    localStorage.removeItem('token');
   }, []);
 
   return (

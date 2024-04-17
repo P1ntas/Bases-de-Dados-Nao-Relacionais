@@ -1,32 +1,30 @@
 import requests
 
-def clean_database(base_url, database_name):
-    endpoint = f"{base_url}/_db/{database_name}/_api/collection"
+def clean_database(base_url, database_name, auth=None):
+    endpoint = f"{base_url}/_api/database/{database_name}"
     
     try:
-        # Get all collections in the database
-        response = requests.get(endpoint)
+        # Get all collections in the database~
+        headers = {"Authorization": "Basic cm9vdDo="} # cm9vdDo= -> Base64 encoding for root: 
+        response = requests.delete(endpoint, headers=headers)
         
         if response.status_code == 200:
-            collections = response.json()["result"]
-            for collection in collections:
-                # Delete each collection
-                collection_name = collection["name"]
-                delete_collection_endpoint = f"{base_url}/_db/{database_name}/_api/collection/{collection_name}"
-                delete_response = requests.delete(delete_collection_endpoint)
-                if delete_response.status_code == 200:
-                    print(f"Collection '{collection_name}' deleted successfully.")
-                else:
-                    print(f"Failed to delete collection '{collection_name}'. Status code: {delete_response.status_code}")
+            print("Deleted database with success")
+           
         else:
-            print(f"Failed to fetch collections. Status code: {response.status_code}")
+            for x in response:
+                print(x)
+            print(f"Failed to delete database. Status code: {response.status_code}")
     except Exception as e:
-        print(f"An error occurred: {e}")
+        print(f"Database doesnt exist")
 
 if __name__ == "__main__":
     base_url = "http://localhost:8529"
-    
     database_name = "IMDB"
-    
+    username = "root"
+    password = ""  # Provide your password here if authentication is enabled
+
+    auth = (username, password) if username and password else None
+
     # Clean the database
-    clean_database(base_url, database_name)
+    clean_database(base_url, database_name, auth)

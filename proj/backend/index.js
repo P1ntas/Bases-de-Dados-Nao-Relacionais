@@ -3,6 +3,7 @@ const cors = require('cors');
 const moviesRoutes = require("./routes/movies");
 const authRoutes = require("./routes/auth");
 const bodyParser = require('body-parser');
+require('dotenv').config();
 
 const db = require('./database');
 
