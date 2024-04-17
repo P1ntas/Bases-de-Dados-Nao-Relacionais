@@ -107,3 +107,38 @@ exports.postComment = async (req, res) => {
         res.status(500).json({ error: error.message });
     }
 };
+
+exports.getLikeStatus = async (req, res) => {
+    const { id } = req.params;
+    try {
+        const query = `
+            FOR edge IN imdb_edges
+            FILTER edge._from == 'Users/15029' && edge._to == '${id}' && edge.$label == 'reacts'
+            RETURN edge
+        `;
+        const cursor = await db.query(query);
+        const result = await cursor.next();
+        res.status(200).json(result ? result.like : 0);
+    } catch (error) {
+        console.error("Database error:", error);
+        res.status(500).json({ error: error.message });
+    }
+};
+
+exports.postLike = async (req, res) => {
+    const { id } = req.params;
+    const { like } = req.body;
+    try {
+        const query = `
+            UPSERT {_from: 'Users/15029', _to: '${id}', $label: 'reacts'}
+            INSERT {_from: 'Users/15029', _to: '${id}', \`like\`: ${like}, $label: 'reacts'}
+            UPDATE {\`like\`: ${like}}
+            IN imdb_edges
+        `;
+        await db.query(query);
+        res.status(200).json({ message: 'Like status updated' });
+    } catch (error) {
+        console.error("Database error:", error);
+        res.status(500).json({ error: error.message });
+    }
+};
