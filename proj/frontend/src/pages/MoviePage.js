@@ -2,32 +2,33 @@ import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import { useParams } from 'react-router-dom';
 import BaseLayout from '../components/BaseLayout';
-import { Alert } from 'antd';
+import { Alert, Input, Button } from 'antd';
 import ReactPlayer from 'react-player'
 
 function MoviePage() {
   const [movie, setMovie] = useState(null);
-  const [comment, setComment] = useState(null);
-
+  const [comments, setComments] = useState([]);
+  const [newComment, setNewComment] = useState('');
   const { movieId } = useParams();
 
   useEffect(() => {
-    async function fetchMovie() {
+    async function fetchMovieDetails() {
       try {
-        const response = await axios.get(`http://localhost:3000/movies/${encodeURIComponent(movieId)}`);
-        console.log(response.data)
-        setMovie(response.data);
-        const responseComment = await axios.get(`http://localhost:3000/movies/${encodeURIComponent(movieId)}/comment`);
-        setComment(responseComment.data);
+        const responseMovie = await axios.get(`http://localhost:3000/movies/${encodeURIComponent(movieId)}`);
+        setMovie(responseMovie.data);
       } catch (error) {
         console.error('Failed to fetch movie:', error);
       }
+
+      try {
+        const responseComments = await axios.get(`http://localhost:3000/movies/${encodeURIComponent(movieId)}/comment`);
+        setComments(responseComments.data);
+      } catch (error) {
+        console.error('Failed to fetch comments:', error);
+      }
     }
-    fetchMovie();
+    fetchMovieDetails();
   }, [movieId]);
-
-
-
 
 
   const [actors, setActors] = useState(null);
@@ -43,6 +44,28 @@ function MoviePage() {
     }
     fetchActors();
   }, [movieId]);
+
+  const handleSubmit = async () => {
+    const payload = {
+      _from: "Users/15029", 
+      _to: `${movieId}`,
+      content: newComment,
+      timestamp: new Date().toISOString(),
+      $label: "comments"
+    };
+    console.log('Payload:', payload);
+
+    try {
+      axios.post(`http://localhost:3000/movies/${encodeURIComponent(movieId)}/comment`, payload)
+  .then(response => console.log('Success:', response))
+  .catch(error => console.error('Axios error:', error));
+
+      setComments(prevComments => [...prevComments, { ...payload, _id: `new_${Date.now()}` }]); 
+      setNewComment('');
+    } catch (error) {
+      console.error('Failed to submit comment:', error);
+    }
+  };
 
 
   return (
@@ -73,15 +96,26 @@ function MoviePage() {
 
       {/* TODO: Add comments */}
 
-      {comment && comment.length > 0 ? (
+      {comments && comments.length > 0 ? (
           <>
-          {comment.map(com => (
+          {comments.map(com => (
             <h1 key={com._id}>{com.content}</h1>
           ))}
         </>
       ) : (
         <Alert message="Comments not found" type="error" />
       )}
+
+      <div>
+        <Input.TextArea
+          value={newComment}
+          placeholder="Write a comment..."
+          onChange={e => setNewComment(e.target.value)}
+        />
+        <Button type="primary" style={{ marginTop: 10 }} onClick={handleSubmit}>
+          Submit Comment
+        </Button>
+      </div>
 
     </BaseLayout>
   );

@@ -81,3 +81,29 @@ exports.getComment = async (req, res) => {
         res.status(500).json({ error: error.message });
     }
 }
+
+exports.postComment = async (req, res) => {
+    console.log("Received data:", req.body);
+    const { _to, content, timestamp, $label } = req.body;
+
+    if (!_to || !content || !timestamp || !$label) {
+        return res.status(400).json({ error: 'Missing required fields' });
+    }
+
+    try {
+        const query = `
+            INSERT {
+                "_from": "Users/15029",
+                "_to": "${_to}",
+                "content": "${content}",
+                "timestamp": "${timestamp}",
+                "$label": "${$label}"
+            } INTO imdb_edges
+        `;
+        await db.query(query);
+        res.status(201).json({ message: 'Comment added successfully' });
+    } catch (error) {
+        console.error("Database error:", error);
+        res.status(500).json({ error: error.message });
+    }
+};
