@@ -6,6 +6,9 @@ router.get('/', controller.getMovies);
 router.get('/:id', controller.getMovie);
 router.get('/:id/actors', controller.getMovieActors);
 router.get('/:id/comment', controller.getComment);
+router.post('/:id/comment', controller.postComment);
+router.get('/:id/like', controller.getLikeStatus);
+router.post('/:id/like', controller.postLike);
 
 
 module.exports = router; 
