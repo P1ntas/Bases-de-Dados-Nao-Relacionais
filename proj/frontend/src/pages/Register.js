@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { useNavigate } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import { Form, Input, Button, Typography, message } from 'antd';
 import { UserOutlined, LockOutlined, MailOutlined } from '@ant-design/icons';
 import axios from 'axios';
@@ -20,11 +20,12 @@ const RegisterPage = () => {
       const response = await axios.post('http://localhost:3000/auth/register', values);
       if (response.data.success) {
         message.success(response.data.message);
+        //const token = response.data.token;
+        //localStorage.setItem('token', token);
         setAuth({
             username, email
           });
         navigate('/');
-
       } else {
         message.error(response.data.message);
       }
@@ -98,6 +99,10 @@ const RegisterPage = () => {
             </Button>
           </Form.Item>
         </Form>
+        <div style={{ textAlign: 'center' }}>
+          <span>Already have an account? </span>
+          <Link to="/login">Login here</Link>
+        </div>
       </div>
     </div>
   );

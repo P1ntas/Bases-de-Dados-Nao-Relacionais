@@ -43,6 +43,8 @@ exports.login = async (req, res) => {
     
         const user = await cursor.next();
         if (user) {
+          //const token = jwt.sign({ username: user.username }, 'your_secret_key', { expiresIn: '1h' }); // Change 'your_secret_key' with your actual secret key
+
           res.status(200).json({ success: true, message: 'Login successful' });
         } else {
           res.status(401).json({ success: false, message: 'Invalid username or password' });

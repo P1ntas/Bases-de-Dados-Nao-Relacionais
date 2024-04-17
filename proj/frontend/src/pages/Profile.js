@@ -2,6 +2,7 @@ import React from 'react';
 import { Card, Avatar, Typography, Divider, Button } from 'antd';
 import useAuth from '../hooks/useAuth';
 import { UserOutlined } from '@ant-design/icons';
+import { Link } from 'react-router-dom'; // Assuming you're using React Router for navigation
 
 const { Title, Text } = Typography;
 
@@ -34,7 +35,7 @@ const ProfilePage = () => {
         ) : (
           <div>
             <Text>Please log in to view your profile.</Text>
-            {/* Optionally provide a link to the login page */}
+            <Link to="/login"><Button type="primary" style={{ marginLeft: '10px' }}>Login</Button></Link>
           </div>
         )}
       </Card>

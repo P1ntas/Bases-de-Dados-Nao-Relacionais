@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { Form, Input, Button, Checkbox, Typography, message } from 'antd';
 import { UserOutlined, LockOutlined } from '@ant-design/icons';
-import { useNavigate } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom'; // Import Link and useNavigate
 import axios from 'axios';
 import useAuth from '../hooks/useAuth';
 
@@ -34,6 +34,7 @@ const LoginPage = () => {
     }
     setLoading(false);
   };
+
   return (
     <div style={{ display: 'flex', justifyContent: 'center', alignItems: 'center', minHeight: '100vh' }}>
       <div style={{ width: 300 }}>
@@ -72,6 +73,10 @@ const LoginPage = () => {
             </Button>
           </Form.Item>
         </Form>
+        <div style={{ textAlign: 'center' }}>
+          <span>Don't have an account? </span>
+          <Link to="/register">Register now</Link>
+        </div>
       </div>
     </div>
   );

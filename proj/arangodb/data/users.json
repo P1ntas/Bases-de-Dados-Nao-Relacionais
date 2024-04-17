@@ -1,52 +1,62 @@
 [
-    {
-      "username": "ana_silva",
-      "email": "ana.silva@example.com",
-      "name": "Ana Silva"
-    },
-    {
-      "username": "joao_pereira",
-      "email": "joao.pereira@example.com",
-      "name": "João Pereira"
-    },
-    {
-      "username": "maria_santos",
-      "email": "maria.santos@example.com",
-      "name": "Maria Santos"
-    },
-    {
-      "username": "carlos_oliveira",
-      "email": "carlos.oliveira@example.com",
-      "name": "Carlos Oliveira"
-    },
-    {
-      "username": "sandra_rodrigues",
-      "email": "sandra.rodrigues@example.com",
-      "name": "Sandra Rodrigues"
-    },
-    {
-      "username": "tiago_costa",
-      "email": "tiago.costa@example.com",
-      "name": "Tiago Costa"
-    },
-    {
-      "username": "patricia_gomes",
-      "email": "patricia.gomes@example.com",
-      "name": "Patrícia Gomes"
-    },
-    {
-      "username": "luis_silveira",
-      "email": "luis.silveira@example.com",
-      "name": "Luís Silveira"
-    },
-    {
-      "username": "rita_fernandes",
-      "email": "rita.fernandes@example.com",
-      "name": "Rita Fernandes"
-    },
-    {
-      "username": "andre_martins",
-      "email": "andre.martins@example.com",
-      "name": "André Martins"
-    }
+  {
+    "username": "ana_silva",
+    "email": "ana.silva@example.com",
+    "name": "Ana Silva",
+    "password": "123"
+  },
+  {
+    "username": "joao_pereira",
+    "email": "joao.pereira@example.com",
+    "name": "João Pereira",
+    "password": "123"
+  },
+  {
+    "username": "maria_santos",
+    "email": "maria.santos@example.com",
+    "name": "Maria Santos",
+    "password": "123"
+  },
+  {
+    "username": "carlos_oliveira",
+    "email": "carlos.oliveira@example.com",
+    "name": "Carlos Oliveira",
+    "password": "123"
+  },
+  {
+    "username": "sandra_rodrigues",
+    "email": "sandra.rodrigues@example.com",
+    "name": "Sandra Rodrigues",
+    "password": "123"
+  },
+  {
+    "username": "tiago_costa",
+    "email": "tiago.costa@example.com",
+    "name": "Tiago Costa",
+    "password": "123"
+  },
+  {
+    "username": "patricia_gomes",
+    "email": "patricia.gomes@example.com",
+    "name": "Patrícia Gomes",
+    "password": "123"
+  },
+  {
+    "username": "luis_silveira",
+    "email": "luis.silveira@example.com",
+    "name": "Luís Silveira",
+    "password": "123"
+  },
+  {
+    "username": "rita_fernandes",
+    "email": "rita.fernandes@example.com",
+    "name": "Rita Fernandes",
+    "password": "123"
+  },
+  {
+    "username": "andre_martins",
+    "email": "andre.martins@example.com",
+    "name": "André Martins",
+    "password": "123"
+  }
 ]

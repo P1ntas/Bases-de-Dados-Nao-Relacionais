@@ -20,6 +20,9 @@ clean:
 	
 seed:
 	python3 ${POPULATE} --database ${DB_NAME} --collection Users --type document --file-path ${USERS}
+	python3 ${POPULATE} --database ${DB_NAME} --collection Interactions --type edge --file-path ${REACTIONS}
+	python3 ${POPULATE} --database ${DB_NAME} --collection Interactions --type edge --file-path ${COMMENTS}
+
 
 down:
 	sudo docker compose down
