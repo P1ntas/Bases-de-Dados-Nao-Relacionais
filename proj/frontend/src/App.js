@@ -6,6 +6,7 @@ import MoviePage from './pages/MoviePage';
 import LoginPage from './pages/LoginPage';
 import RegisterPage from './pages/Register';
 import ProfilePage from './pages/Profile';
+import PersonPage from './pages/PersonPage';
 
 const App = () => {
   return (
@@ -16,6 +17,7 @@ const App = () => {
         <Route path="/login" element={<LoginPage />} />
         <Route path="/register" element={<RegisterPage />} />
         <Route path="/profile" element={<ProfilePage />} />
+        <Route path="/person/:personId" element={<PersonPage />} />
       </Routes>
     </Router>
   );

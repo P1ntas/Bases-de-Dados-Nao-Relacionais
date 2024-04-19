@@ -3,6 +3,7 @@ import axios from 'axios';
 import { useParams } from 'react-router-dom';
 import { Alert, Input, Button, List, Typography, Empty } from 'antd';
 import { LikeOutlined, LikeTwoTone } from '@ant-design/icons';
+import { Link } from 'react-router-dom';
 import ReactPlayer from 'react-player';
 import BaseLayout from '../components/BaseLayout';
 
@@ -81,8 +82,8 @@ function MoviePage() {
               <LikeOutlined style={{ fontSize: 24, color: 'lightgrey', cursor: 'pointer', marginLeft: 8 }} onClick={handleLike} />
             )}
           </div>
-          <Text>Runtime: {movie.runtime} minutes</Text><br/>
-          <Text>Description: {movie.description}</Text><br/><br/>
+          <Text>Runtime: {movie.runtime} minutes</Text><br />
+          <Text>Description: {movie.description}</Text><br /><br />
           <ReactPlayer url={movie.trailer} />
         </>
       ) : (
@@ -96,7 +97,9 @@ function MoviePage() {
             bordered
             dataSource={actors}
             renderItem={actor => (
-              <List.Item>{actor.name}</List.Item>
+              <List.Item>
+                <Link to={`/person/${encodeURIComponent(actor._id)}`}>{actor.name}</Link>
+              </List.Item>
             )}
           />
         </div>

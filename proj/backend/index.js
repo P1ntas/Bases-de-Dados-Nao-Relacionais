@@ -2,6 +2,7 @@ const express = require('express');
 const cors = require('cors');
 const moviesRoutes = require("./routes/movies");
 const authRoutes = require("./routes/auth");
+const personsRoutes = require("./routes/persons");
 const bodyParser = require('body-parser');
 require('dotenv').config();
 
@@ -26,6 +27,7 @@ app.get('/', async (req, res) => {
 
 app.use("/movies", moviesRoutes);
 app.use("/auth", authRoutes);
+app.use("/persons", personsRoutes);
 
 
 app.listen(port, () => {
