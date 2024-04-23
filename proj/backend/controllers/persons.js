@@ -20,4 +20,44 @@ exports.getPerson = async (req, res) => {
     }
 };
 
+exports.getActorMovies = async (req, res) => {
+    const { id } = req.params;
+    const decodedId = decodeURIComponent(id);
+    
+    try {
+        const query = `
+            FOR person IN imdb_vertices
+            FILTER person._id == '${decodedId}'
+            FOR edge in imdb_edges
+                FILTER edge._from == person._id && edge.$label == 'ACTS_IN'
+                RETURN DOCUMENT(edge._to)
+        `;
+        const cursor = await db.query(query);
+        const movies = await cursor.all();
+        res.status(200).json(movies);
+    } catch (error) {
+        res.status(500).json({ error: error.message });
+    }
+};
+
+exports.getDirectorMovies = async (req, res) => {
+    const { id } = req.params;
+    const decodedId = decodeURIComponent(id);
+    
+    try {
+        const query = `
+            FOR person IN imdb_vertices
+            FILTER person._id == '${decodedId}'
+            FOR edge in imdb_edges
+                FILTER edge._from == person._id && edge.$label == 'DIRECTED'
+                RETURN DOCUMENT(edge._to)
+        `;
+        const cursor = await db.query(query);
+        const movies = await cursor.all();
+        res.status(200).json(movies);
+    } catch (error) {
+        res.status(500).json({ error: error.message });
+    }
+};
+
 
