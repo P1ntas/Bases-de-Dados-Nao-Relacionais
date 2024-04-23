@@ -15,6 +15,7 @@ function MoviePage() {
   const [comments, setComments] = useState([]);
   const [newComment, setNewComment] = useState('');
   const [actors, setActors] = useState(null);
+  const [directors, setDirectors] = useState(null);
   const { movieId } = useParams();
 
   useEffect(() => {
@@ -38,6 +39,10 @@ function MoviePage() {
     axios.get(`http://localhost:3000/movies/${encodeURIComponent(movieId)}/actors`)
       .then(response => setActors(response.data))
       .catch(error => console.error('Failed to fetch actors:', error));
+    
+    axios.get(`http://localhost:3000/movies/${encodeURIComponent(movieId)}/directors`)
+      .then(response => setDirectors(response.data))
+      .catch(error => console.error('Failed to fetch directors:', error));
 
     axios.get(`http://localhost:3000/movies/${encodeURIComponent(movieId)}/like`)
       .then(response => setIsFavorite(response.data === 1))
@@ -88,6 +93,21 @@ function MoviePage() {
         </>
       ) : (
         <Alert message="Movie not found" type="error" />
+      )}
+
+      {directors && directors.length > 0 && (
+        <div style={{ marginTop: 24 }}>
+          <Title level={3}>Directed by</Title>
+          <List
+            bordered
+            dataSource={directors}
+            renderItem={director => (
+              <List.Item>
+                <Link to={`/person/${encodeURIComponent(director._id)}`}>{director.name}</Link>
+              </List.Item>
+            )}
+          />
+        </div>
       )}
 
       {actors && actors.length > 0 && (
