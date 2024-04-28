@@ -10,6 +10,7 @@ router.get('/:id/comment', controller.getComment);
 router.post('/:id/comment', controller.postComment);
 router.get('/:id/like', controller.getLikeStatus);
 router.post('/:id/like', controller.postLike);
+router.get('/:id/genre', controller.getMovieGenre);
 
 
 module.exports = router; 

@@ -8,7 +8,6 @@ const { Header, Sider, Content } = Layout;
 
 const BaseLayout = ({ children }) => {
   const colorBgContainer = '#ffffff'; // Change this to your desired background color
-  const borderRadiusLG = '5px'; // Change this to your desired border radius
 
   return (
     <Layout>
@@ -16,6 +15,7 @@ const BaseLayout = ({ children }) => {
         style={{
           display: 'flex',
           alignItems: 'center',
+          backgroundColor: '#282A3A',
         }}
         type="primary"
       >
@@ -29,8 +29,7 @@ const BaseLayout = ({ children }) => {
               padding: 24,
               margin: 0,
               minHeight: 280,
-              background: colorBgContainer,
-              borderRadius: borderRadiusLG,
+              background: colorBgContainer
             }}
           >
             {children}

@@ -3,6 +3,16 @@ import { theme, Card } from 'antd';
 import axios from 'axios';
 import { Link } from 'react-router-dom';
 import BaseLayout from '../components/BaseLayout';
+import moviePoster1 from '../assets/movie1.jpg';
+import moviePoster2 from '../assets/movie2.jpg';
+import moviePoster3 from '../assets/movie3.jpg';
+import moviePoster4 from '../assets/movie4.jpg';
+import moviePoster5 from '../assets/movie5.jpg';
+import moviePoster6 from '../assets/movie6.jpg';
+import moviePoster7 from '../assets/movie7.jpg';
+import moviePoster8 from '../assets/movie8.jpg';
+import moviePoster9 from '../assets/movie9.jpg';
+
 
 const MainPage = () => {
   const {
@@ -25,6 +35,15 @@ const MainPage = () => {
   }, []);
 
 
+  const getRandomInt = (min, max) => {
+    return Math.floor(Math.random() * (max - min + 1)) + min;
+  };
+
+  const getRandomPoster = () => {
+    const posters = [moviePoster1, moviePoster2, moviePoster3, moviePoster4, moviePoster5, moviePoster6, moviePoster7, moviePoster8, moviePoster9];
+    const randomIndex = getRandomInt(0, posters.length - 1);
+    return posters[randomIndex];
+  };
 
   return (
     <BaseLayout>
@@ -32,12 +51,12 @@ const MainPage = () => {
         {movies.map(movie => (
           <Link to={`/movie/${encodeURIComponent(movie._id)}`} key={movie._id}>
             <Card
-              hoverable
-              title={movie.title} bordered={false} style={{ width: 200, height:200, margin: '10px' }}
-            >
-              <p>Card content</p>
+              style={{ width: 215,margin: '1.5em', marginBottom: '1em' }}
+              cover={<img alt="poster" src={getRandomPoster()} style={{ width: '100%', height: '100%', objectFit: 'cover' }} />}
+              hoverable>
+              <h4>{movie.title}</h4>
               <p>{movie.runtime} minutes</p>
-            </Card>
+          </Card>
           </Link>
         ))}
       </div>
