@@ -127,7 +127,7 @@ exports.getComment = async (req, res) => {
 
 exports.postComment = async (req, res) => {
     console.log("Received data:", req.body);
-    const { _to, content, timestamp, $label } = req.body;
+    const { _from, _to, content, timestamp, $label } = req.body;
 
     if (!_to || !content || !timestamp || !$label) {
         return res.status(400).json({ error: 'Missing required fields' });
@@ -136,7 +136,7 @@ exports.postComment = async (req, res) => {
     try {
         const query = `
             INSERT {
-                "_from": "Users/15029",
+                "_from": "${_from}",
                 "_to": "${_to}",
                 "content": "${content}",
                 "timestamp": "${timestamp}",
@@ -152,11 +152,12 @@ exports.postComment = async (req, res) => {
 };
 
 exports.getLikeStatus = async (req, res) => {
-    const { id } = req.params;
+    const { id, userId } = req.params;
+    console.log(id)
     try {
         const query = `
             FOR edge IN imdb_edges
-            FILTER edge._from == 'Users/15029' && edge._to == '${id}' && edge.$label == 'reacts'
+            FILTER edge._from == '${userId}' && edge._to == '${id}' && edge.$label == 'reacts'
             RETURN edge
         `;
         const cursor = await db.query(query);
@@ -169,12 +170,12 @@ exports.getLikeStatus = async (req, res) => {
 };
 
 exports.postLike = async (req, res) => {
-    const { id } = req.params;
+    const { id, userId } = req.params;
     const { like } = req.body;
     try {
         const query = `
-            UPSERT {_from: 'Users/15029', _to: '${id}', $label: 'reacts'}
-            INSERT {_from: 'Users/15029', _to: '${id}', \`like\`: ${like}, $label: 'reacts'}
+            UPSERT {_from: '${userId}', _to: '${id}', $label: 'reacts'}
+            INSERT {_from: '${userId}', _to: '${id}', \`like\`: ${like}, $label: 'reacts'}
             UPDATE {\`like\`: ${like}}
             IN imdb_edges
         `;

@@ -1,5 +1,4 @@
 const db = require('../database');
-const jwt = require('jsonwebtoken');
 
 exports.register = async (req, res) => {
     const { username, password, email } = req.body;
@@ -25,7 +24,7 @@ exports.register = async (req, res) => {
           RETURN NEW
         `, { username, password, email });
     
-        res.json({ success: true, message: 'Registration successful' });
+        res.json({ success: true, message: 'Registration successful', id: newUser._id });
       } catch (error) {
         console.error('Error during registration:', error);
         res.status(500).json({ success: false, message: 'Internal server error' });
@@ -43,10 +42,7 @@ exports.login = async (req, res) => {
     
         const user = await cursor.next();
         if (user) {
-          const token = jwt.sign({ username: user.username }, process.env.ACCESS_TOKEN_SECRET, { expiresIn: '1h' });
-          console.log(username)
-
-          res.status(200).json({ success: true, message: 'Login successful', token: token});
+          res.status(200).json({ success: true, message: 'Login successful', id: user._id, email: user.email});
         } else {
           res.status(401).json({ success: false, message: 'Invalid username or password' });
         }

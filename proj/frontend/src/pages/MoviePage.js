@@ -1,11 +1,12 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import { useParams } from 'react-router-dom';
-import { Alert, Input, Button, List, Typography, Empty, Avatar } from 'antd';
+import { Alert, Input, Button, List, Typography, Empty, Avatar, Tag } from 'antd';
 import { LikeOutlined, LikeTwoTone, DislikeOutlined, DislikeTwoTone } from '@ant-design/icons';
 import { Link } from 'react-router-dom';
 import ReactPlayer from 'react-player';
 import BaseLayout from '../components/BaseLayout';
+import useUserData from '../hook/useUserData';
 
 const { Title, Text } = Typography;
 
@@ -18,10 +19,13 @@ function MoviePage() {
   const [directors, setDirectors] = useState(null);
   const [genre, setGenre] = useState(null);
   const [videoError, setVideoError] = useState(false);
+  const user = useUserData();
 
   const { movieId } = useParams();
 
   useEffect(() => {
+    if (!user) return; // If user is not available, do nothing
+
     async function fetchMovieDetails() {
       try {
         const responseMovie = await axios.get(`http://localhost:3000/movies/${encodeURIComponent(movieId)}`);
@@ -32,14 +36,13 @@ function MoviePage() {
 
       try {
         const responseComments = await axios.get(`http://localhost:3000/movies/${encodeURIComponent(movieId)}/comment`);
-        console.log(responseComments.data)
         setComments(responseComments.data);
       } catch (error) {
         console.error('Failed to fetch comments:', error);
       }
     }
     fetchMovieDetails();
-
+    console.log(user)
     axios.get(`http://localhost:3000/movies/${encodeURIComponent(movieId)}/actors`)
       .then(response => setActors(response.data))
       .catch(error => console.error('Failed to fetch actors:', error));
@@ -48,18 +51,21 @@ function MoviePage() {
       .then(response => setDirectors(response.data))
       .catch(error => console.error('Failed to fetch directors:', error));
 
-    axios.get(`http://localhost:3000/movies/${encodeURIComponent(movieId)}/like`)
+    axios.get(`http://localhost:3000/movies/${encodeURIComponent(movieId)}/like/${encodeURIComponent(user.id)}`)
       .then(response => setIsLiked(response.data === 1))
       .catch(error => console.error('Failed to fetch like status:', error));
 
-    axios.get(`http://localhost:3000/movies/${encodeURIComponent(movieId)}/genre`)
-      .then(response => setGenre(response.data))
+      axios.get(`http://localhost:3000/movies/${encodeURIComponent(movieId)}/genre`)
+      .then(response => {
+        console.log(response.data);
+        setGenre(response.data[0].label);
+      })
       .catch(error => console.error('Failed to fetch genres:', error));
-  }, [movieId]);
+  }, [user, movieId]);
 
   const handleSubmit = async () => {
     const payload = {
-      _from: "Users/15029",
+      _from: user.id,
       _to: `${movieId}`,
       content: newComment,
       timestamp: new Date().toISOString(),
@@ -77,7 +83,7 @@ function MoviePage() {
 
   const handleLike = () => {
     const newLikeStatus = isLiked ? 0 : 1;
-    axios.post(`http://localhost:3000/movies/${encodeURIComponent(movieId)}/like`, { like: newLikeStatus })
+    axios.post(`http://localhost:3000/movies/${encodeURIComponent(movieId)}/like/${encodeURIComponent(user.id)}`, { like: newLikeStatus })
       .then(() => setIsLiked(newLikeStatus === 1))
       .catch(error => console.error('Failed to update like status:', error));
   };
@@ -86,6 +92,21 @@ function MoviePage() {
     setVideoError(true); // Set video error state to true
   };
 
+  const renderGenreTag = () => {
+    if (!genre) return null;
+    const genreColors = {
+      horror: 'red',
+      comedy: 'gold',
+      action: 'blue',
+      adventure: 'green',
+      "science fiction": 'purple'
+    };
+    
+    const color = genreColors[genre.toLowerCase()] || 'default';
+    return <Tag color={color}>{genre}</Tag>;
+  };
+  
+  
   return (
     <BaseLayout>
       <div style={{ maxWidth: 800, margin: '0 auto' }}>
@@ -93,6 +114,7 @@ function MoviePage() {
           <>
             <Title level={1} style={{ margin: 0 }}>{movie.title}</Title>
             <Text type="secondary" style={{ marginBottom: 20 }}>{movie.tagline}</Text>
+            <div style={{ marginTop: 10, marginBottom: 20 }}>{renderGenreTag()}</div>
             <div style={{ marginBottom: 16 }}>
               <div style={{ display: 'inline-flex', alignItems: 'center', background: '#f0f0f0', borderRadius: 20, padding: '6px 15px' }}>
                 {isLiked ? (
@@ -112,19 +134,19 @@ function MoviePage() {
             </div>
             <Text>Runtime: {movie.runtime} minutes</Text><br />
             <Text>Description: {movie.description}</Text><br /><br />
-            {!videoError && (
+            {/* {!videoError && (
               <ReactPlayer
                 url={movie.trailer}
                 onError={handleVideoError}
               />
-            )}
+            )} */}
           </>
         ) : (
           <Alert message="Movie not found" type="error" />
         )}
 
         {directors && directors.length > 0 && (
-          <div style={{ marginTop: 24 }}>
+          <div style={{ marginTop: 20 }}>
             <Title level={3}>Directed by</Title>
             <List
               bordered
@@ -139,7 +161,7 @@ function MoviePage() {
         )}
 
         {actors && actors.length > 0 && (
-          <div style={{ marginTop: 24 }}>
+          <div style={{ marginTop: 20 }}>
             <Title level={3}>Cast</Title>
             <div style={{ maxHeight: 250, overflowY: 'auto', border: '0.5px solid #ddd', borderRadius: 9 }}>
               <List

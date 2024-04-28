@@ -3,6 +3,8 @@ import axios from 'axios';
 import { useParams, Link } from 'react-router-dom';
 import { Typography, Spin, Alert, List } from 'antd';
 import BaseLayout from '../components/BaseLayout';
+import useUserData from '../hook/useUserData';
+
 import '../styles/PersonPage.css';
 
 const { Title, Paragraph } = Typography;
@@ -13,8 +15,11 @@ function PersonProfile() {
   const [acted_movies, setActedMovies] = useState(null);
   const [directed_movies, setDirectedMovies] = useState(null);
   const { personId } = useParams();
+  const user = useUserData();
 
   useEffect(() => {
+    if (!user) return; // If user is not available, do nothing
+
     async function fetchData() {
       try {
         const personResponse = await axios.get(`http://localhost:3000/persons/${encodeURIComponent(personId)}`);
@@ -40,7 +45,7 @@ function PersonProfile() {
     }
 
     fetchData();
-  }, [personId]);
+  }, [user, personId]);
   
 
   if (loading) {

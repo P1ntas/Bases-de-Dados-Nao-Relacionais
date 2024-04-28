@@ -3,14 +3,12 @@ import { Link, useNavigate } from 'react-router-dom';
 import { Form, Input, Button, Typography, message } from 'antd';
 import { UserOutlined, LockOutlined, MailOutlined } from '@ant-design/icons';
 import axios from 'axios';
-import useAuth from '../hooks/useAuth';
 const { Title } = Typography;
 
 const RegisterPage = () => {
   const [form] = Form.useForm();
   const [loading, setLoading] = useState(false);
   const navigate = useNavigate();
-  const { setAuth } = useAuth();
 
   const onFinish = async (values) => {
     setLoading(true);
@@ -20,11 +18,9 @@ const RegisterPage = () => {
       const response = await axios.post('http://localhost:3000/auth/register', values);
       if (response.data.success) {
         message.success(response.data.message);
-        //const token = response.data.token;
-        //localStorage.setItem('token', token);
-        setAuth({
-            username, email
-          });
+        const id = response.data.id;
+        const userData = { id, username, email };
+        localStorage.setItem('user', JSON.stringify(userData));
         navigate('/');
       } else {
         message.error(response.data.message);
