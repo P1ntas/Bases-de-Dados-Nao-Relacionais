@@ -36,6 +36,27 @@ def populate_db(database_name, collection_name, collection_type, file_path):
             print(f"Failed to insert document into collection '{collection_name}'. Status code: {response.status_code}")
 
 class DatabaseEdge:
+    def __init__(self, key, from_vertex, to_vertex, like, label):
+        self._key = str(250000 + int(key))
+        self._id = "imdb_edges/" + str(self._key)
+        self._from = from_vertex
+        self._to = to_vertex
+        self._rev = f"_{uuid.uuid4().hex}-"
+        self.like = like
+        self.label = label
+
+    def to_dict(self):
+        return {
+            "_key": self._key,
+            "_id": self._id,
+            "_from": self._from,
+            "_to": self._to,
+            "_rev": self._rev,
+            "likes": self.like,
+            "$label": self.label 
+        }
+    
+class DatabaseEdgeFollowers:
     def __init__(self, key, from_vertex, to_vertex, label):
         self._key = str(250000 + int(key))
         self._id = "imdb_edges/" + str(self._key)
@@ -83,7 +104,7 @@ def populate_likes(filepath, edge_def):
         data = json.load(file)
     id = 1
     for item in data:
-        edge = DatabaseEdge(id, item['_from'], item['_to'], item['like'])
+        edge = DatabaseEdge(id, item['_from'], item['_to'], item['likes'], "reacts")
         metadata = edge_def.insert(edge.to_dict())
         assert metadata['_key'] == edge._key
         id += 1
@@ -95,6 +116,17 @@ def populate_comments(filepath, edge_def):
 
     for item in data:
         edge = DatabaseEdgeComments(id, item['_from'], item['_to'], "comments", item['content'], item['timestamp'])
+        metadata = edge_def.insert(edge.to_dict())
+        assert metadata['_key'] == edge._key
+        id += 1
+
+def populate_followers(filepath, edge_def):
+
+    with open(filepath, 'r') as file:
+        data = json.load(file)
+    id = 600000
+    for item in data:
+        edge = DatabaseEdgeFollowers(id, item['_from'], item['_to'], "follows")
         metadata = edge_def.insert(edge.to_dict())
         assert metadata['_key'] == edge._key
         id += 1
@@ -114,7 +146,7 @@ def generate_reactions(filepath, n, vertices, users):
             reactions.append({
                 "_from": user_id,
                 "_to": movie_id,
-                "like": like,
+                "likes": like,
                 "$label": "reacts"
             })
     
@@ -163,6 +195,26 @@ def generate_comments(filepath, n, vertices, users):
     with open(filepath, 'w') as file:
         json.dump(comments, file, indent=4)
 
+def generate_follows(filepath, n, users):
+    users = users.all().batch()
+    user_ids = [user['_id'] for user in users]
+    follows = []
+    
+    for user_id in user_ids:
+        possible_follows = [uid for uid in user_ids if uid != user_id]
+        
+        followed_users = random.sample(possible_follows, n)
+
+        for follow_user_id in followed_users:
+            follows.append({
+                "_from": user_id,
+                "_to": follow_user_id,
+                "$label": "follows"
+            })
+
+    with open(filepath, 'w') as file:
+        json.dump(follows, file, indent=4)
+
 
 if __name__ == "__main__":
     parser = argparse.ArgumentParser(description='Send products to Arangodb')
@@ -191,6 +243,7 @@ if __name__ == "__main__":
 
     generate_reactions('./arangodb/data/reactions.json', 5, vertices, users)
     generate_comments('./arangodb/data/comments.json', 5, vertices, users)
+    generate_follows('./arangodb/data/followers.json', 5, users)
 
     if graph.has_vertex_collection('Users'):
         test = graph.vertex_collection('Users')
@@ -200,3 +253,5 @@ if __name__ == "__main__":
     populate_likes('./arangodb/data/reactions.json', edge_def)
 
     populate_comments('./arangodb/data/comments.json', edge_def)
+
+    populate_followers('./arangodb/data/followers.json', edge_def)

@@ -1,0 +1,252 @@
+[
+    {
+        "_from": "Users/1",
+        "_to": "Users/7",
+        "$label": "follows"
+    },
+    {
+        "_from": "Users/1",
+        "_to": "Users/5",
+        "$label": "follows"
+    },
+    {
+        "_from": "Users/1",
+        "_to": "Users/10",
+        "$label": "follows"
+    },
+    {
+        "_from": "Users/1",
+        "_to": "Users/2",
+        "$label": "follows"
+    },
+    {
+        "_from": "Users/1",
+        "_to": "Users/9",
+        "$label": "follows"
+    },
+    {
+        "_from": "Users/2",
+        "_to": "Users/3",
+        "$label": "follows"
+    },
+    {
+        "_from": "Users/2",
+        "_to": "Users/10",
+        "$label": "follows"
+    },
+    {
+        "_from": "Users/2",
+        "_to": "Users/8",
+        "$label": "follows"
+    },
+    {
+        "_from": "Users/2",
+        "_to": "Users/9",
+        "$label": "follows"
+    },
+    {
+        "_from": "Users/2",
+        "_to": "Users/7",
+        "$label": "follows"
+    },
+    {
+        "_from": "Users/3",
+        "_to": "Users/9",
+        "$label": "follows"
+    },
+    {
+        "_from": "Users/3",
+        "_to": "Users/1",
+        "$label": "follows"
+    },
+    {
+        "_from": "Users/3",
+        "_to": "Users/7",
+        "$label": "follows"
+    },
+    {
+        "_from": "Users/3",
+        "_to": "Users/5",
+        "$label": "follows"
+    },
+    {
+        "_from": "Users/3",
+        "_to": "Users/2",
+        "$label": "follows"
+    },
+    {
+        "_from": "Users/4",
+        "_to": "Users/2",
+        "$label": "follows"
+    },
+    {
+        "_from": "Users/4",
+        "_to": "Users/5",
+        "$label": "follows"
+    },
+    {
+        "_from": "Users/4",
+        "_to": "Users/3",
+        "$label": "follows"
+    },
+    {
+        "_from": "Users/4",
+        "_to": "Users/9",
+        "$label": "follows"
+    },
+    {
+        "_from": "Users/4",
+        "_to": "Users/6",
+        "$label": "follows"
+    },
+    {
+        "_from": "Users/5",
+        "_to": "Users/4",
+        "$label": "follows"
+    },
+    {
+        "_from": "Users/5",
+        "_to": "Users/1",
+        "$label": "follows"
+    },
+    {
+        "_from": "Users/5",
+        "_to": "Users/9",
+        "$label": "follows"
+    },
+    {
+        "_from": "Users/5",
+        "_to": "Users/8",
+        "$label": "follows"
+    },
+    {
+        "_from": "Users/5",
+        "_to": "Users/3",
+        "$label": "follows"
+    },
+    {
+        "_from": "Users/6",
+        "_to": "Users/3",
+        "$label": "follows"
+    },
+    {
+        "_from": "Users/6",
+        "_to": "Users/4",
+        "$label": "follows"
+    },
+    {
+        "_from": "Users/6",
+        "_to": "Users/1",
+        "$label": "follows"
+    },
+    {
+        "_from": "Users/6",
+        "_to": "Users/5",
+        "$label": "follows"
+    },
+    {
+        "_from": "Users/6",
+        "_to": "Users/2",
+        "$label": "follows"
+    },
+    {
+        "_from": "Users/7",
+        "_to": "Users/5",
+        "$label": "follows"
+    },
+    {
+        "_from": "Users/7",
+        "_to": "Users/9",
+        "$label": "follows"
+    },
+    {
+        "_from": "Users/7",
+        "_to": "Users/4",
+        "$label": "follows"
+    },
+    {
+        "_from": "Users/7",
+        "_to": "Users/2",
+        "$label": "follows"
+    },
+    {
+        "_from": "Users/7",
+        "_to": "Users/6",
+        "$label": "follows"
+    },
+    {
+        "_from": "Users/8",
+        "_to": "Users/10",
+        "$label": "follows"
+    },
+    {
+        "_from": "Users/8",
+        "_to": "Users/4",
+        "$label": "follows"
+    },
+    {
+        "_from": "Users/8",
+        "_to": "Users/2",
+        "$label": "follows"
+    },
+    {
+        "_from": "Users/8",
+        "_to": "Users/3",
+        "$label": "follows"
+    },
+    {
+        "_from": "Users/8",
+        "_to": "Users/9",
+        "$label": "follows"
+    },
+    {
+        "_from": "Users/9",
+        "_to": "Users/8",
+        "$label": "follows"
+    },
+    {
+        "_from": "Users/9",
+        "_to": "Users/3",
+        "$label": "follows"
+    },
+    {
+        "_from": "Users/9",
+        "_to": "Users/5",
+        "$label": "follows"
+    },
+    {
+        "_from": "Users/9",
+        "_to": "Users/2",
+        "$label": "follows"
+    },
+    {
+        "_from": "Users/9",
+        "_to": "Users/1",
+        "$label": "follows"
+    },
+    {
+        "_from": "Users/10",
+        "_to": "Users/7",
+        "$label": "follows"
+    },
+    {
+        "_from": "Users/10",
+        "_to": "Users/2",
+        "$label": "follows"
+    },
+    {
+        "_from": "Users/10",
+        "_to": "Users/6",
+        "$label": "follows"
+    },
+    {
+        "_from": "Users/10",
+        "_to": "Users/4",
+        "$label": "follows"
+    },
+    {
+        "_from": "Users/10",
+        "_to": "Users/8",
+        "$label": "follows"
+    }
+]
