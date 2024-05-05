@@ -35,14 +35,28 @@ function MoviePage() {
       }
 
       try {
-        const responseComments = await axios.get(`http://localhost:3000/movies/${encodeURIComponent(movieId)}/comment`);
-        setComments(responseComments.data);
+        const commentsResponse = await axios.get(`http://localhost:3000/movies/${encodeURIComponent(movieId)}/comment`);
+      const commentsData = commentsResponse.data;
+
+      // Fetch user information for each comment and handle cases where user is not found
+      const commentsWithUsernames = await Promise.all(commentsData.map(async (comment) => {
+        const userId = comment._from;
+        try {
+          const userResponse = await axios.get(`http://localhost:3000/user/${encodeURIComponent(userId)}`);
+          const userData = userResponse.data.user;
+          return { ...comment, username: userData.username }; // Add username to the comment object
+        } catch (error) {
+          // If user is not found, use _from as the username
+          return { ...comment, username: userId };
+        }
+      }));
+
+      setComments(commentsWithUsernames);
       } catch (error) {
         console.error('Failed to fetch comments:', error);
       }
     }
     fetchMovieDetails();
-    console.log(user)
     axios.get(`http://localhost:3000/movies/${encodeURIComponent(movieId)}/actors`)
       .then(response => setActors(response.data))
       .catch(error => console.error('Failed to fetch actors:', error));
@@ -57,7 +71,6 @@ function MoviePage() {
 
       axios.get(`http://localhost:3000/movies/${encodeURIComponent(movieId)}/genre`)
       .then(response => {
-        console.log(response.data);
         setGenre(response.data[0].label);
       })
       .catch(error => console.error('Failed to fetch genres:', error));
@@ -74,7 +87,7 @@ function MoviePage() {
 
     try {
       await axios.post(`http://localhost:3000/movies/${encodeURIComponent(movieId)}/comment`, payload);
-      setComments(prevComments => [...prevComments, { ...payload, _id: `new_${Date.now()}` }]);
+      setComments(prevComments => [...prevComments, { ...payload, _id: `new_${Date.now()}`, username: user.username }]);
       setNewComment('');
     } catch (error) {
       console.error('Failed to submit comment:', error);
@@ -187,7 +200,7 @@ function MoviePage() {
                 <List.Item>
                   <List.Item.Meta
                     avatar={<Avatar src={`https://api.dicebear.com/7.x/miniavs/svg?seed=${index}`} />}
-                    title={<a href="https://ant.design">{comment._from}</a>}
+                    title={<a href="https://ant.design">{comment.username}</a>}
                     description={comment.content}
                   />
                   <div>{comment.timestamp}</div>

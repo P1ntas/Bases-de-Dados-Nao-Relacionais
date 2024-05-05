@@ -2,7 +2,9 @@ const express = require('express');
 const cors = require('cors');
 const moviesRoutes = require("./routes/movies");
 const authRoutes = require("./routes/auth");
-const personsRoutes = require("./routes/persons");
+const personRoutes = require("./routes/person");
+const userRoutes = require("./routes/user");
+
 const bodyParser = require('body-parser');
 require('dotenv').config();
 
@@ -27,7 +29,9 @@ app.get('/', async (req, res) => {
 
 app.use("/movies", moviesRoutes);
 app.use("/auth", authRoutes);
-app.use("/persons", personsRoutes);
+app.use("/person", personRoutes);
+app.use("/user", userRoutes);
+
 
 
 app.listen(port, () => {

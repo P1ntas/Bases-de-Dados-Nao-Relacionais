@@ -22,7 +22,7 @@ function PersonProfile() {
 
     async function fetchData() {
       try {
-        const personResponse = await axios.get(`http://localhost:3000/persons/${encodeURIComponent(personId)}`);
+        const personResponse = await axios.get(`http://localhost:3000/person/${encodeURIComponent(personId)}`);
         setPerson(personResponse.data);
         setLoading(false);
       } catch (error) {
@@ -30,14 +30,14 @@ function PersonProfile() {
       }
 
       try {
-        const actedMoviesResponse = await axios.get(`http://localhost:3000/persons/${encodeURIComponent(personId)}/acted_movies`);
+        const actedMoviesResponse = await axios.get(`http://localhost:3000/person/${encodeURIComponent(personId)}/acted_movies`);
         setActedMovies(actedMoviesResponse.data);
       } catch (error) {
         console.error('Failed to fetch acted movies:', error);
       }
 
       try {
-        const directedMoviesResponse = await axios.get(`http://localhost:3000/persons/${encodeURIComponent(personId)}/directed_movies`);
+        const directedMoviesResponse = await axios.get(`http://localhost:3000/person/${encodeURIComponent(personId)}/directed_movies`);
         setDirectedMovies(directedMoviesResponse.data);
       } catch (error) {
         console.error('Failed to fetch directed movies:', error);
