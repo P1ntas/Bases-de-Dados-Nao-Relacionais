@@ -60,50 +60,54 @@ function PersonProfile() {
 
   return (
     <BaseLayout>
-      {person ? (
-        <div className="person-profile-container">
-          <div className="person-details">
-            <Title level={2} className="person-name">{person.name}</Title>
-            <Paragraph className="person-biography">{person.biography}</Paragraph>
-            <div className="person-info">
-              <strong>Birthday:</strong> {new Date(parseInt(person.birthday)).toDateString()}
-            </div>
-            <div className="person-info">
-              <strong>Birthplace:</strong> {person.birthplace}
+      <div style={{ maxWidth: 800, margin: '0 auto' }}>
+
+        {person ? (
+          <div className="person-profile-container">
+            <div className="person-details">
+              <Title level={2} className="person-name">{person.name}</Title>
+              <Paragraph className="person-biography">{person.biography}</Paragraph>
+              <div className="person-info">
+                <strong>Birthday:</strong> {new Date(parseInt(person.birthday)).toDateString()}
+              </div>
+              <div className="person-info">
+                <strong>Birthplace:</strong> {person.birthplace}
+              </div>
             </div>
           </div>
-        </div>
-      ) : (
-        <Alert message="Person not found" type="error" />
-      )}
-      {acted_movies && acted_movies.length > 0 && (
-        <div style={{ marginTop: 24 }}>
-          <Title level={3}>Acted In</Title>
-          <List
-            bordered
-            dataSource={acted_movies}
-            renderItem={movie => (
-              <List.Item>
-                <Link to={`/movie/${encodeURIComponent(movie._id)}`}>{movie.label}</Link>
-              </List.Item>
-            )}
-          />
-        </div>
-      )}
-      {directed_movies && directed_movies.length > 0 && (
-        <div style={{ marginTop: 24 }}>
-          <Title level={3}>Directed</Title>
-          <List
-            bordered
-            dataSource={directed_movies}
-            renderItem={movie => (
-              <List.Item>
-                <Link to={`/movie/${encodeURIComponent(movie._id)}`}>{movie.label}</Link>
-              </List.Item>
-            )}
-          />
-        </div>
-      )}
+        ) : (
+          <Alert message="Person not found" type="error" />
+        )}
+        {acted_movies && acted_movies.length > 0 && (
+          <div style={{ marginTop: 24 }}>
+            <Title level={3}>Acted In</Title>
+            <List
+              bordered
+              dataSource={acted_movies}
+              renderItem={movie => (
+                <List.Item>
+                  <Link to={`/movie/${encodeURIComponent(movie._id)}`}>{movie.label}</Link>
+                </List.Item>
+              )}
+            />
+          </div>
+        )}
+        {directed_movies && directed_movies.length > 0 && (
+          <div style={{ marginTop: 24 }}>
+            <Title level={3}>Directed</Title>
+            <List
+              bordered
+              dataSource={directed_movies}
+              renderItem={movie => (
+                <List.Item>
+                  <Link to={`/movie/${encodeURIComponent(movie._id)}`}>{movie.label}</Link>
+                </List.Item>
+              )}
+            />
+          </div>
+        )}
+      </div>
+      
     </BaseLayout>
   );
 }

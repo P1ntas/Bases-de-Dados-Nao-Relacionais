@@ -3,8 +3,10 @@ import React from 'react';
 import { Layout } from 'antd';
 import { UserOutlined } from '@ant-design/icons';
 import { Link } from 'react-router-dom';
+import logo from '../assets/logo.png'; // Import your logo file
 
-const { Header, Sider, Content } = Layout;
+
+const { Header, Content } = Layout;
 
 const BaseLayout = ({ children }) => {
   const colorBgContainer = '#ffffff'; // Change this to your desired background color
@@ -14,26 +16,32 @@ const BaseLayout = ({ children }) => {
       <Header
         style={{
           display: 'flex',
-          alignItems: 'center',
-          backgroundColor: '#282A3A',
+          justifyContent: 'space-between', // Align items at the start and end of the header
+          alignItems: 'center', // Center items vertically
+          backgroundColor: '#39535c',
         }}
-        type="primary"
       >
-        <div className="demo-logo" />
-        <Link to={'/profile'}>
-          <UserOutlined style={{ color: '#ffffff', fontSize: '1.5em' }} />
+        <Link to="/">
+          <div className="logo" style={{ display: 'flex', alignItems: 'center' }}>
+            <img src={logo} alt="Logo" style={{ height: '40px', marginRight: '20px' }} />
+          </div>
         </Link>
+        <div>
+          <Link to={'/profile'}>
+            <UserOutlined style={{ color: '#ffffff', fontSize: '1.5em' }} />
+          </Link>
+        </div>
       </Header>
-          <Content
-            style={{
-              padding: 24,
-              margin: 0,
-              minHeight: 280,
-              background: colorBgContainer
-            }}
-          >
-            {children}
-          </Content>
+      <Content
+        style={{
+          padding: 24,
+          margin: 0,
+          minHeight: 280,
+          background: colorBgContainer,
+        }}
+      >
+        {children}
+      </Content>
     </Layout>
   );
 };

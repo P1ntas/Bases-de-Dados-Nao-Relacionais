@@ -42,7 +42,7 @@ exports.login = async (req, res) => {
     
         const user = await cursor.next();
         if (user) {
-          res.status(200).json({ success: true, message: 'Login successful', id: user._id, email: user.email});
+          res.status(200).json({ success: true, message: 'Login successful', id: user._id, email: user.email, name: user.name});
         } else {
           res.status(401).json({ success: false, message: 'Invalid username or password' });
         }

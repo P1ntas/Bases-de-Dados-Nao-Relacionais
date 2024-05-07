@@ -50,7 +50,7 @@ function MoviePage() {
           return { ...comment, username: userId };
         }
       }));
-
+      console.log(commentsWithUsernames)
       setComments(commentsWithUsernames);
       } catch (error) {
         console.error('Failed to fetch comments:', error);
@@ -200,7 +200,7 @@ function MoviePage() {
                 <List.Item>
                   <List.Item.Meta
                     avatar={<Avatar src={`https://api.dicebear.com/7.x/miniavs/svg?seed=${index}`} />}
-                    title={<a href="https://ant.design">{comment.username}</a>}
+                    title={<Link to={`/${comment._from}`}>{comment.username}</Link>}
                     description={comment.content}
                   />
                   <div>{comment.timestamp}</div>
@@ -216,7 +216,7 @@ function MoviePage() {
             onChange={e => setNewComment(e.target.value)}
             style={{ marginTop: 16 }}
           />
-          <Button type="primary" style={{ marginTop: 8 }} onClick={handleSubmit}>Submit Comment</Button>
+          <Button className="button" type="primary" style={{ marginTop: 8 }} onClick={handleSubmit}>Submit Comment</Button>
         </div>
       </div>
     </BaseLayout>

@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { theme, Card } from 'antd';
+import { theme, Card, Input } from 'antd';
 import axios from 'axios';
 import { Link } from 'react-router-dom';
 import BaseLayout from '../components/BaseLayout';
@@ -13,6 +13,7 @@ import moviePoster7 from '../assets/movie7.jpg';
 import moviePoster8 from '../assets/movie8.jpg';
 import moviePoster9 from '../assets/movie9.jpg';
 
+const { Search } = Input;
 
 const MainPage = () => {
   const {
@@ -33,6 +34,8 @@ const MainPage = () => {
     fetchData()
 
   }, []);
+  const onSearch = () => {
+  };
 
 
   const getRandomInt = (min, max) => {
@@ -47,11 +50,12 @@ const MainPage = () => {
 
   return (
     <BaseLayout>
+        <Search placeholder="input search text" onSearch={onSearch} style={{ width: 400, marginLeft: 50 }} />
       <div style={{ display: 'flex', flexWrap: 'wrap', justifyContent: 'center' }}>
         {movies.map(movie => (
           <Link to={`/movie/${encodeURIComponent(movie._id)}`} key={movie._id}>
             <Card
-              style={{ width: 215,margin: '1.5em', marginBottom: '1em' }}
+              style={{ width: 215, margin: '1.5em', marginBottom: '1em' }}
               cover={<img alt="poster" src={getRandomPoster()} style={{ width: '100%', height: '100%', objectFit: 'cover' }} />}
               hoverable>
               <h4>{movie.title}</h4>

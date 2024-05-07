@@ -21,8 +21,9 @@ const LoginPage = () => {
       if (response.data.success) {
         message.success(response.data.message);
         const email = response.data.email;
+        const name = response.data.name;
         const id = response.data.id;
-        const userData = { id, username, email };
+        const userData = { id, username, email, name };
         localStorage.setItem('user', JSON.stringify(userData));
         navigate('/');
       } else {
@@ -68,7 +69,7 @@ const LoginPage = () => {
           </Form.Item>
 
           <Form.Item>
-            <Button type="primary" htmlType="submit" loading={loading} style={{ width: '100%' }}>
+            <Button className="button" type="primary" htmlType="submit" loading={loading} style={{ width: '100%' }}>
               Sign in
             </Button>
           </Form.Item>

@@ -126,7 +126,6 @@ exports.getComment = async (req, res) => {
 }
 
 exports.postComment = async (req, res) => {
-    console.log("Received data:", req.body);
     const { _from, _to, content, timestamp, $label } = req.body;
 
     if (!_to || !content || !timestamp || !$label) {

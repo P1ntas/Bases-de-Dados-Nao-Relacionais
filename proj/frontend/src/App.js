@@ -1,4 +1,3 @@
-import './App.css';
 import React from 'react';
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 import MainPage from './pages/MainPage';
@@ -7,6 +6,7 @@ import LoginPage from './pages/LoginPage';
 import RegisterPage from './pages/Register';
 import ProfilePage from './pages/Profile';
 import PersonPage from './pages/PersonPage';
+import UserPage from './pages/UserPage';
 
 const App = () => {
   return (
@@ -18,6 +18,7 @@ const App = () => {
         <Route path="/register" element={<RegisterPage />} />
         <Route path="/profile" element={<ProfilePage />} />
         <Route path="/person/:personId" element={<PersonPage />} />
+        <Route path="/Users/:userId" element={<UserPage />} />
       </Routes>
     </Router>
   );

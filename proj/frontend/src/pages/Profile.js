@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { Card, Avatar, Typography, Divider, Button } from 'antd';
+import { Card, Avatar, Typography, Divider, Button, Tabs } from 'antd';
 import { UserOutlined } from '@ant-design/icons';
 import { Link, useNavigate } from 'react-router-dom';
 import BaseLayout from '../components/BaseLayout';
@@ -25,7 +25,9 @@ const ProfilePage = () => {
               <div style={{ display: 'flex', alignItems: 'center', marginBottom: '20px' }}>
                 <Avatar size={64} icon={<UserOutlined />} />
                 <div style={{ marginLeft: '20px' }}>
-                  <Title level={4}>{user.username}</Title>
+                  <Title level={4}>{user.name}</Title>
+                
+                  <Text>{user.username}</Text>
                 </div>
               </div>
               <Divider />
@@ -33,13 +35,33 @@ const ProfilePage = () => {
                 <Title level={5}>Contact Information</Title>
                 <Text>Email: {user.email}</Text>
               </div>
+              <Button className="button" type="primary" onClick={handleLogout}>Logout</Button>
               <Divider />
-              <Button type="primary" onClick={handleLogout}>Logout</Button>
+              <Tabs
+                defaultActiveKey="1"
+                items={[
+                {
+                    label: 'Tab 1',
+                    key: '1',
+                    children: 'Tab 1',
+                },
+                {
+                    label: 'Followers',
+                    key: 'Followers',
+                    children: 'Followers',
+                },
+                {
+                    label: 'Following',
+                    key: 'Following',
+                    children: 'Following',
+                },
+                ]}
+            />
             </>
           ) : (
             <div>
               <Text>Please log in to view your profile.</Text>
-              <Link to="/login"><Button type="primary" style={{ marginLeft: '10px' }}>Login</Button></Link>
+              <Link to="/login"><Button className="button" type="primary" style={{ marginLeft: '10px' }}>Login</Button></Link>
             </div>
           )}
         </Card>

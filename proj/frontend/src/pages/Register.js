@@ -12,14 +12,14 @@ const RegisterPage = () => {
 
   const onFinish = async (values) => {
     setLoading(true);
-    const { username, email } = values;
+    const { username, email, name } = values;
 
     try {
       const response = await axios.post('http://localhost:3000/auth/register', values);
       if (response.data.success) {
         message.success(response.data.message);
         const id = response.data.id;
-        const userData = { id, username, email };
+        const userData = { id, username, email, name };
         localStorage.setItem('user', JSON.stringify(userData));
         navigate('/');
       } else {
@@ -43,6 +43,14 @@ const RegisterPage = () => {
           layout="vertical"
           size="medium"
         >
+          <Form.Item
+            label="Name"
+            name="name"
+            rules={[{ required: true, message: 'Please input your name!' }]}
+          >
+            <Input prefix={<UserOutlined />} placeholder="Name" />
+          </Form.Item>
+
           <Form.Item
             label="Username"
             name="username"
@@ -90,7 +98,7 @@ const RegisterPage = () => {
           </Form.Item>
 
           <Form.Item>
-            <Button type="primary" htmlType="submit" loading={loading} style={{ width: '100%' }}>
+            <Button className="button" type="primary" htmlType="submit" loading={loading} style={{ width: '100%' }}>
               Register
             </Button>
           </Form.Item>
