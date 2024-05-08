@@ -4,6 +4,7 @@ const router = express.Router();
 
 router.get('/', controller.getMovies);
 router.get('/:id', controller.getMovie);
+router.get('/search/:input', controller.searchMovie);
 router.get('/:id/actors', controller.getMovieActors);
 router.get('/:id/directors', controller.getMovieDirectors);
 router.get('/:id/comment', controller.getComment);

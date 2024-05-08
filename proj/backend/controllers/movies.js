@@ -37,6 +37,28 @@ exports.getMovie = async (req, res) => {
     }
 };
 
+exports.searchMovie = async (req, res) => {
+    const { input } = req.params;
+    try {
+        const query = `
+            FOR d IN firstView 
+            SEARCH ANALYZER(d.description IN TOKENS('${input}', 'text_en'), 'text_en')
+            SORT BM25(d) DESC
+            LIMIT 10
+            RETURN d
+        `;
+        const cursor = await db.query(query);
+        const movies = await cursor.all();
+        if (!movies) {
+            return res.status(404).json({ error: 'Movie not found' });
+        }
+        res.status(200).json(movies);
+    } catch (error) {
+        console.error("Database error:", error);
+        res.status(500).json({ error: error.message });
+    }
+};
+
 
 exports.getMovieActors = async (req, res) => {
     const { id } = req.params;
@@ -152,7 +174,6 @@ exports.postComment = async (req, res) => {
 
 exports.getLikeStatus = async (req, res) => {
     const { id, userId } = req.params;
-    console.log(id)
     try {
         const query = `
             FOR edge IN imdb_edges

@@ -255,3 +255,48 @@ if __name__ == "__main__":
     populate_comments('./arangodb/data/comments.json', edge_def)
 
     populate_followers('./arangodb/data/followers.json', edge_def)
+
+    from arango import ArangoClient
+
+
+
+    # Define the view characteristics
+    view_definition = {
+        "writebufferSizeMax": 33554432,
+        "id": "442",
+        "storedValues": [],
+        "name": "firstView",
+        "type": "arangosearch",
+        "consolidationPolicy": {
+            "type": "tier",
+            "segmentsBytesFloor": 2097152,
+            "segmentsBytesMax": 5368709120,
+            "segmentsMax": 10,
+            "segmentsMin": 1,
+            "minScore": 0
+        },
+        "writebufferActive": 0,
+        "links": {
+            "imdb_vertices": {
+                "analyzers": ["identity"],
+                "fields": {
+                    "description": {"analyzers": ["text_en"]},
+                    "genre": {"analyzers": ["text_en"]},
+                    "title": {"analyzers": ["text_en"]}
+                },
+                "includeAllFields": True,
+                "storeValues": "none",
+                "trackListPositions": False
+            }
+        },
+        "commitIntervalMsec": 1000,
+        "consolidationIntervalMsec": 10000,
+        "globallyUniqueId": "c16032914/",
+        "cleanupIntervalStep": 2,
+        "primarySort": [],
+        "primarySortCompression": "lz4",
+        "writebufferIdle": 64
+    }
+
+    # Create the view
+    db.create_arangosearch_view(name=view_definition['name'], properties=view_definition)

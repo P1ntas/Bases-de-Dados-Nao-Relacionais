@@ -1,13 +1,13 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import { useParams, Link } from 'react-router-dom';
-import { Typography, Spin, Alert, List } from 'antd';
+import { Typography, Spin, Alert, Descriptions, List } from 'antd';
 import BaseLayout from '../components/BaseLayout';
 import useUserData from '../hook/useUserData';
 
 import '../styles/PersonPage.css';
 
-const { Title, Paragraph } = Typography;
+const { Title } = Typography;
 
 function PersonProfile() {
   const [person, setPerson] = useState(null);
@@ -24,6 +24,7 @@ function PersonProfile() {
       try {
         const personResponse = await axios.get(`http://localhost:3000/person/${encodeURIComponent(personId)}`);
         setPerson(personResponse.data);
+        console.log(personResponse.data)
         setLoading(false);
       } catch (error) {
         console.error('Failed to fetch person:', error);
@@ -63,24 +64,20 @@ function PersonProfile() {
       <div style={{ maxWidth: 800, margin: '0 auto' }}>
 
         {person ? (
-          <div className="person-profile-container">
-            <div className="person-details">
-              <Title level={2} className="person-name">{person.name}</Title>
-              <Paragraph className="person-biography">{person.biography}</Paragraph>
-              <div className="person-info">
-                <strong>Birthday:</strong> {new Date(parseInt(person.birthday)).toDateString()}
-              </div>
-              <div className="person-info">
-                <strong>Birthplace:</strong> {person.birthplace}
-              </div>
-            </div>
-          </div>
+          <Descriptions title={person.name}>
+            <Descriptions.Item label="Birthday">{person.birthday ? new Date(parseInt(person.birthday)).toDateString(): "N/A"}</Descriptions.Item>
+            <Descriptions.Item label="Birthplace">{person.birthplace ? person.birthplace : "N/A"}</Descriptions.Item>
+            <br></br>
+            <Descriptions.Item label="Biography">{person.biography ? person.biography : "N/A"}</Descriptions.Item>
+
+
+          </Descriptions>
         ) : (
           <Alert message="Person not found" type="error" />
         )}
         {acted_movies && acted_movies.length > 0 && (
           <div style={{ marginTop: 24 }}>
-            <Title level={3}>Acted In</Title>
+            <Title level={5}>Acted in</Title>
             <List
               bordered
               dataSource={acted_movies}
@@ -94,7 +91,7 @@ function PersonProfile() {
         )}
         {directed_movies && directed_movies.length > 0 && (
           <div style={{ marginTop: 24 }}>
-            <Title level={3}>Directed</Title>
+            <Title level={5}>Directed</Title>
             <List
               bordered
               dataSource={directed_movies}

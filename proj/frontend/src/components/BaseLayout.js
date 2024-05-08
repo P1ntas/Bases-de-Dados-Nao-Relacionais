@@ -1,6 +1,6 @@
 // BaseLayout.js
 import React from 'react';
-import { Layout } from 'antd';
+import { Layout, Menu } from 'antd';
 import { UserOutlined } from '@ant-design/icons';
 import { Link } from 'react-router-dom';
 import logo from '../assets/logo.png'; // Import your logo file
@@ -26,6 +26,17 @@ const BaseLayout = ({ children }) => {
             <img src={logo} alt="Logo" style={{ height: '40px', marginRight: '20px' }} />
           </div>
         </Link>
+        {/* <Menu theme="dark" mode="horizontal" defaultSelectedKeys={['1']} style={{ backgroundColor: '#39535c' }}>
+          <Menu.Item key="1">
+            <Link to="/movies">Movies</Link>
+          </Menu.Item>
+          <Menu.Item key="2">
+            <Link to="/people">People</Link>
+          </Menu.Item>
+          <Menu.Item key="3">
+            <Link to="/timeline">Timeline</Link>
+          </Menu.Item>
+        </Menu> */}
         <div>
           <Link to={'/profile'}>
             <UserOutlined style={{ color: '#ffffff', fontSize: '1.5em' }} />

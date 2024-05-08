@@ -22,21 +22,29 @@ const MainPage = () => {
   const [movies, setMovies] = useState([]);
 
   useEffect(() => {
-    const fetchData = async () => {
-      try {
-        const response = await axios.get('http://localhost:3000/movies');
-        setMovies(response.data);
-      } catch (error) {
-        console.error('Error fetching data:', error);
-      }
-    };
-
-    fetchData()
-
+    fetchData();
   }, []);
-  const onSearch = () => {
+
+  const fetchData = async () => {
+    try {
+      const response = await axios.get('http://localhost:3000/movies');
+      setMovies(response.data);
+    } catch (error) {
+      console.error('Error fetching data:', error);
+    }
   };
 
+  const onSearch = async (value) => {
+    console.log(value)
+
+    try {
+      const response = await axios.get(`http://localhost:3000/movies/search/${encodeURIComponent(value)}`);
+      console.log(response)
+      setMovies(response.data);
+    } catch (error) {
+      console.error('Error searching movies:', error);
+    }
+  };
 
   const getRandomInt = (min, max) => {
     return Math.floor(Math.random() * (max - min + 1)) + min;
@@ -50,7 +58,7 @@ const MainPage = () => {
 
   return (
     <BaseLayout>
-        <Search placeholder="input search text" onSearch={onSearch} style={{ width: 400, marginLeft: 50 }} />
+      <Search placeholder="input search text" onSearch={onSearch} style={{ width: 400, marginLeft: 50 }} />
       <div style={{ display: 'flex', flexWrap: 'wrap', justifyContent: 'center' }}>
         {movies.map(movie => (
           <Link to={`/movie/${encodeURIComponent(movie._id)}`} key={movie._id}>
@@ -60,12 +68,11 @@ const MainPage = () => {
               hoverable>
               <h4>{movie.title}</h4>
               <p>{movie.runtime} minutes</p>
-          </Card>
+            </Card>
           </Link>
         ))}
       </div>
-  </BaseLayout>
-
+    </BaseLayout>
   );
 };
 export default MainPage;
