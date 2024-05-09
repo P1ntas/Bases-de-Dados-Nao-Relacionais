@@ -41,8 +41,8 @@ exports.searchMovie = async (req, res) => {
     const { input } = req.params;
     try {
         const query = `
-            FOR d IN firstView 
-            SEARCH ANALYZER(d.description IN TOKENS('${input}', 'text_en'), 'text_en')
+            FOR d IN movieView 
+            SEARCH ANALYZER(d.description IN TOKENS('${input}', 'text_analyzer'), 'text_analyzer')
             SORT BM25(d) DESC
             LIMIT 10
             RETURN d

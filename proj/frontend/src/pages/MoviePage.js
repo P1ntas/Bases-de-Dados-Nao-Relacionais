@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import { useParams } from 'react-router-dom';
-import { Alert, Input, Button, List, Typography, Empty, Avatar, Tag } from 'antd';
+import { Alert, Input, Button, List, Typography, Empty, Avatar, Tag, Descriptions } from 'antd';
 import { LikeOutlined, LikeTwoTone, DislikeOutlined, DislikeTwoTone } from '@ant-design/icons';
 import { Link } from 'react-router-dom';
 import ReactPlayer from 'react-player';
@@ -112,6 +112,8 @@ function MoviePage() {
       comedy: 'gold',
       action: 'blue',
       adventure: 'green',
+      drama: 'magenta',
+      animation: 'cyan',
       "science fiction": 'purple'
     };
     
@@ -145,8 +147,13 @@ function MoviePage() {
                 )}
               </div>
             </div>
-            <Text>Runtime: {movie.runtime} minutes</Text><br />
-            <Text>Description: {movie.description}</Text><br /><br />
+            <Descriptions>
+              <Descriptions.Item label="Studio">{movie.studio ? movie.studio : "N/A"}</Descriptions.Item>
+              
+              <Descriptions.Item label="Runtime">{movie.runtime ? movie.runtime + " minutes" : "N/A"}</Descriptions.Item>
+              <br></br>
+              <Descriptions.Item label="Description">{movie.description ? movie.description : "N/A"}</Descriptions.Item>
+            </Descriptions>
             {/* {!videoError && (
               <ReactPlayer
                 url={movie.trailer}
@@ -160,7 +167,7 @@ function MoviePage() {
 
         {directors && directors.length > 0 && (
           <div style={{ marginTop: 20 }}>
-            <Title level={3}>Directed by</Title>
+            <Title level={4}>Directed by</Title>
             <List
               bordered
               dataSource={directors}
@@ -175,7 +182,7 @@ function MoviePage() {
 
         {actors && actors.length > 0 && (
           <div style={{ marginTop: 20 }}>
-            <Title level={3}>Cast</Title>
+            <Title level={4}>Cast</Title>
             <div style={{ maxHeight: 250, overflowY: 'auto', border: '0.5px solid #ddd', borderRadius: 9 }}>
               <List
                 dataSource={actors}
@@ -191,7 +198,7 @@ function MoviePage() {
 
 
         <div style={{ marginTop: 24 }}>
-          <Title level={3}>Comments</Title>
+          <Title level={4}>Comments</Title>
           {comments && comments.length > 0 ? (
             <List
               itemLayout="horizontal"

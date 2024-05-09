@@ -7,6 +7,7 @@ import RegisterPage from './pages/Register';
 import ProfilePage from './pages/Profile';
 import PersonPage from './pages/PersonPage';
 import UserPage from './pages/UserPage';
+import PeoplePage from './pages/PeoplePage';
 
 const App = () => {
   return (
@@ -19,6 +20,7 @@ const App = () => {
         <Route path="/profile" element={<ProfilePage />} />
         <Route path="/person/:personId" element={<PersonPage />} />
         <Route path="/Users/:userId" element={<UserPage />} />
+        <Route path="/people" element={<PeoplePage />} />
       </Routes>
     </Router>
   );

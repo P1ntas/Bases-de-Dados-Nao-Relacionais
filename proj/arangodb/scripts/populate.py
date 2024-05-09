@@ -30,10 +30,7 @@ def populate_db(database_name, collection_name, collection_type, file_path):
         data = json.load(file)
     for item in data:
         response = requests.post(collection_url, json=item, auth=(username, password))
-        if (response.status_code == 201 or response.status_code == 200 or response.status_code == 202):
-            print(f"Document inserted into collection '{collection_name}' successfully")
-        else:
-            print(f"Failed to insert document into collection '{collection_name}'. Status code: {response.status_code}")
+
 
 class DatabaseEdge:
     def __init__(self, key, from_vertex, to_vertex, like, label):
@@ -256,16 +253,24 @@ if __name__ == "__main__":
 
     populate_followers('./arangodb/data/followers.json', edge_def)
 
-    from arango import ArangoClient
-
-
-
+    db.create_analyzer(
+        name='text_analyzer',
+        analyzer_type='text',
+        properties={
+            'locale': 'en',
+            'case': 'lower',
+            'accent': True,
+            'stemming': True,
+            'normalization': True
+        },
+        features=[]
+    )
     # Define the view characteristics
-    view_definition = {
+    movie_view_definition = {
         "writebufferSizeMax": 33554432,
         "id": "442",
         "storedValues": [],
-        "name": "firstView",
+        "name": "movieView",
         "type": "arangosearch",
         "consolidationPolicy": {
             "type": "tier",
@@ -278,13 +283,12 @@ if __name__ == "__main__":
         "writebufferActive": 0,
         "links": {
             "imdb_vertices": {
-                "analyzers": ["identity"],
+                "analyzers": ["text_analyzer"],
                 "fields": {
-                    "description": {"analyzers": ["text_en"]},
-                    "genre": {"analyzers": ["text_en"]},
-                    "title": {"analyzers": ["text_en"]}
+                    "title": {"analyzers": ["text_analyzer"]},
+                    "description": {"analyzers": ["text_analyzer"]}
                 },
-                "includeAllFields": True,
+                "includeAllFields": False,
                 "storeValues": "none",
                 "trackListPositions": False
             }
@@ -299,4 +303,58 @@ if __name__ == "__main__":
     }
 
     # Create the view
-    db.create_arangosearch_view(name=view_definition['name'], properties=view_definition)
+    db.create_arangosearch_view(name=movie_view_definition['name'], properties=movie_view_definition)
+
+    db.create_analyzer(
+        name='person_name_analyzer',
+        analyzer_type='text',
+        properties={
+            'locale': 'en',
+            'case': 'lower',
+            'accent': True,
+            'stemming': False,
+            'stopwords': []
+        },
+        features=[]
+    )
+    person_view_definition = {
+        "writebufferSizeMax": 33554432,
+        "id": "443",
+        "storedValues": [],
+        "name": "personView",
+        "type": "arangosearch",
+        "consolidationPolicy": {
+            "type": "tier",
+            "segmentsBytesFloor": 2097152,
+            "segmentsBytesMax": 5368709120,
+            "segmentsMax": 10,
+            "segmentsMin": 1,
+            "minScore": 0
+        },
+        "writebufferActive": 0,
+        "links": {
+            "imdb_vertices": {
+                "analyzers": ["person_name_analyzer"],
+                "fields": {
+                    "name": {"analyzers": ["person_name_analyzer"]}
+                },
+                "includeAllFields": False,
+                "storeValues": "none",
+                "trackListPositions": False
+            }
+        },
+        "commitIntervalMsec": 1000,
+        "consolidationIntervalMsec": 10000,
+        "globallyUniqueId": "c16032914/",
+        "cleanupIntervalStep": 2,
+        "primarySort": [],
+        "primarySortCompression": "lz4",
+        "writebufferIdle": 64
+    }
+    unique_id = str(uuid.uuid4())
+
+    # Update the globally unique identifier in the view definition
+    person_view_definition["globallyUniqueId"] = unique_id
+
+    # Create the view
+    db.create_arangosearch_view(name=person_view_definition['name'], properties=person_view_definition)

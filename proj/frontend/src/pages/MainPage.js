@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { theme, Card, Input } from 'antd';
+import { Card, Input } from 'antd';
 import axios from 'axios';
 import { Link } from 'react-router-dom';
 import BaseLayout from '../components/BaseLayout';
@@ -16,9 +16,6 @@ import moviePoster9 from '../assets/movie9.jpg';
 const { Search } = Input;
 
 const MainPage = () => {
-  const {
-    token: { colorBgContainer, borderRadiusLG },
-  } = theme.useToken();
   const [movies, setMovies] = useState([]);
 
   useEffect(() => {
