@@ -24,7 +24,6 @@ function PersonProfile() {
       try {
         const personResponse = await axios.get(`http://localhost:3000/person/${encodeURIComponent(personId)}`);
         setPerson(personResponse.data);
-        console.log(personResponse.data)
         setLoading(false);
       } catch (error) {
         console.error('Failed to fetch person:', error);

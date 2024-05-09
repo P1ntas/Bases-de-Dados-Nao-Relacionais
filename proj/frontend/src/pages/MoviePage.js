@@ -18,14 +18,16 @@ function MoviePage() {
   const [actors, setActors] = useState(null);
   const [directors, setDirectors] = useState(null);
   const [genre, setGenre] = useState(null);
+  const [similarMovies, setSimilarMovies] = useState(null);
+  const [actorsInCommon, setActorsInCommon] = useState(null);
+
   const [videoError, setVideoError] = useState(false);
   const user = useUserData();
 
   const { movieId } = useParams();
-
   useEffect(() => {
     if (!user) return; // If user is not available, do nothing
-
+  
     async function fetchMovieDetails() {
       try {
         const responseMovie = await axios.get(`http://localhost:3000/movies/${encodeURIComponent(movieId)}`);
@@ -33,49 +35,85 @@ function MoviePage() {
       } catch (error) {
         console.error('Failed to fetch movie:', error);
       }
-
+  
       try {
         const commentsResponse = await axios.get(`http://localhost:3000/movies/${encodeURIComponent(movieId)}/comment`);
-      const commentsData = commentsResponse.data;
-
-      // Fetch user information for each comment and handle cases where user is not found
-      const commentsWithUsernames = await Promise.all(commentsData.map(async (comment) => {
-        const userId = comment._from;
-        try {
-          const userResponse = await axios.get(`http://localhost:3000/user/${encodeURIComponent(userId)}`);
-          const userData = userResponse.data.user;
-          return { ...comment, username: userData.username }; // Add username to the comment object
-        } catch (error) {
-          // If user is not found, use _from as the username
-          return { ...comment, username: userId };
-        }
-      }));
-      console.log(commentsWithUsernames)
-      setComments(commentsWithUsernames);
+        const commentsData = commentsResponse.data;
+  
+        // Fetch user information for each comment and handle cases where user is not found
+        const commentsWithUsernames = await Promise.all(commentsData.map(async (comment) => {
+          const userId = comment._from;
+          try {
+            const userResponse = await axios.get(`http://localhost:3000/user/${encodeURIComponent(userId)}`);
+            const userData = userResponse.data.user;
+            return { ...comment, username: userData.username };
+          } catch (error) {
+            return { ...comment, username: userId };
+          }
+        }));
+        setComments(commentsWithUsernames);
       } catch (error) {
         console.error('Failed to fetch comments:', error);
       }
     }
+  
+    async function fetchAdditionalData() {
+      try {
+        const actorsResponse = await axios.get(`http://localhost:3000/movies/${encodeURIComponent(movieId)}/actors`);
+        setActors(actorsResponse.data);
+      } catch (error) {
+        console.error('Failed to fetch actors:', error);
+      }
+  
+      try {
+        const directorsResponse = await axios.get(`http://localhost:3000/movies/${encodeURIComponent(movieId)}/directors`);
+        setDirectors(directorsResponse.data);
+      } catch (error) {
+        console.error('Failed to fetch directors:', error);
+      }
+  
+      try {
+        const likeStatusResponse = await axios.get(`http://localhost:3000/movies/${encodeURIComponent(movieId)}/like/${encodeURIComponent(user.id)}`);
+        setIsLiked(likeStatusResponse.data === 1);
+      } catch (error) {
+        console.error('Failed to fetch like status:', error);
+      }
+  
+      try {
+        const genreResponse = await axios.get(`http://localhost:3000/movies/${encodeURIComponent(movieId)}/genre`);
+        setGenre(genreResponse.data[0].label);
+      } catch (error) {
+        console.error('Failed to fetch genres:', error);
+      }
+    }
+
+    async function fetchSimilarMovies() {
+      try {
+        const similarResponse = await axios.get(`http://localhost:3000/movies/similar/${encodeURIComponent(movieId)}`);
+        console.log(similarResponse.data)
+        setSimilarMovies(similarResponse.data);
+      } catch (error) {
+        console.error('Failed to fetch actors:', error);
+      }
+    }
+
+    async function fetchMoviesWithActorsInCommon() {
+      try {
+        const commonResponse = await axios.get(`http://localhost:3000/movies/actorsInCommon/${encodeURIComponent(movieId)}`);
+        console.log(commonResponse.data)
+        setActorsInCommon(commonResponse.data);
+      } catch (error) {
+        console.error('Failed to fetch actors:', error);
+      }
+    }
+
+  
     fetchMovieDetails();
-    axios.get(`http://localhost:3000/movies/${encodeURIComponent(movieId)}/actors`)
-      .then(response => setActors(response.data))
-      .catch(error => console.error('Failed to fetch actors:', error));
-    
-    axios.get(`http://localhost:3000/movies/${encodeURIComponent(movieId)}/directors`)
-      .then(response => setDirectors(response.data))
-      .catch(error => console.error('Failed to fetch directors:', error));
-
-    axios.get(`http://localhost:3000/movies/${encodeURIComponent(movieId)}/like/${encodeURIComponent(user.id)}`)
-      .then(response => setIsLiked(response.data === 1))
-      .catch(error => console.error('Failed to fetch like status:', error));
-
-      axios.get(`http://localhost:3000/movies/${encodeURIComponent(movieId)}/genre`)
-      .then(response => {
-        setGenre(response.data[0].label);
-      })
-      .catch(error => console.error('Failed to fetch genres:', error));
+    fetchAdditionalData();
+    fetchSimilarMovies();
+    fetchMoviesWithActorsInCommon();
   }, [user, movieId]);
-
+  
   const handleSubmit = async () => {
     const payload = {
       _from: user.id,
@@ -225,6 +263,39 @@ function MoviePage() {
           />
           <Button className="button" type="primary" style={{ marginTop: 8 }} onClick={handleSubmit}>Submit Comment</Button>
         </div>
+        
+        {similarMovies && similarMovies.length > 0 && (
+          <div style={{ marginTop: 20 }}>
+              <Title level={4}>Movies with similar description</Title>
+              <div style={{ maxHeight: 250, overflowY: 'auto', border: '0.5px solid #ddd', borderRadius: 9 }}>
+                <List
+                  dataSource={similarMovies}
+                  renderItem={similarMovie => (
+                    <List.Item style={{ padding: '0.8em 2em' }}>
+                      <Link to={`/person/${encodeURIComponent(similarMovie._id)}`}>{similarMovie.title}</Link>
+                    </List.Item>
+                  )}
+                />
+              </div>
+          </div>
+        )}
+
+        {actorsInCommon && actorsInCommon.length > 0 && (
+          <div style={{ marginTop: 20 }}>
+              <Title level={4}>Movies with actors in common</Title>
+              <div style={{ maxHeight: 250, overflowY: 'auto', border: '0.5px solid #ddd', borderRadius: 9 }}>
+                <List
+                  dataSource={actorsInCommon}
+                  renderItem={common => (
+                    <List.Item style={{ padding: '0.8em 2em' }}>
+                      <Link to={`/person/${encodeURIComponent(common._id)}`}>{common.title}</Link>
+                    </List.Item>
+                  )}
+                />
+              </div>
+          </div>
+        )}
+
       </div>
     </BaseLayout>
   );

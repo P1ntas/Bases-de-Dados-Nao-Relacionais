@@ -5,6 +5,8 @@ const router = express.Router();
 router.get('/', controller.getMovies);
 router.get('/:id', controller.getMovie);
 router.get('/search/:input', controller.searchMovie);
+router.get('/similar/:movieId', controller.similarMovies);
+router.get('/actorsInCommon/:movieId', controller.moviesWithActorsInCommon);
 router.get('/:id/actors', controller.getMovieActors);
 router.get('/:id/directors', controller.getMovieDirectors);
 router.get('/:id/comment', controller.getComment);

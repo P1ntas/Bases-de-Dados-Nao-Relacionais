@@ -59,6 +59,81 @@ exports.searchMovie = async (req, res) => {
     }
 };
 
+exports.similarMovies = async (req, res) => {
+    const { movieId } = req.params;
+    try {
+        const query = `
+        LET m = (FOR d IN movieView FILTER d._id == @movieId RETURN {title:d.title, description: d.description, genre: d.genre })
+        LET movie = m[0]
+        
+        FOR d IN movieView
+          SEARCH ANALYZER(d.description IN TOKENS(movie.description, 'text_en'), 'text_en')
+          FILTER d._id != @movieId
+          
+          SORT TFIDF(d) DESC LIMIT 3
+          
+        RETURN {
+          title: d.title,
+          description: d.description,
+          genre: d.genre
+          }
+        `;
+        const cursor = await db.query(query, { movieId });
+        const movies = await cursor.all();
+        if (!movies) {
+            return res.status(404).json({ error: 'Movies not found' });
+        }
+        res.status(200).json(movies);
+    } catch (error) {
+        console.error("Database error:", error);
+        res.status(500).json({ error: error.message });
+    }
+};
+exports.moviesWithActorsInCommon = async (req, res) => {
+    const { movieId } = req.params;
+    console.log(movieId)
+    try {
+        const query = `
+            LET sourceMovieActors = (
+                FOR v, e IN 1..1 INBOUND '${movieId}' imdb_edges
+                    FILTER e.$label == "ACTS_IN"
+                    RETURN DISTINCT v._id
+            )
+            FOR movie IN imdb_vertices
+                FILTER movie.type == "Movie" && movie._id != '${movieId}'
+
+                LET targetMovieActors = (
+                    FOR v, e IN 1..1 INBOUND movie._id imdb_edges
+                        FILTER e.$label == "ACTS_IN"
+                        RETURN DISTINCT v._id
+                )
+                LET commonActors = INTERSECTION(sourceMovieActors, targetMovieActors)
+                FILTER LENGTH(commonActors) > 0
+                SORT LENGTH(commonActors) DESC
+                LIMIT 3
+                RETURN {
+                    movieId: movie._id,
+                    title: movie.title,
+                    commonActors
+                }
+
+        `;
+        const cursor = await db.query(query);
+        const movies = await cursor.all();
+        if (!movies) {
+            return res.status(404).json({ error: 'Movies not found' });
+        }
+        res.status(200).json(movies);
+    } catch (error) {
+        console.error("Database error:", error);
+        res.status(500).json({ error: error.message });
+    }
+};
+
+
+
+
+
 
 exports.getMovieActors = async (req, res) => {
     const { id } = req.params;

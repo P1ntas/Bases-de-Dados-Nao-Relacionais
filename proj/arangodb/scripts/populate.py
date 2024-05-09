@@ -259,8 +259,8 @@ if __name__ == "__main__":
         properties={
             'locale': 'en',
             'case': 'lower',
-            'accent': True,
-            'stemming': True,
+            'accent': False,
+            'stemming': False,
             'normalization': True
         },
         features=[]
@@ -285,8 +285,8 @@ if __name__ == "__main__":
             "imdb_vertices": {
                 "analyzers": ["text_analyzer"],
                 "fields": {
-                    "title": {"analyzers": ["text_analyzer"]},
-                    "description": {"analyzers": ["text_analyzer"]}
+                    "title": {"analyzers": ["text_en"]},
+                    "description": {"analyzers": ["text_en"]}
                 },
                 "includeAllFields": False,
                 "storeValues": "none",
@@ -311,7 +311,7 @@ if __name__ == "__main__":
         properties={
             'locale': 'en',
             'case': 'lower',
-            'accent': True,
+            'accent': False,
             'stemming': False,
             'stopwords': []
         },
