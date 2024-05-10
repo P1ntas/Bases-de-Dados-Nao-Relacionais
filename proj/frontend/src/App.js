@@ -10,14 +10,12 @@ import UserPage from './pages/UserPage';
 import PeopleMainPage from './pages/PeopleMainPage';
 import UsersMainPage from './pages/UsersMainPage';
 import NotFound from './pages/NotFound';
-import useUserData from './hook/useUserData';
 import PermissionDenied from './pages/PermissionDenied';
 
 
 const App = () => {
   const PrivateRoute = ({ children }) => {
     const user = localStorage.getItem('user');
-    console.log(user)
     return user ? children : <Navigate to="/permission-denied" />;
   };
   return (

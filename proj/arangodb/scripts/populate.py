@@ -251,9 +251,9 @@ if __name__ == "__main__":
     graph = db.graph("imdb")
     edge_def = graph.edge_collection("imdb_edges")
 
-    generate_reactions('./arangodb/data/reactions.json', 30, vertices, users)
+    generate_reactions('./arangodb/data/reactions.json', 70, vertices, users)
     generate_comments('./arangodb/data/comments.json', 10, vertices, users)
-    generate_follows('./arangodb/data/followers.json', 15, users)
+    generate_follows('./arangodb/data/followers.json', 10, users)
 
     if graph.has_vertex_collection('Users'):
         test = graph.vertex_collection('Users')

@@ -4,6 +4,7 @@ const moviesRoutes = require("./routes/movies");
 const authRoutes = require("./routes/auth");
 const personRoutes = require("./routes/person");
 const userRoutes = require("./routes/user");
+const entityRoutes = require("./routes/entity");
 
 const bodyParser = require('body-parser');
 require('dotenv').config();
@@ -31,6 +32,8 @@ app.use("/movies", moviesRoutes);
 app.use("/auth", authRoutes);
 app.use("/person", personRoutes);
 app.use("/user", userRoutes);
+app.use("/entity", entityRoutes);
+
 
 
 
