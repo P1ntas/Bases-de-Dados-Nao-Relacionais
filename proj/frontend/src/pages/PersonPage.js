@@ -76,11 +76,35 @@ function PersonProfile() {
     );
   }
 
-  const handleLike = () => {
-    const newLikeStatus = isLiked ? 0 : 1;
-    axios.post(`http://localhost:3000/movies/${encodeURIComponent(personId)}/like/${encodeURIComponent(user.id)}`, { like: newLikeStatus })
-      .then(() => setIsLiked(newLikeStatus === 1))
+  const handleLike = async () => {
+    // if its liked, and it clicks on like, so removes the like
+    if(isLiked){
+      await axios.delete(`http://localhost:3000/movies/${encodeURIComponent(personId)}/react/${encodeURIComponent(user.id)}`);
+      setIsLiked(null)
+
+    }
+    else {
+      axios.post(`http://localhost:3000/movies/${encodeURIComponent(personId)}/react/${encodeURIComponent(user.id)}`, { like: 1  })
+      .then(() => setIsLiked(true))
       .catch(error => console.error('Failed to update like status:', error));
+    }
+
+  };
+
+  const handleDislike = async () => {
+    // if its disliked, and it clicks on dislike, so it removes the dislike
+    if(isLiked === false){
+      axios.delete(`http://localhost:3000/movies/${encodeURIComponent(personId)}/react/${encodeURIComponent(user.id)}`)
+      .then(() => setIsLiked(null))
+      .catch(error => console.error('Failed to update like status:', error));
+      
+    }
+    else {
+      axios.post(`http://localhost:3000/movies/${encodeURIComponent(personId)}/react/${encodeURIComponent(user.id)}`, { like: 0  })
+      .then(() => setIsLiked(false))
+      .catch(error => console.error('Failed to update like status:', error));
+    }
+
   };
 
   return (
@@ -101,17 +125,23 @@ function PersonProfile() {
         )}
 
         <div style={{ display: 'inline-flex', alignItems: 'center', background: '#f0f0f0', borderRadius: 20, padding: '6px 15px' }}>
-          {isLiked ? (
+          {isLiked === true ? (
             <>
               <LikeTwoTone style={{ fontSize: 20, cursor: 'pointer' }} onClick={handleLike} />
               <div style={{ borderLeft: '1px solid lightgrey', height: 18, margin: '0 12px' }}></div>
-              <DislikeOutlined style={{ fontSize: 20, color: 'grey', cursor: 'pointer' }} onClick={handleLike} />
+              <DislikeOutlined style={{ fontSize: 20, color: 'grey', cursor: 'pointer' }} onClick={handleDislike} />
+            </>
+          ) : isLiked === false ? (
+            <>
+              <LikeOutlined style={{ fontSize: 20, color: 'grey', cursor: 'pointer' }} onClick={handleLike} />
+              <div style={{ borderLeft: '1px solid lightgrey', height: 18, margin: '0 12px' }}></div>
+              <DislikeTwoTone style={{ fontSize: 20, cursor: 'pointer' }} onClick={handleDislike} />
             </>
           ) : (
             <>
               <LikeOutlined style={{ fontSize: 20, color: 'grey', cursor: 'pointer' }} onClick={handleLike} />
               <div style={{ borderLeft: '1px solid lightgrey', height: 18, margin: '0 12px' }}></div>
-              <DislikeTwoTone style={{ fontSize: 20, cursor: 'pointer' }} onClick={handleLike} />
+              <DislikeOutlined style={{ fontSize: 20, color: 'grey', cursor: 'pointer' }} onClick={handleDislike} />
             </>
           )}
         </div>
