@@ -42,7 +42,9 @@ exports.searchMovie = async (req, res) => {
     try {
         const query = `
             FOR d IN movieView 
-            SEARCH ANALYZER(d.description IN TOKENS('${input}', 'text_en'), 'text_en')
+            SEARCH ANALYZER(
+                (d.title IN TOKENS('${input}', 'text_en')) OR 
+                (d.description IN TOKENS('${input}', 'text_en')), 'text_en')
             SORT BM25(d) DESC
             LIMIT 10
             RETURN d
@@ -91,7 +93,6 @@ exports.similarMovies = async (req, res) => {
 };
 exports.moviesWithActorsInCommon = async (req, res) => {
     const { movieId } = req.params;
-    console.log(movieId)
     try {
         const query = `
             LET sourceMovieActors = (
@@ -129,11 +130,6 @@ exports.moviesWithActorsInCommon = async (req, res) => {
         res.status(500).json({ error: error.message });
     }
 };
-
-
-
-
-
 
 exports.getMovieActors = async (req, res) => {
     const { id } = req.params;
@@ -204,7 +200,7 @@ exports.getMovieGenre = async (req, res) => {
     }
 };
 
-exports.getComment = async (req, res) => {
+exports.getComments = async (req, res) => {
     const { id } = req.params;
     const decodedId = decodeURIComponent(id);
 
@@ -257,12 +253,30 @@ exports.getLikeStatus = async (req, res) => {
         `;
         const cursor = await db.query(query);
         const result = await cursor.next();
-        res.status(200).json(result ? result.like : 0);
+        res.status(200).json(result ? result.like : null);
     } catch (error) {
         console.error("Database error:", error);
         res.status(500).json({ error: error.message });
     }
 };
+
+exports.deleteReaction = async (req, res) => {
+    const { id, userId } = req.params;
+    try {
+        const query = `
+            FOR edge IN imdb_edges
+            FILTER edge._from == '${userId}' && edge._to == '${id}' && edge.$label == 'reacts'
+            REMOVE { _key: edge._key } IN imdb_edges
+            RETURN OLD
+        `;
+        await db.query(query);
+        res.status(200).json({ message: "Reaction deleted successfully." });
+    } catch (error) {
+        console.error("Database error:", error);
+        res.status(500).json({ error: error.message });
+    }
+};
+
 
 exports.postLike = async (req, res) => {
     const { id, userId } = req.params;

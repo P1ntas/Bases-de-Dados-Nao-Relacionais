@@ -83,9 +83,8 @@ exports.searchPerson = async (req, res) => {
     try {
         const query = `
             FOR d IN personView 
-            SEARCH ANALYZER(d.name IN TOKENS('${input}', 'person_name_analyzer'), 'person_name_analyzer')
+            SEARCH ANALYZER(d.name IN TOKENS('${input}', 'name_analyzer'), 'name_analyzer')
             SORT BM25(d) DESC
-            LIMIT 10
             RETURN d
         `;
         const cursor = await db.query(query);

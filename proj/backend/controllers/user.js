@@ -113,3 +113,26 @@ exports.unfollow = async (req, res) => {
     res.status(500).json({ error: error.message });
   }
 };
+
+exports.searchUser = async (req, res) => {
+  const { input } = req.params;
+  try {
+      const query = `
+          FOR d IN userView 
+          SEARCH ANALYZER(
+            (d.name IN TOKENS('${input}', 'name_analyzer')) OR
+            (d.username IN TOKENS('${input}', 'name_analyzer')), 'name_analyzer')
+          SORT BM25(d) DESC
+          RETURN d
+      `;
+      const cursor = await db.query(query);
+      const people = await cursor.all();
+      if (!people) {
+          return res.status(404).json({ error: 'People not found' });
+      }
+      res.status(200).json(people);
+  } catch (error) {
+      console.error("Database error:", error);
+      res.status(500).json({ error: error.message });
+  }
+};

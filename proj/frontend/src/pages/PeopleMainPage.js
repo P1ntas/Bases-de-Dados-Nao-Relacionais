@@ -25,8 +25,15 @@ const MainPage = () => {
   const onSearch = async (value) => {
 
     try {
-      const response = await axios.get(`http://localhost:3000/person/search/${encodeURIComponent(value)}`);
-      setPeople(response.data);
+      if(value){
+        const response = await axios.get(`http://localhost:3000/person/search/${encodeURIComponent(value)}`);
+        setPeople(response.data);
+      }
+      else {
+        const response = await axios.get('http://localhost:3000/person');
+        setPeople(response.data);
+      }
+
     } catch (error) {
       console.error('Error searching movies:', error);
     }

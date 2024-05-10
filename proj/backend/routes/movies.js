@@ -9,10 +9,11 @@ router.get('/similar/:movieId', controller.similarMovies);
 router.get('/actorsInCommon/:movieId', controller.moviesWithActorsInCommon);
 router.get('/:id/actors', controller.getMovieActors);
 router.get('/:id/directors', controller.getMovieDirectors);
-router.get('/:id/comment', controller.getComment);
+router.get('/:id/comment', controller.getComments);
 router.post('/:id/comment', controller.postComment);
-router.get('/:id/like/:userId', controller.getLikeStatus);
-router.post('/:id/like/:userId', controller.postLike);
+router.get('/:id/react/:userId', controller.getLikeStatus);
+router.post('/:id/react/:userId', controller.postLike);
+router.delete('/:id/react/:userId', controller.deleteReaction);
 router.get('/:id/genre', controller.getMovieGenre);
 
 

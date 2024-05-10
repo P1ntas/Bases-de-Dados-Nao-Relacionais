@@ -8,6 +8,7 @@ router.get('/followers/:id', controller.getFollowers);
 router.get('/following/:id', controller.getFollowing);
 router.post('/follow', controller.follow);
 router.delete('/unfollow', controller.unfollow);
+router.get('/search/:input', controller.searchUser);
 
 
 
