@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import { useParams, Link } from 'react-router-dom';
 import { Typography, Spin, Alert, Descriptions, List } from 'antd';
+import { LikeOutlined, LikeTwoTone, DislikeOutlined, DislikeTwoTone } from '@ant-design/icons';
 import BaseLayout from '../components/BaseLayout';
 import useUserData from '../hook/useUserData';
 
@@ -14,6 +15,8 @@ function PersonProfile() {
   const [loading, setLoading] = useState(true);
   const [acted_movies, setActedMovies] = useState(null);
   const [directed_movies, setDirectedMovies] = useState(null);
+  const [isLiked, setIsLiked] = useState(false);
+  const [likeCount, setlikeCount] = useState(null);
   const { personId } = useParams();
   const user = useUserData();
 
@@ -42,11 +45,26 @@ function PersonProfile() {
       } catch (error) {
         console.error('Failed to fetch directed movies:', error);
       }
+
+      try {
+        const likeStatusResponse = await axios.get(`http://localhost:3000/person/${encodeURIComponent(personId)}/like/${encodeURIComponent(user.id)}`);
+        setIsLiked(likeStatusResponse.data === 1);
+      } catch (error) {
+        console.error('Failed to fetch like status:', error);
+      }
+
+      try {
+        const likeCountResponse = await axios.get(`http://localhost:3000/person/${encodeURIComponent(personId)}/likes`);
+        setlikeCount(likeCountResponse.data);
+        console.log("Like Count: " + likeCountResponse.data)
+      } catch (error) {
+        console.error('Failed to fetch like count:', error);
+      }
     }
 
     fetchData();
   }, [user, personId]);
-  
+
 
   if (loading) {
     return (
@@ -58,13 +76,20 @@ function PersonProfile() {
     );
   }
 
+  const handleLike = () => {
+    const newLikeStatus = isLiked ? 0 : 1;
+    axios.post(`http://localhost:3000/movies/${encodeURIComponent(personId)}/like/${encodeURIComponent(user.id)}`, { like: newLikeStatus })
+      .then(() => setIsLiked(newLikeStatus === 1))
+      .catch(error => console.error('Failed to update like status:', error));
+  };
+
   return (
     <BaseLayout>
       <div style={{ maxWidth: 800, margin: '0 auto' }}>
 
         {person ? (
           <Descriptions title={person.name}>
-            <Descriptions.Item label="Birthday">{person.birthday ? new Date(parseInt(person.birthday)).toDateString(): "N/A"}</Descriptions.Item>
+            <Descriptions.Item label="Birthday">{person.birthday ? new Date(parseInt(person.birthday)).toDateString() : "N/A"}</Descriptions.Item>
             <Descriptions.Item label="Birthplace">{person.birthplace ? person.birthplace : "N/A"}</Descriptions.Item>
             <br></br>
             <Descriptions.Item label="Biography">{person.biography ? person.biography : "N/A"}</Descriptions.Item>
@@ -74,6 +99,35 @@ function PersonProfile() {
         ) : (
           <Alert message="Person not found" type="error" />
         )}
+
+        <div style={{ display: 'inline-flex', alignItems: 'center', background: '#f0f0f0', borderRadius: 20, padding: '6px 15px' }}>
+          {isLiked ? (
+            <>
+              <LikeTwoTone style={{ fontSize: 20, cursor: 'pointer' }} onClick={handleLike} />
+              <div style={{ borderLeft: '1px solid lightgrey', height: 18, margin: '0 12px' }}></div>
+              <DislikeOutlined style={{ fontSize: 20, color: 'grey', cursor: 'pointer' }} onClick={handleLike} />
+            </>
+          ) : (
+            <>
+              <LikeOutlined style={{ fontSize: 20, color: 'grey', cursor: 'pointer' }} onClick={handleLike} />
+              <div style={{ borderLeft: '1px solid lightgrey', height: 18, margin: '0 12px' }}></div>
+              <DislikeTwoTone style={{ fontSize: 20, cursor: 'pointer' }} onClick={handleLike} />
+            </>
+          )}
+        </div>
+        {likeCount && (
+          <div style={{ marginTop: 20, display: 'flex', alignItems: 'center' }}>
+            <div style={{ marginRight: 20 }}>
+              <span style={{ fontWeight: 'bold', marginRight: 8 }}>Likes:</span>
+              <span style={{ fontSize: 18, marginRight: 16 }}>{likeCount.likes}</span>
+            </div>
+            <div>
+              <span style={{ fontWeight: 'bold', marginRight: 8 }}>Dislikes:</span>
+              <span style={{ fontSize: 18, marginRight: 16 }}>{likeCount.dislikes}</span>
+            </div>
+          </div>
+        )}
+
         {acted_movies && acted_movies.length > 0 && (
           <div style={{ marginTop: 24 }}>
             <Title level={5}>Acted in</Title>
@@ -103,7 +157,7 @@ function PersonProfile() {
           </div>
         )}
       </div>
-      
+
     </BaseLayout>
   );
 }

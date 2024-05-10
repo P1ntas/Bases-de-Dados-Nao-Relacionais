@@ -20,6 +20,7 @@ function MoviePage() {
   const [genre, setGenre] = useState(null);
   const [similarMovies, setSimilarMovies] = useState(null);
   const [actorsInCommon, setActorsInCommon] = useState(null);
+  const [likeCount, setlikeCount] = useState(null);
 
   const [videoError, setVideoError] = useState(false);
   const user = useUserData();
@@ -27,7 +28,7 @@ function MoviePage() {
   const { movieId } = useParams();
   useEffect(() => {
     if (!user) return; // If user is not available, do nothing
-  
+
     async function fetchMovieDetails() {
       try {
         const responseMovie = await axios.get(`http://localhost:3000/movies/${encodeURIComponent(movieId)}`);
@@ -35,11 +36,11 @@ function MoviePage() {
       } catch (error) {
         console.error('Failed to fetch movie:', error);
       }
-  
+
       try {
         const commentsResponse = await axios.get(`http://localhost:3000/movies/${encodeURIComponent(movieId)}/comment`);
         const commentsData = commentsResponse.data;
-  
+
         // Fetch user information for each comment and handle cases where user is not found
         const commentsWithUsernames = await Promise.all(commentsData.map(async (comment) => {
           const userId = comment._from;
@@ -56,7 +57,7 @@ function MoviePage() {
         console.error('Failed to fetch comments:', error);
       }
     }
-  
+
     async function fetchAdditionalData() {
       try {
         const actorsResponse = await axios.get(`http://localhost:3000/movies/${encodeURIComponent(movieId)}/actors`);
@@ -64,26 +65,34 @@ function MoviePage() {
       } catch (error) {
         console.error('Failed to fetch actors:', error);
       }
-  
+
       try {
         const directorsResponse = await axios.get(`http://localhost:3000/movies/${encodeURIComponent(movieId)}/directors`);
         setDirectors(directorsResponse.data);
       } catch (error) {
         console.error('Failed to fetch directors:', error);
       }
-  
+
       try {
         const likeStatusResponse = await axios.get(`http://localhost:3000/movies/${encodeURIComponent(movieId)}/like/${encodeURIComponent(user.id)}`);
         setIsLiked(likeStatusResponse.data === 1);
       } catch (error) {
         console.error('Failed to fetch like status:', error);
       }
-  
+
       try {
         const genreResponse = await axios.get(`http://localhost:3000/movies/${encodeURIComponent(movieId)}/genre`);
         setGenre(genreResponse.data[0].label);
       } catch (error) {
         console.error('Failed to fetch genres:', error);
+      }
+
+      try {
+        const likeCountResponse = await axios.get(`http://localhost:3000/movies/${encodeURIComponent(movieId)}/likes`);
+        setlikeCount(likeCountResponse.data);
+        console.log("Like Count: " + likeCountResponse.data)
+      } catch (error) {
+        console.error('Failed to fetch like count:', error);
       }
     }
 
@@ -107,13 +116,13 @@ function MoviePage() {
       }
     }
 
-  
+
     fetchMovieDetails();
     fetchAdditionalData();
     fetchSimilarMovies();
     fetchMoviesWithActorsInCommon();
   }, [user, movieId]);
-  
+
   const handleSubmit = async () => {
     const payload = {
       _from: user.id,
@@ -138,7 +147,7 @@ function MoviePage() {
       .then(() => setIsLiked(newLikeStatus === 1))
       .catch(error => console.error('Failed to update like status:', error));
   };
-  
+
   const handleVideoError = () => {
     setVideoError(true); // Set video error state to true
   };
@@ -157,12 +166,12 @@ function MoviePage() {
       documentary: 'lime',
       "science fiction": 'purple'
     };
-    
+
     const color = genreColors[genre.toLowerCase()] || 'default';
     return <Tag color={color}>{genre}</Tag>;
   };
-  
-  
+
+
   return (
     <BaseLayout>
       <div style={{ maxWidth: 800, margin: '0 auto' }}>
@@ -177,7 +186,7 @@ function MoviePage() {
                   <>
                     <LikeTwoTone style={{ fontSize: 20, cursor: 'pointer' }} onClick={handleLike} />
                     <div style={{ borderLeft: '1px solid lightgrey', height: 18, margin: '0 12px' }}></div>
-                    <DislikeOutlined style={{ fontSize: 20,  color: 'grey', cursor: 'pointer' }} onClick={handleLike} />
+                    <DislikeOutlined style={{ fontSize: 20, color: 'grey', cursor: 'pointer' }} onClick={handleLike} />
                   </>
                 ) : (
                   <>
@@ -187,10 +196,22 @@ function MoviePage() {
                   </>
                 )}
               </div>
+              {likeCount && (
+                <div style={{ marginTop: 20, display: 'flex', alignItems: 'center' }}>
+                  <div style={{ marginRight: 20 }}>
+                    <span style={{ fontWeight: 'bold', marginRight: 8 }}>Likes:</span>
+                    <span style={{ fontSize: 18, marginRight: 16 }}>{likeCount.likes}</span>
+                  </div>
+                  <div>
+                    <span style={{ fontWeight: 'bold', marginRight: 8 }}>Dislikes:</span>
+                    <span style={{ fontSize: 18, marginRight: 16 }}>{likeCount.dislikes}</span>
+                  </div>
+                </div>
+              )}
             </div>
             <Descriptions>
               <Descriptions.Item label="Studio">{movie.studio ? movie.studio : "N/A"}</Descriptions.Item>
-              
+
               <Descriptions.Item label="Runtime">{movie.runtime ? movie.runtime + " minutes" : "N/A"}</Descriptions.Item>
               <br></br>
               <Descriptions.Item label="Description">{movie.description ? movie.description : "N/A"}</Descriptions.Item>
@@ -266,39 +287,39 @@ function MoviePage() {
           />
           <Button className="button" type="primary" style={{ marginTop: 8 }} onClick={handleSubmit}>Submit Comment</Button>
         </div>
-        
+
         {similarMovies && similarMovies.length > 0 && (
           <div style={{ marginTop: 20 }}>
-              <Title level={4}>Movies with similar description</Title>
-              <div style={{ maxHeight: 250, overflowY: 'auto', border: '0.5px solid #ddd', borderRadius: 9 }}>
-                <List
-                  dataSource={similarMovies}
-                  renderItem={similarMovie => (
-                    <List.Item style={{ padding: '0.8em 2em' }}>
-                      <Link to={`/person/${encodeURIComponent(similarMovie._id)}`}>{similarMovie.title}</Link>
-                    </List.Item>
-                  )}
-                />
-              </div>
+            <Title level={4}>Movies with similar description</Title>
+            <div style={{ maxHeight: 250, overflowY: 'auto', border: '0.5px solid #ddd', borderRadius: 9 }}>
+              <List
+                dataSource={similarMovies}
+                renderItem={similarMovie => (
+                  <List.Item style={{ padding: '0.8em 2em' }}>
+                    <Link to={`/person/${encodeURIComponent(similarMovie._id)}`}>{similarMovie.title}</Link>
+                  </List.Item>
+                )}
+              />
+            </div>
           </div>
         )}
 
         {actorsInCommon && actorsInCommon.length > 0 && (
           <div style={{ marginTop: 20 }}>
-              <Title level={4}>Movies with actors in common</Title>
-              <div style={{ maxHeight: 250, overflowY: 'auto', border: '0.5px solid #ddd', borderRadius: 9 }}>
-                <List
-                  dataSource={actorsInCommon}
-                  renderItem={common => (
-                    <List.Item style={{ padding: '0.8em 2em' }}>
-                      <Link to={`/movie/${encodeURIComponent(common.movieId)}`}>{common.title}</Link>
-                      <div>
-                        {common.commonActors.map(actor => actor.name).join(', ')}
-                      </div>
-                    </List.Item>
-                  )}
-                />
-              </div>
+            <Title level={4}>Movies with actors in common</Title>
+            <div style={{ maxHeight: 250, overflowY: 'auto', border: '0.5px solid #ddd', borderRadius: 9 }}>
+              <List
+                dataSource={actorsInCommon}
+                renderItem={common => (
+                  <List.Item style={{ padding: '0.8em 2em' }}>
+                    <Link to={`/movie/${encodeURIComponent(common.movieId)}`}>{common.title}</Link>
+                    <div>
+                      {common.commonActors.map(actor => actor.name).join(', ')}
+                    </div>
+                  </List.Item>
+                )}
+              />
+            </div>
           </div>
         )}
 

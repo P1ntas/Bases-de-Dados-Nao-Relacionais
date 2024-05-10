@@ -14,6 +14,7 @@ router.post('/:id/comment', controller.postComment);
 router.get('/:id/like/:userId', controller.getLikeStatus);
 router.post('/:id/like/:userId', controller.postLike);
 router.get('/:id/genre', controller.getMovieGenre);
+router.get('/:id/likes', controller.getLikeDislikeCount);
 
 
 module.exports = router; 
