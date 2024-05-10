@@ -152,6 +152,9 @@ function MoviePage() {
       adventure: 'green',
       drama: 'magenta',
       animation: 'cyan',
+      crime: 'volcano',
+      crime: 'volcano',
+      documentary: 'lime',
       "science fiction": 'purple'
     };
     
@@ -288,7 +291,10 @@ function MoviePage() {
                   dataSource={actorsInCommon}
                   renderItem={common => (
                     <List.Item style={{ padding: '0.8em 2em' }}>
-                      <Link to={`/person/${encodeURIComponent(common._id)}`}>{common.title}</Link>
+                      <Link to={`/movie/${encodeURIComponent(common.movieId)}`}>{common.title}</Link>
+                      <div>
+                        {common.commonActors.map(actor => actor.name).join(', ')}
+                      </div>
                     </List.Item>
                   )}
                 />

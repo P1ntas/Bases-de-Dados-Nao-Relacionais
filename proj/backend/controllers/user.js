@@ -1,5 +1,19 @@
 const db = require('../database');
 
+exports.getUsers = async (req, res) => {
+  try {
+      const query = `
+      FOR doc IN Users
+      RETURN doc
+      `;
+
+      const cursor = await db.query(query);
+      const users = await cursor.all();
+      res.status(200).json(users);
+  } catch (error) {
+      res.status(500).json({ error: error.message });
+  }
+};
 
 exports.getUser = async (req, res) => {
     const { id } = req.params;

@@ -63,8 +63,11 @@ const MainPage = () => {
               style={{ width: 215, margin: '1.5em', marginBottom: '1em' }}
               cover={<img alt="poster" src={getRandomPoster()} style={{ width: '100%', height: '100%', objectFit: 'cover' }} />}
               hoverable>
-              <h4>{movie.title}</h4>
-              <p>{movie.runtime} minutes</p>
+              <div >
+                <h4 style={{ margin: '0 0 0.5em 0' }}>{movie.title}</h4>
+                <p style={{ margin: '0' }}>{movie.runtime} minutes</p>
+                <p style={{ margin: '0' }}>{movie.genre} </p>
+              </div>
             </Card>
           </Link>
         ))}

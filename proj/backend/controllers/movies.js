@@ -42,7 +42,7 @@ exports.searchMovie = async (req, res) => {
     try {
         const query = `
             FOR d IN movieView 
-            SEARCH ANALYZER(d.description IN TOKENS('${input}', 'text_analyzer'), 'text_analyzer')
+            SEARCH ANALYZER(d.description IN TOKENS('${input}', 'text_en'), 'text_en')
             SORT BM25(d) DESC
             LIMIT 10
             RETURN d
@@ -97,7 +97,7 @@ exports.moviesWithActorsInCommon = async (req, res) => {
             LET sourceMovieActors = (
                 FOR v, e IN 1..1 INBOUND '${movieId}' imdb_edges
                     FILTER e.$label == "ACTS_IN"
-                    RETURN DISTINCT v._id
+                    RETURN DISTINCT { _id: v._id, name: v.name }
             )
             FOR movie IN imdb_vertices
                 FILTER movie.type == "Movie" && movie._id != '${movieId}'
@@ -105,7 +105,7 @@ exports.moviesWithActorsInCommon = async (req, res) => {
                 LET targetMovieActors = (
                     FOR v, e IN 1..1 INBOUND movie._id imdb_edges
                         FILTER e.$label == "ACTS_IN"
-                        RETURN DISTINCT v._id
+                        RETURN DISTINCT { _id: v._id, name: v.name }
                 )
                 LET commonActors = INTERSECTION(sourceMovieActors, targetMovieActors)
                 FILTER LENGTH(commonActors) > 0

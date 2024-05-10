@@ -91,7 +91,7 @@ exports.searchPerson = async (req, res) => {
         const cursor = await db.query(query);
         const people = await cursor.all();
         if (!people) {
-            return res.status(404).json({ error: 'Movie not found' });
+            return res.status(404).json({ error: 'People not found' });
         }
         res.status(200).json(people);
     } catch (error) {

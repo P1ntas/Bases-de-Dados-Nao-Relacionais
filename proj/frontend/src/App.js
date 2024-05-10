@@ -1,15 +1,24 @@
 import React from 'react';
-import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
+import { BrowserRouter as Router, Routes, Route, Navigate } from 'react-router-dom';
 import MainPage from './pages/MainPage';
 import MoviePage from './pages/MoviePage';
 import LoginPage from './pages/LoginPage';
-import RegisterPage from './pages/Register';
+import RegisterPage from './pages/RegisterPage';
 import ProfilePage from './pages/Profile';
 import PersonPage from './pages/PersonPage';
 import UserPage from './pages/UserPage';
-import PeoplePage from './pages/PeoplePage';
+import PeopleMainPage from './pages/PeopleMainPage';
+import UsersMainPage from './pages/UsersMainPage';
+import NotFound from './pages/NotFound';
+import useUserData from './hook/useUserData';
+import PermissionDenied from './pages/PermissionDenied';
+
 
 const App = () => {
+  const PrivateRoute = ({ children }) => {
+    const user = useUserData()
+    return user ? children : <Navigate to="/permission-denied" />;
+  };
   return (
     <Router>
       <Routes>
@@ -17,10 +26,14 @@ const App = () => {
         <Route path="/movie/:movieId" element={<MoviePage />} />
         <Route path="/login" element={<LoginPage />} />
         <Route path="/register" element={<RegisterPage />} />
-        <Route path="/profile" element={<ProfilePage />} />
+        <Route path="/profile" element={<PrivateRoute><ProfilePage /></PrivateRoute>} />
         <Route path="/person/:personId" element={<PersonPage />} />
         <Route path="/Users/:userId" element={<UserPage />} />
-        <Route path="/people" element={<PeoplePage />} />
+        <Route path="/people" element={<PeopleMainPage />} />
+        <Route path="/users" element={<UsersMainPage />} />
+        <Route path="/permission-denied" element={<PermissionDenied />} />
+        <Route path="*" element={<NotFound />} />
+
       </Routes>
     </Router>
   );
