@@ -23,10 +23,17 @@ const MainPage = () => {
   };
 
   const onSearch = async (value) => {
-
+    console.log(value)
     try {
-      const response = await axios.get(`http://localhost:3000/person/search/${encodeURIComponent(value)}`);
-      setUsers(response.data);
+      if(value){
+        const response = await axios.get(`http://localhost:3000/user/search/${encodeURIComponent(value)}`);
+        setUsers(response.data);
+      }
+      else {
+        const response = await axios.get('http://localhost:3000/user');
+        setUsers(response.data);
+      }
+
     } catch (error) {
       console.error('Error searching movies:', error);
     }
@@ -38,7 +45,7 @@ const MainPage = () => {
       <Search placeholder="input search text" onSearch={onSearch} style={{ width: 400, marginLeft: 50 }} />
       <div style={{ display: 'flex', flexWrap: 'wrap', justifyContent: 'center' }}>
         {users.map(user => (
-          <Link to={`/user/${encodeURIComponent(user._id)}`} key={user._id}>
+          <Link to={`/users/${user._id.replace("Users/", "")}`} key={user._id}>
             <Card
               style={{ width: 215, margin: '1.5em', marginBottom: '1em' }}
               hoverable>

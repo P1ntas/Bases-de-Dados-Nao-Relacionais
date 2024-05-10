@@ -17,8 +17,10 @@ const BaseLayout = ({ children }) => {
         return '1'; 
       case '/people':
         return '2';
-      case '/timeline':
+      case '/users':
         return '3'; 
+      case '/timeline':
+        return '4'; 
       default:
         return;
     }

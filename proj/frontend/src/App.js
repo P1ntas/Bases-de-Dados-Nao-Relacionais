@@ -16,7 +16,8 @@ import PermissionDenied from './pages/PermissionDenied';
 
 const App = () => {
   const PrivateRoute = ({ children }) => {
-    const user = useUserData()
+    const user = localStorage.getItem('user');
+    console.log(user)
     return user ? children : <Navigate to="/permission-denied" />;
   };
   return (
@@ -28,7 +29,7 @@ const App = () => {
         <Route path="/register" element={<RegisterPage />} />
         <Route path="/profile" element={<PrivateRoute><ProfilePage /></PrivateRoute>} />
         <Route path="/person/:personId" element={<PersonPage />} />
-        <Route path="/Users/:userId" element={<UserPage />} />
+        <Route path="/users/:userId" element={<UserPage />} />
         <Route path="/people" element={<PeopleMainPage />} />
         <Route path="/users" element={<UsersMainPage />} />
         <Route path="/permission-denied" element={<PermissionDenied />} />

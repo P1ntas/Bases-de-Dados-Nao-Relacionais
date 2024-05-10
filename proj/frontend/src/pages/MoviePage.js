@@ -74,8 +74,16 @@ function MoviePage() {
       }
 
       try {
-        const likeStatusResponse = await axios.get(`http://localhost:3000/movies/${encodeURIComponent(movieId)}/like/${encodeURIComponent(user.id)}`);
-        setIsLiked(likeStatusResponse.data === 1);
+        const likeStatusResponse = await axios.get(`http://localhost:3000/movies/${encodeURIComponent(movieId)}/react/${encodeURIComponent(user.id)}`);
+        console.log(likeStatusResponse.data)
+        if(likeStatusResponse.data === 1 || likeStatusResponse.data === 0){
+          console.log(likeStatusResponse.data === 1)
+          setIsLiked(likeStatusResponse.data === 1);
+        }
+        else {
+          setIsLiked(null);
+
+        }
       } catch (error) {
         console.error('Failed to fetch like status:', error);
       }
@@ -99,7 +107,6 @@ function MoviePage() {
     async function fetchSimilarMovies() {
       try {
         const similarResponse = await axios.get(`http://localhost:3000/movies/similar/${encodeURIComponent(movieId)}`);
-        console.log(similarResponse.data)
         setSimilarMovies(similarResponse.data);
       } catch (error) {
         console.error('Failed to fetch actors:', error);
@@ -109,7 +116,6 @@ function MoviePage() {
     async function fetchMoviesWithActorsInCommon() {
       try {
         const commonResponse = await axios.get(`http://localhost:3000/movies/actorsInCommon/${encodeURIComponent(movieId)}`);
-        console.log(commonResponse.data)
         setActorsInCommon(commonResponse.data);
       } catch (error) {
         console.error('Failed to fetch actors:', error);
@@ -141,11 +147,35 @@ function MoviePage() {
     }
   };
 
-  const handleLike = () => {
-    const newLikeStatus = isLiked ? 0 : 1;
-    axios.post(`http://localhost:3000/movies/${encodeURIComponent(movieId)}/like/${encodeURIComponent(user.id)}`, { like: newLikeStatus })
-      .then(() => setIsLiked(newLikeStatus === 1))
+  const handleLike = async () => {
+    // if its liked, and it clicks on like, so removes the like
+    if(isLiked){
+      await axios.delete(`http://localhost:3000/movies/${encodeURIComponent(movieId)}/react/${encodeURIComponent(user.id)}`);
+      setIsLiked(null)
+
+    }
+    else {
+      axios.post(`http://localhost:3000/movies/${encodeURIComponent(movieId)}/react/${encodeURIComponent(user.id)}`, { like: 1  })
+      .then(() => setIsLiked(true))
       .catch(error => console.error('Failed to update like status:', error));
+    }
+
+  };
+
+  const handleDislike = async () => {
+    // if its disliked, and it clicks on dislike, so it removes the dislike
+    if(isLiked === false){
+      axios.delete(`http://localhost:3000/movies/${encodeURIComponent(movieId)}/react/${encodeURIComponent(user.id)}`)
+      .then(() => setIsLiked(null))
+      .catch(error => console.error('Failed to update like status:', error));
+      
+    }
+    else {
+      axios.post(`http://localhost:3000/movies/${encodeURIComponent(movieId)}/react/${encodeURIComponent(user.id)}`, { like: 0  })
+      .then(() => setIsLiked(false))
+      .catch(error => console.error('Failed to update like status:', error));
+    }
+
   };
 
   const handleVideoError = () => {
@@ -182,19 +212,25 @@ function MoviePage() {
             <div style={{ marginTop: 10, marginBottom: 20 }}>{renderGenreTag()}</div>
             <div style={{ marginBottom: 16 }}>
               <div style={{ display: 'inline-flex', alignItems: 'center', background: '#f0f0f0', borderRadius: 20, padding: '6px 15px' }}>
-                {isLiked ? (
-                  <>
-                    <LikeTwoTone style={{ fontSize: 20, cursor: 'pointer' }} onClick={handleLike} />
-                    <div style={{ borderLeft: '1px solid lightgrey', height: 18, margin: '0 12px' }}></div>
-                    <DislikeOutlined style={{ fontSize: 20, color: 'grey', cursor: 'pointer' }} onClick={handleLike} />
-                  </>
-                ) : (
-                  <>
-                    <LikeOutlined style={{ fontSize: 20, color: 'grey', cursor: 'pointer' }} onClick={handleLike} />
-                    <div style={{ borderLeft: '1px solid lightgrey', height: 18, margin: '0 12px' }}></div>
-                    <DislikeTwoTone style={{ fontSize: 20, cursor: 'pointer' }} onClick={handleLike} />
-                  </>
-                )}
+              {isLiked === true ? (
+                <>
+                  <LikeTwoTone style={{ fontSize: 20, cursor: 'pointer' }} onClick={handleLike} />
+                  <div style={{ borderLeft: '1px solid lightgrey', height: 18, margin: '0 12px' }}></div>
+                  <DislikeOutlined style={{ fontSize: 20, color: 'grey', cursor: 'pointer' }} onClick={handleDislike} />
+                </>
+              ) : isLiked === false ? (
+                <>
+                  <LikeOutlined style={{ fontSize: 20, color: 'grey', cursor: 'pointer' }} onClick={handleLike} />
+                  <div style={{ borderLeft: '1px solid lightgrey', height: 18, margin: '0 12px' }}></div>
+                  <DislikeTwoTone style={{ fontSize: 20, cursor: 'pointer' }} onClick={handleDislike} />
+                </>
+              ) : (
+                <>
+                  <LikeOutlined style={{ fontSize: 20, color: 'grey', cursor: 'pointer' }} onClick={handleLike} />
+                  <div style={{ borderLeft: '1px solid lightgrey', height: 18, margin: '0 12px' }}></div>
+                  <DislikeOutlined style={{ fontSize: 20, color: 'grey', cursor: 'pointer' }} onClick={handleDislike} />
+                </>
+              )}
               </div>
               {likeCount && (
                 <div style={{ marginTop: 20, display: 'flex', alignItems: 'center' }}>
@@ -269,7 +305,7 @@ function MoviePage() {
                 <List.Item>
                   <List.Item.Meta
                     avatar={<Avatar src={`https://api.dicebear.com/7.x/miniavs/svg?seed=${index}`} />}
-                    title={<Link to={`/${comment._from}`}>{comment.username}</Link>}
+                    title={<Link to={`/users/${comment._from.replace("Users/", "")}`}>{comment.username}</Link>}
                     description={comment.content}
                   />
                   <div>{comment.timestamp}</div>
