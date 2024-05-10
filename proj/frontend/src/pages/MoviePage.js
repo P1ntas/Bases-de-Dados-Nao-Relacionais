@@ -39,7 +39,8 @@ function MoviePage() {
       try {
         const commentsResponse = await axios.get(`http://localhost:3000/movies/${encodeURIComponent(movieId)}/comment`);
         const commentsData = commentsResponse.data;
-  
+        commentsData.sort((a, b) => new Date(b.timestamp) - new Date(a.timestamp));
+
         // Fetch user information for each comment and handle cases where user is not found
         const commentsWithUsernames = await Promise.all(commentsData.map(async (comment) => {
           const userId = comment._from;
@@ -74,14 +75,12 @@ function MoviePage() {
   
       try {
         const likeStatusResponse = await axios.get(`http://localhost:3000/movies/${encodeURIComponent(movieId)}/react/${encodeURIComponent(user.id)}`);
-        console.log(likeStatusResponse.data)
         if(likeStatusResponse.data === 1 || likeStatusResponse.data === 0){
           console.log(likeStatusResponse.data === 1)
           setIsLiked(likeStatusResponse.data === 1);
         }
         else {
           setIsLiked(null);
-
         }
       } catch (error) {
         console.error('Failed to fetch like status:', error);
@@ -112,7 +111,7 @@ function MoviePage() {
         console.error('Failed to fetch actors:', error);
       }
     }
-
+ 
   
     fetchMovieDetails();
     fetchAdditionalData();
@@ -125,13 +124,13 @@ function MoviePage() {
       _from: user.id,
       _to: `${movieId}`,
       content: newComment,
-      timestamp: new Date().toISOString(),
+      timestamp: new Date().toLocaleString('en-US', { timeZone: 'UTC', hour12: false }).replace(',', ''),
       $label: "comments"
     };
 
     try {
       await axios.post(`http://localhost:3000/movies/${encodeURIComponent(movieId)}/comment`, payload);
-      setComments(prevComments => [...prevComments, { ...payload, _id: `new_${Date.now()}`, username: user.username }]);
+      setComments(prevComments => [{ ...payload, _id: `new_${Date.now()}`, username: user.username }, ...prevComments]);
       setNewComment('');
     } catch (error) {
       console.error('Failed to submit comment:', error);
@@ -276,6 +275,17 @@ function MoviePage() {
 
         <div style={{ marginTop: 24 }}>
           <Title level={4}>Comments</Title>
+          <Input.TextArea
+            value={newComment}
+            placeholder="Write a comment..."
+            onChange={e => setNewComment(e.target.value)}
+            style={{ marginTop: 16 }}
+          />
+          <div style={{ display: 'flex', justifyContent: 'flex-end' }}>
+            <Button className="button" type="primary" style={{ marginTop: 8 }} onClick={handleSubmit}>
+              Submit Comment
+            </Button>
+          </div>
           {comments && comments.length > 0 ? (
             <List
               itemLayout="horizontal"
@@ -294,13 +304,6 @@ function MoviePage() {
           ) : (
             <Empty description="No comments yet" />
           )}
-          <Input.TextArea
-            value={newComment}
-            placeholder="Write a comment..."
-            onChange={e => setNewComment(e.target.value)}
-            style={{ marginTop: 16 }}
-          />
-          <Button className="button" type="primary" style={{ marginTop: 8 }} onClick={handleSubmit}>Submit Comment</Button>
         </div>
         
         {similarMovies && similarMovies.length > 0 && (

@@ -182,7 +182,6 @@ def generate_comments(filepath, n, vertices, users):
 
     time_difference = end_date - start_date
 
-    random_seconds = random.randint(0, time_difference.days * 24 * 60 * 60) + time_difference.seconds * random.random()
 
     comments = []
     
@@ -190,14 +189,17 @@ def generate_comments(filepath, n, vertices, users):
         for _ in range(n):
             movie_id = random.choice(movie_ids)
             text = random.choice(texts)
+            random_seconds = random.randint(0, time_difference.days * 24 * 60 * 60) + time_difference.seconds * random.random()
+
+            timestamp = start_date + timedelta(seconds=random_seconds)
+            formatted_timestamp = timestamp.strftime("%m/%d/%Y %H:%M:%S")
 
             comments.append({
                 "_from": user_id,
                 "_to": movie_id,
                 "content": text,
-                "timestamp":str(start_date + timedelta(seconds=random_seconds)),
+                "timestamp": formatted_timestamp,
                 "$label": "comments"
-
             })
     
     with open(filepath, 'w') as file:
