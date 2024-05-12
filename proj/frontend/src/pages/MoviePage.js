@@ -320,8 +320,8 @@ function MoviePage() {
               renderItem={(comment, index) => (
                 <List.Item>
                   <List.Item.Meta
-                    avatar={<Avatar src={`https://api.dicebear.com/7.x/miniavs/svg?seed=${index}`} />}
-                    title={<Link to={`/users/${comment._from.replace("Users/", "")}`}>{comment.username}</Link>}
+                    avatar={<Avatar src={`https://api.dicebear.com/7.x/miniavs/svg?seed=${comment._from.replace("users/", "")}`} />}
+                    title={<Link to={`/${comment._from}`}>{comment.username}</Link>}
                     description={comment.content}
                   />
                   <div>{comment.timestamp}</div>

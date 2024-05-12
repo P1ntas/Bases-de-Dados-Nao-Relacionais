@@ -19,7 +19,7 @@ clean:
 	python3 ${CLEAN_DB}
 	
 seed:
-	python3 ${POPULATE} --database ${DB_NAME} --collection Users --type document --file-path ${USERS}
+	python3 ${POPULATE} --database ${DB_NAME} --collection users --type document --file-path ${USERS}
 
 
 down: clean

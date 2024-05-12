@@ -52,7 +52,7 @@ const BaseLayout = ({ children }) => {
             <Menu.Item key="3">
               <Link to="/users">Users</Link>
             </Menu.Item>
-            <Menu.Item key="4" style={{ width: '100px' }}>
+            <Menu.Item key="4" style={{ width: '85px' }}>
               <Link to="/timeline">Timeline</Link>
             </Menu.Item>
           </Menu>

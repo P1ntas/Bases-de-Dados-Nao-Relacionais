@@ -10,6 +10,7 @@ import UserPage from './pages/UserPage';
 import PeopleMainPage from './pages/PeopleMainPage';
 import UsersMainPage from './pages/UsersMainPage';
 import NotFound from './pages/NotFound';
+import Timeline from './pages/Timeline';
 import PermissionDenied from './pages/PermissionDenied';
 
 
@@ -21,15 +22,16 @@ const App = () => {
   return (
     <Router>
       <Routes>
-        <Route path="/" element={<MainPage />} />
-        <Route path="/movie/:movieId" element={<MoviePage />} />
+        <Route path="/" element={<PrivateRoute><MainPage /></PrivateRoute>} />
+        <Route path="/movie/:movieId" element={<PrivateRoute><MoviePage /></PrivateRoute>} />
         <Route path="/login" element={<LoginPage />} />
         <Route path="/register" element={<RegisterPage />} />
-        <Route path="/profile" element={<PrivateRoute><ProfilePage /></PrivateRoute>} />
-        <Route path="/person/:personId" element={<PersonPage />} />
+        <Route path="/profile" element={<ProfilePage />} />
+        <Route path="/person/:personId" element={<PrivateRoute><PersonPage /></PrivateRoute>} />
         <Route path="/users/:userId" element={<UserPage />} />
-        <Route path="/people" element={<PeopleMainPage />} />
-        <Route path="/users" element={<UsersMainPage />} />
+        <Route path="/people" element={<PrivateRoute><PeopleMainPage /></PrivateRoute>} />
+        <Route path="/users" element={<PrivateRoute><UsersMainPage /></PrivateRoute>} />
+        <Route path="/timeline" element={<PrivateRoute><Timeline /></PrivateRoute>} />
         <Route path="/permission-denied" element={<PermissionDenied />} />
         <Route path="*" element={<NotFound />} />
 

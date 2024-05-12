@@ -1,8 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
-import { useParams } from 'react-router-dom';
+import { useParams, Link } from 'react-router-dom';
 import { Card, Typography, Divider, Button, Descriptions, Tabs, List } from 'antd';
-import { Link } from 'react-router-dom';
 import BaseLayout from '../components/BaseLayout';
 import useUserData from '../hook/useUserData';
 const { TabPane } = Tabs;
@@ -22,7 +21,7 @@ function UserPage() {
 
   useEffect(() => {
     if (!user) return; // If user is not available, do nothing
-    userId = "Users/" + userId
+    userId = "users/" + userId
 
     async function fetchUserDetails() {
       try {
@@ -39,7 +38,6 @@ function UserPage() {
         setFollowers(responseFollowers.data.followers);
         const responseFollowing = await axios.get(`http://localhost:3000/user/following/${encodeURIComponent(userId)}`);
         setFollowing(responseFollowing.data.following);
-        console.log(responseFollowers)
 
         const userFollows = responseFollowers.data.followers.some(follower => follower.email === user.email);
         setUserFollow(userFollows);
@@ -57,7 +55,7 @@ function UserPage() {
 
 
   const handleFollow = async () => {
-    userId = "Users/" + userId
+    userId = "users/" + userId
 
     try {
       if (userFollow) {
@@ -72,6 +70,7 @@ function UserPage() {
       console.error('Failed to follow/unfollow user', error);
     }
   };
+
   return (
     <BaseLayout>
       <div style={{ maxWidth: 800, margin: '0 auto' }}>
@@ -85,9 +84,14 @@ function UserPage() {
                 <Descriptions.Item label="Followers">{followers ? followers.length : 0}</Descriptions.Item>
                 <Descriptions.Item label="Following">{following ? following.length : 0}</Descriptions.Item>
             </Descriptions>
-              <Button className={userFollow ? "button" : null} type={userFollow ? "primary" : null} onClick={handleFollow}>
-                {userFollow ? 'Following' : 'Follow'}
-              </Button>
+              {user && user.id !== "users/" + userId && ( // Only show the button if user is logged in and viewing another user's profile
+                <Button className={userFollow ? "button" : null} type={userFollow ? "primary" : null} onClick={handleFollow}>
+                  {userFollow ? 'Following' : 'Follow'}
+                </Button>
+              )}
+              {user && user.id === "users/" + userId && ( // Show logout button if user is viewing their own profile
+                <Link to="/logout"><Button className="button" type="primary">Logout</Button></Link>
+              )}
               <Divider />
               <Tabs defaultActiveKey="1">
                 <TabPane tab="Tab 1" key="1">Tab 1 content</TabPane>

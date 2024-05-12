@@ -5,7 +5,7 @@ exports.register = async (req, res) => {
     try {
         // Check if username already exists
         const existingUser = await db.query(`
-          FOR user IN Users
+          FOR user IN users
           FILTER user.username == @username
           RETURN user
         `, { username });
@@ -20,7 +20,7 @@ exports.register = async (req, res) => {
             username: @username,
             password: @password,
             email: @email
-          } INTO Users
+          } INTO users
           RETURN NEW
         `, { username, password, email });
     
@@ -35,7 +35,7 @@ exports.login = async (req, res) => {
     const { username, password } = req.body;
     try {
         const cursor = await db.query(`
-          FOR user IN Users
+          FOR user IN users
           FILTER user.username == @username && user.password == @password
           RETURN user
         `, { username, password });

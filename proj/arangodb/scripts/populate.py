@@ -32,101 +32,6 @@ def populate_db(database_name, collection_name, collection_type, file_path):
         response = requests.post(collection_url, json=item, auth=(username, password))
 
 
-class DatabaseEdge:
-    def __init__(self, key, from_vertex, to_vertex, like, label):
-        self._key = str(250000 + int(key))
-        self._id = "imdb_edges/" + str(self._key)
-        self._from = from_vertex
-        self._to = to_vertex
-        self._rev = f"_{uuid.uuid4().hex}-"
-        self.like = like
-        self.label = label
-
-    def to_dict(self):
-        return {
-            "_key": self._key,
-            "_id": self._id,
-            "_from": self._from,
-            "_to": self._to,
-            "_rev": self._rev,
-            "likes": self.like,
-            "$label": self.label 
-        }
-    
-class DatabaseEdgeFollowers:
-    def __init__(self, key, from_vertex, to_vertex, label):
-        self._key = str(250000 + int(key))
-        self._id = "imdb_edges/" + str(self._key)
-        self._from = from_vertex
-        self._to = to_vertex
-        self._rev = f"_{uuid.uuid4().hex}-"
-        self.label = label
-
-    def to_dict(self):
-        return {
-            "_key": self._key,
-            "_id": self._id,
-            "_from": self._from,
-            "_to": self._to,
-            "_rev": self._rev,
-            "$label": self.label 
-        }
-
-class DatabaseEdgeComments:
-    def __init__(self, key, from_vertex, to_vertex, label, comment, timestamp):
-        self._key = str(250000 + int(key))
-        self._id = "imdb_edges/" + str(self._key)
-        self._from = from_vertex
-        self._to = to_vertex
-        self._rev = f"_{uuid.uuid4().hex}-"
-        self.label = label
-        self.comment = comment
-        self.timestamp = timestamp
-
-    def to_dict(self):
-        return {
-            "_key": self._key,
-            "_id": self._id,
-            "_from": self._from,
-            "_to": self._to,
-            "_rev": self._rev,
-            "$label": self.label, 
-            "content": self.comment,
-            "timestamp": self.timestamp
-        }
-
-def populate_likes(filepath, edge_def):
-
-    with open(filepath, 'r') as file:
-        data = json.load(file)
-    id = 1
-    for item in data:
-        edge = DatabaseEdge(id, item['_from'], item['_to'], item['likes'], "reacts")
-        metadata = edge_def.insert(edge.to_dict())
-        assert metadata['_key'] == edge._key
-        id += 1
-
-def populate_comments(filepath, edge_def):
-    with open(filepath, 'r') as file:
-        data = json.load(file)
-    id = 251000
-
-    for item in data:
-        edge = DatabaseEdgeComments(id, item['_from'], item['_to'], "comments", item['content'], item['timestamp'])
-        metadata = edge_def.insert(edge.to_dict())
-        assert metadata['_key'] == edge._key
-        id += 1
-
-def populate_followers(filepath, edge_def):
-
-    with open(filepath, 'r') as file:
-        data = json.load(file)
-    id = 600000
-    for item in data:
-        edge = DatabaseEdgeFollowers(id, item['_from'], item['_to'], "follows")
-        metadata = edge_def.insert(edge.to_dict())
-        assert metadata['_key'] == edge._key
-        id += 1
 
 def generate_reactions(filepath, n, vertices, users):
     movies = vertices.all().batch()
@@ -135,14 +40,23 @@ def generate_reactions(filepath, n, vertices, users):
     user_ids = [user['_id'] for user in users]
     reactions = []
     
+    start_date = datetime(2024, 1, 1)
+    end_date = datetime(2024, 5, 5)
+    time_difference = end_date - start_date
+
     for user_id in user_ids:
         movies_to_react = random.sample(movie_ids, n)
         for movie_id in movies_to_react:
+            random_seconds = random.randint(0, time_difference.days * 24 * 60 * 60) + time_difference.seconds * random.random()
+            timestamp = start_date + timedelta(seconds=random_seconds)
+            formatted_timestamp = timestamp.strftime("%m/%d/%Y %H:%M:%S")
+
             like = random.choice([1, 0])
             reactions.append({
                 "_from": user_id,
                 "_to": movie_id,
                 "likes": like,
+                "timestamp": formatted_timestamp,
                 "$label": "reacts"
             })
     
@@ -178,10 +92,8 @@ def generate_comments(filepath, n, vertices, users):
     ]
     
     start_date = datetime(2024, 1, 1)
-    end_date = datetime(2024, 5, 1)
-
+    end_date = datetime(2024, 5, 5)
     time_difference = end_date - start_date
-
 
     comments = []
     
@@ -189,8 +101,8 @@ def generate_comments(filepath, n, vertices, users):
         for _ in range(n):
             movie_id = random.choice(movie_ids)
             text = random.choice(texts)
-            random_seconds = random.randint(0, time_difference.days * 24 * 60 * 60) + time_difference.seconds * random.random()
 
+            random_seconds = random.randint(0, time_difference.days * 24 * 60 * 60) + time_difference.seconds * random.random()
             timestamp = start_date + timedelta(seconds=random_seconds)
             formatted_timestamp = timestamp.strftime("%m/%d/%Y %H:%M:%S")
 
@@ -209,16 +121,24 @@ def generate_follows(filepath, n, users):
     users = users.all().batch()
     user_ids = [user['_id'] for user in users]
     follows = []
-    
+    start_date = datetime(2024, 1, 1)
+    end_date = datetime(2024, 5, 5)
+
+    time_difference = end_date - start_date
     for user_id in user_ids:
         possible_follows = [uid for uid in user_ids if uid != user_id]
         
         followed_users = random.sample(possible_follows, n)
 
         for follow_user_id in followed_users:
+            random_seconds = random.randint(0, time_difference.days * 24 * 60 * 60) + time_difference.seconds * random.random()
+            timestamp = start_date + timedelta(seconds=random_seconds)
+            formatted_timestamp = timestamp.strftime("%m/%d/%Y %H:%M:%S")
+
             follows.append({
                 "_from": user_id,
                 "_to": follow_user_id,
+                "timestamp": formatted_timestamp,
                 "$label": "follows"
             })
 
@@ -246,25 +166,22 @@ if __name__ == "__main__":
         db = client.db("IMDB", username="root", password="")
 
     vertices = db.collection("imdb_vertices")
-    users = db.collection("Users")
-    edges = db.collection("imdb_edges")
+    users = db.collection("users")
     graph = db.graph("imdb")
-    edge_def = graph.edge_collection("imdb_edges")
 
-    generate_reactions('./arangodb/data/reactions.json', 70, vertices, users)
-    generate_comments('./arangodb/data/comments.json', 10, vertices, users)
-    generate_follows('./arangodb/data/followers.json', 10, users)
+    generate_reactions('./arangodb/data/reactions.json', 250, vertices, users)
+    generate_comments('./arangodb/data/comments.json', 15, vertices, users)
+    generate_follows('./arangodb/data/followers.json', 13, users)
 
-    if graph.has_vertex_collection('Users'):
-        test = graph.vertex_collection('Users')
-    else:
-        test = graph.create_vertex_collection('Users')
+    populate_db("IMDB", "reactions", "edge", './arangodb/data/reactions.json')
+    populate_db("IMDB", "comments", "edge", './arangodb/data/comments.json')
+    populate_db("IMDB", "follows", "edge", './arangodb/data/followers.json')
 
-    populate_likes('./arangodb/data/reactions.json', edge_def)
 
-    populate_comments('./arangodb/data/comments.json', edge_def)
-
-    populate_followers('./arangodb/data/followers.json', edge_def)
+    # if graph.has_vertex_collection('Users'):
+    #     test = graph.vertex_collection('Users')
+    # else:
+    #     test = graph.create_vertex_collection('Users')
 
     db.create_analyzer(
         name='text_analyzer',
@@ -389,7 +306,7 @@ if __name__ == "__main__":
         },
         "writebufferActive": 0,
         "links": {
-            "Users": {
+            "users": {
                 "analyzers": ["name_analyzer"],
                 "fields": {
                     "name": {"analyzers": ["name_analyzer"]},
@@ -411,6 +328,5 @@ if __name__ == "__main__":
     
     users_unique_id = str(uuid.uuid4())
     users_view_definition["globallyUniqueId"] = users_unique_id
-
     db.create_arangosearch_view(name=users_view_definition['name'], properties=users_view_definition)
 

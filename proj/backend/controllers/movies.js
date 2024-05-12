@@ -206,13 +206,13 @@ exports.getComments = async (req, res) => {
 
     try {
         const cursor = await db.query(`
-        FOR comments in imdb_edges 
-            FILTER comments._to == '${decodedId}' AND
-            comments.$label == 'comments'
-            RETURN comments`)
+        FOR com in comments 
+            FILTER com._to == '${decodedId}' AND
+            com.$label == 'comments'
+            RETURN com`)
 
-        const movies = await cursor.all();
-        res.status(200).json(movies);
+        const comments = await cursor.all();
+        res.status(200).json(comments);
     } catch (error) {
         res.status(500).json({ error: error.message });
     }
@@ -233,7 +233,7 @@ exports.postComment = async (req, res) => {
                 "content": "${content}",
                 "timestamp": "${timestamp}",
                 "$label": "${$label}"
-            } INTO imdb_edges
+            } INTO comments
         `;
         await db.query(query);
         res.status(201).json({ message: 'Comment added successfully' });

@@ -6,7 +6,7 @@ exports.getLikeStatus = async (req, res) => {
     const { id, userId } = req.params;
     try {
         const query = `
-            FOR edge IN imdb_edges
+            FOR edge IN reactions
             FILTER edge._from == '${userId}' && edge._to == '${id}' && edge.$label == 'reacts'
             RETURN edge
         `;
@@ -23,9 +23,9 @@ exports.deleteReaction = async (req, res) => {
     const { id, userId } = req.params;
     try {
         const query = `
-            FOR edge IN imdb_edges
+            FOR edge IN reactions
             FILTER edge._from == '${userId}' && edge._to == '${id}' && edge.$label == 'reacts'
-            REMOVE { _key: edge._key } IN imdb_edges
+            REMOVE { _key: edge._key } IN reactions
             RETURN OLD
         `;
         await db.query(query);
@@ -44,7 +44,7 @@ exports.postLike = async (req, res) => {
             UPSERT {_from: '${userId}', _to: '${id}', $label: 'reacts'}
             INSERT {_from: '${userId}', _to: '${id}', \`like\`: ${like}, $label: 'reacts'}
             UPDATE {\`like\`: ${like}}
-            IN imdb_edges
+            IN reactions
         `;
         await db.query(query);
         res.status(200).json({ message: 'Like status updated' });
@@ -59,12 +59,12 @@ exports.getLikeDislikeCount = async (req, res) => {
     try {
         const query = `
             LET movieLikes = (
-                FOR edge IN imdb_edges
+                FOR edge IN reactions
                 FILTER edge._to == '${id}' && edge.$label == 'reacts' && edge.\`like\` == 1
                 RETURN edge
             )
             LET movieDislikes = (
-                FOR edge IN imdb_edges
+                FOR edge IN reactions
                 FILTER edge._to == '${id}' && edge.$label == 'reacts' && edge.\`like\` == 0
                 RETURN edge
             )
