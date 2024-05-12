@@ -76,6 +76,7 @@ function MoviePage() {
 
       try {
         const likeStatusResponse = await axios.get(`http://localhost:3000/entity/${encodeURIComponent(movieId)}/react/${encodeURIComponent(user.id)}`);
+        console.log(likeStatusResponse)
         if(likeStatusResponse.data === 1 || likeStatusResponse.data === 0){
           setIsLiked(likeStatusResponse.data === 1);
         }

@@ -59,7 +59,7 @@ const Timeline = () => {
                   {change.action === 'reaction' ?
                     `${change.likes === 1 ? 'Liked' : 'Disliked'} ` :
                     'Commented about '}
-                  <Link to={`/${change.vertexType.toLowerCase()}${change.vertexType.toLowerCase() === 'movie' ? 's' : ''}/${encodeURIComponent(change.movieId)}`}>
+                  <Link to={`/${change.vertexType.toLowerCase()}/${encodeURIComponent(change.movieId)}`}>
                     {change.vertexLabel}
                   </Link>
                 </p>

@@ -23,7 +23,6 @@ const MainPage = () => {
   };
 
   const onSearch = async (value) => {
-    console.log(value)
     try {
       if(value){
         const response = await axios.get(`http://localhost:3000/user/search/${encodeURIComponent(value)}`);
@@ -42,7 +41,7 @@ const MainPage = () => {
 
   return (
     <BaseLayout>
-      <Search placeholder="input search text" onSearch={onSearch} style={{ width: 400, marginLeft: 50 }} />
+      <Search placeholder="search for users" onSearch={onSearch} style={{ width: 400, marginLeft: 50 }} />
       <div style={{ display: 'flex', flexWrap: 'wrap', justifyContent: 'center' }}>
         {users.map(user => (
           <Link to={`/users/${user._key}`} key={user._id}>

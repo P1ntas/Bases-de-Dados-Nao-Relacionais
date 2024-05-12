@@ -20,7 +20,9 @@ const BaseLayout = ({ children }) => {
       case '/users':
         return '3'; 
       case '/timeline':
-        return '4'; 
+        return '4';
+      case '/recommendations':
+        return '5'; 
       default:
         return;
     }
@@ -54,6 +56,9 @@ const BaseLayout = ({ children }) => {
             </Menu.Item>
             <Menu.Item key="4" style={{ width: '85px' }}>
               <Link to="/timeline">Timeline</Link>
+            </Menu.Item>
+            <Menu.Item key="5" style={{ width: '145px' }}>
+              <Link to="/recommendations">Recommendations</Link>
             </Menu.Item>
           </Menu>
         </div>

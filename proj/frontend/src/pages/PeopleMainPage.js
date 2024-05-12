@@ -6,7 +6,7 @@ import BaseLayout from '../components/BaseLayout';
 
 const { Search } = Input;
 
-const MainPage = () => {
+const PeopleMainPage = () => {
   const [people, setPeople] = useState([]);
 
   useEffect(() => {
@@ -15,8 +15,8 @@ const MainPage = () => {
 
   const fetchData = async () => {
     try {
-      const response = await axios.get('http://localhost:3000/person');
-      setPeople(response.data);
+      const response = await axios.get(`http://localhost:3000/entity/mostLikes/Person`);
+      setPeople(response.data.entitiesWithMostLikesDifference);
     } catch (error) {
       console.error('Error fetching data:', error);
     }
@@ -30,8 +30,8 @@ const MainPage = () => {
         setPeople(response.data);
       }
       else {
-        const response = await axios.get('http://localhost:3000/person');
-        setPeople(response.data);
+        const response = await axios.get(`http://localhost:3000/entity/mostLikes/Person`);
+        setPeople(response.data.entitiesWithMostLikesDifference);
       }
 
     } catch (error) {
@@ -42,7 +42,7 @@ const MainPage = () => {
 
   return (
     <BaseLayout>
-      <Search placeholder="input search text" onSearch={onSearch} style={{ width: 400, marginLeft: 50 }} />
+      <Search placeholder="search for people" onSearch={onSearch} style={{ width: 400, marginLeft: 50 }} />
       <div style={{ display: 'flex', flexWrap: 'wrap', justifyContent: 'center' }}>
         {people.map(person => (
           <Link to={`/person/${encodeURIComponent(person._id)}`} key={person._id}>
@@ -57,4 +57,4 @@ const MainPage = () => {
     </BaseLayout>
   );
 };
-export default MainPage;
+export default PeopleMainPage;

@@ -3,29 +3,24 @@ import { Card, Input } from 'antd';
 import axios from 'axios';
 import { Link } from 'react-router-dom';
 import BaseLayout from '../components/BaseLayout';
-import moviePoster1 from '../assets/movie1.jpg';
-import moviePoster2 from '../assets/movie2.jpg';
-import moviePoster3 from '../assets/movie3.jpg';
 import moviePoster4 from '../assets/movie4.jpg';
-import moviePoster5 from '../assets/movie5.jpg';
-import moviePoster6 from '../assets/movie6.jpg';
-import moviePoster7 from '../assets/movie7.jpg';
-import moviePoster8 from '../assets/movie8.jpg';
-import moviePoster9 from '../assets/movie9.jpg';
+import useUserData from '../hook/useUserData';
 
 const { Search } = Input;
 
 const MainPage = () => {
   const [movies, setMovies] = useState([]);
+  const user = useUserData();
 
   useEffect(() => {
+    if (!user) return; // If user is not available, do nothing
     fetchData();
-  }, []);
+  }, [user]);
 
   const fetchData = async () => {
     try {
-      const response = await axios.get('http://localhost:3000/movies');
-      setMovies(response.data);
+      const response = await axios.get(`http://localhost:3000/entity/mostLikes/Movie`);
+      setMovies(response.data.entitiesWithMostLikesDifference);
     } catch (error) {
       console.error('Error fetching data:', error);
     }
@@ -38,8 +33,7 @@ const MainPage = () => {
         setMovies(response.data);
       }
       else {
-        const response = await axios.get('http://localhost:3000/movies');
-        setMovies(response.data);
+        fetchData();
       }
 
     } catch (error) {
@@ -47,25 +41,15 @@ const MainPage = () => {
     }
   };
 
-  const getRandomInt = (min, max) => {
-    return Math.floor(Math.random() * (max - min + 1)) + min;
-  };
-
-  const getRandomPoster = () => {
-    const posters = [moviePoster1, moviePoster2, moviePoster3, moviePoster4, moviePoster5, moviePoster6, moviePoster7, moviePoster8, moviePoster9];
-    const randomIndex = getRandomInt(0, posters.length - 1);
-    return posters[randomIndex];
-  };
-
   return (
     <BaseLayout>
-      <Search placeholder="input search text" onSearch={onSearch} style={{ width: 400, marginLeft: 50 }} />
+      <Search placeholder="search for movies" onSearch={onSearch} style={{ width: 400, marginLeft: 50 }} />
       <div style={{ display: 'flex', flexWrap: 'wrap', justifyContent: 'center' }}>
         {movies.map(movie => (
           <Link to={`/movie/${encodeURIComponent(movie._id)}`} key={movie._id}>
             <Card
               style={{ width: 215, margin: '1.5em', marginBottom: '1em' }}
-              cover={<img alt="poster" src={getRandomPoster()} style={{ width: '100%', height: '100%', objectFit: 'cover' }} />}
+              cover={<img alt="poster" src={moviePoster4} style={{ width: '100%', height: '100%', objectFit: 'cover' }} />}
               hoverable>
               <div >
                 <h4 style={{ margin: '0 0 0.5em 0' }}>{movie.title}</h4>

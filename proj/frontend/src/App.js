@@ -11,6 +11,7 @@ import PeopleMainPage from './pages/PeopleMainPage';
 import UsersMainPage from './pages/UsersMainPage';
 import NotFound from './pages/NotFound';
 import Timeline from './pages/Timeline';
+import RecommendationsPage from './pages/RecommendationsPage';
 import PermissionDenied from './pages/PermissionDenied';
 
 
@@ -32,6 +33,7 @@ const App = () => {
         <Route path="/people" element={<PrivateRoute><PeopleMainPage /></PrivateRoute>} />
         <Route path="/users" element={<PrivateRoute><UsersMainPage /></PrivateRoute>} />
         <Route path="/timeline" element={<PrivateRoute><Timeline /></PrivateRoute>} />
+        <Route path="/recommendations" element={<PrivateRoute><RecommendationsPage /></PrivateRoute>} />
         <Route path="/permission-denied" element={<PermissionDenied />} />
         <Route path="*" element={<NotFound />} />
 
