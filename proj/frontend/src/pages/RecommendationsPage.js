@@ -20,7 +20,6 @@ const RecommendationsPage = () => {
   const fetchData = async () => {
     try {
         const responseMovies = await axios.get(`http://localhost:3000/entity/recommend/${encodeURIComponent(user.id)}/Movie`);
-        console.log(responseMovies.data)
         setMovies(responseMovies.data.recommended);
         setSimilarUsers(responseMovies.data.users)
         const responsePeople = await axios.get(`http://localhost:3000/entity/recommend/${encodeURIComponent(user.id)}/Person`);

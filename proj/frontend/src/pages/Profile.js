@@ -33,11 +33,9 @@ const ProfilePage = () => {
 
         const responseLikes= await axios.get(`http://localhost:3000/user/following/reactions/${encodeURIComponent(user.id)}`);
         setReactionsFollows(responseLikes.data.moviesReactedByFollowedUsers[0]);
-        console.log(responseLikes.data.moviesReactedByFollowedUsers[0]);
 
 
         const responseClosest= await axios.get(`http://localhost:3000/user/closest/${encodeURIComponent(user.id)}`);
-        console.log(responseClosest.data)
         setClosestUsers(responseClosest.data)
       } catch (error) {
         console.error('Failed to fetch user info', error);
