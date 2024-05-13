@@ -71,7 +71,6 @@ exports.similarMovies = async (req, res) => {
         FOR d IN movieView
           SEARCH ANALYZER(d.description IN TOKENS(movie.description, 'text_en'), 'text_en')
           FILTER d._id != @movieId
-          
           SORT TFIDF(d) DESC LIMIT 3
           
         RETURN {

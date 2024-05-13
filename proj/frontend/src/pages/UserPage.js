@@ -93,8 +93,7 @@ function UserPage() {
                 <Link to="/logout"><Button className="button" type="primary">Logout</Button></Link>
               )}
               <Divider />
-              <Tabs defaultActiveKey="1">
-                <TabPane tab="Tab 1" key="1">Tab 1 content</TabPane>
+              <Tabs defaultActiveKey="Followers">
                 <TabPane tab="Followers" key="Followers">
                   {followers && (
                     <List

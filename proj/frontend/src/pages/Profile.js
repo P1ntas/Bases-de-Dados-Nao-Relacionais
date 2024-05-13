@@ -60,8 +60,7 @@ const ProfilePage = () => {
               </div>
               <Button className="button" type="primary" onClick={handleLogout}>Logout</Button>
               <Divider />
-              <Tabs defaultActiveKey="1">
-                <TabPane tab="Tab 1" key="1">Tab 1 content</TabPane>
+              <Tabs defaultActiveKey="Followers">
                 <TabPane tab="Followers" key="Followers">
                   {followers && (
                     <List
