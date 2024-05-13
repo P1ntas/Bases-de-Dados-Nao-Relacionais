@@ -4,6 +4,7 @@ exports.getUsers = async (req, res) => {
   try {
       const query = `
       FOR doc IN users
+      SORT doc.username
       RETURN doc
       `;
 
@@ -199,7 +200,7 @@ exports.moviesReactedByFollowedUsers = async (req, res) => {
           LET moviesReacted = (
               FOR followedUserId IN usersFollowedByUser
                   FOR reaction IN reactions
-                      FILTER reaction._from == followedUserId._id
+                      FILTER reaction._from == followedUserId._id AND reaction.likes == 1
                       LET movie = DOCUMENT(reaction._to)
                       FILTER movie.type == "Movie"
                       RETURN DISTINCT movie
@@ -211,6 +212,33 @@ exports.moviesReactedByFollowedUsers = async (req, res) => {
       const movies = await cursor.all();
 
       res.status(200).json({ moviesReactedByFollowedUsers: movies });
+  } catch (error) {
+      console.error("Database error:", error);
+      res.status(500).json({ error: error.message });
+  }
+};
+
+exports.closestUsers = async (req, res) => {
+
+  const { id } = req.params;
+  try {
+      const query = `
+        FOR user IN users
+          FILTER user._id == @userId
+          LET userLocation = user.geometry
+          FOR otherUser IN users
+            FILTER otherUser._id != @userId AND HAS(otherUser, 'geometry')
+            LET distance = GEO_DISTANCE(userLocation, otherUser.geometry)
+            SORT distance ASC
+            LIMIT 2
+            RETURN { user: otherUser, distance: distance }
+      
+      `;
+
+      const cursor = await db.query(query, { userId: id });
+      const users = await cursor.all();
+
+      res.status(200).json(users);
   } catch (error) {
       console.error("Database error:", error);
       res.status(500).json({ error: error.message });

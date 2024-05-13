@@ -5,7 +5,11 @@
     "username": "ana_silva",
     "email": "ana.silva@example.com",
     "name": "Ana Silva",
-    "password": "123"
+    "password": "123",
+    "geometry": {
+      "type": "Point",
+      "coordinates": [ -122.4194, 37.7749 ]
+    }
   },
   {
     "_id": "users/2",
@@ -13,7 +17,11 @@
     "username": "joao_pereira",
     "email": "joao.pereira@example.com",
     "name": "João Pereira",
-    "password": "123"
+    "password": "123",
+    "geometry": {
+      "type": "Point",
+      "coordinates": [ -122.4316, 37.7628 ]
+    }
   },
   {
     "_id": "users/3",
@@ -21,7 +29,11 @@
     "username": "maria_santos",
     "email": "maria.santos@example.com",
     "name": "Maria Santos",
-    "password": "123"
+    "password": "123",
+    "geometry": {
+      "type": "Point",
+      "coordinates": [ -122.4361, 37.7749 ]
+    }
   },
   {
     "_id": "users/4",
@@ -29,7 +41,11 @@
     "username": "carlos_oliveira",
     "email": "carlos.oliveira@example.com",
     "name": "Carlos Oliveira",
-    "password": "123"
+    "password": "123",
+    "geometry": {
+      "type": "Point",
+      "coordinates": [ 151.2093, -33.8688 ]
+    }
   },
   {
     "_id": "users/5",

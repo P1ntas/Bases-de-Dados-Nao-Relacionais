@@ -13,6 +13,11 @@ if __name__ == "__main__":
     else:
         db = client.db("IMDB", username="root", password="")
 
+    users = db.collection('users')
+    index = users.add_persistent_index(fields=['username'])
+    #index = users.add_geo_index(fields=['geometry'], geo_json=True)
+
+
     db.create_analyzer(
         name='text_analyzer',
         analyzer_type='text',
