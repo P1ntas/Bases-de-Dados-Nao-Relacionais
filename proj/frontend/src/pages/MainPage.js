@@ -11,6 +11,7 @@ const { Search } = Input;
 const MainPage = () => {
   const [movies, setMovies] = useState([]);
   const user = useUserData();
+  const [mostLikes, setMostLikes] = useState(true);
 
   useEffect(() => {
     if (!user) return; // If user is not available, do nothing
@@ -21,6 +22,7 @@ const MainPage = () => {
     try {
       const response = await axios.get(`http://localhost:3000/entity/mostLikes/Movie`);
       setMovies(response.data.entitiesWithMostLikesDifference);
+      setMostLikes(true);
     } catch (error) {
       console.error('Error fetching data:', error);
     }
@@ -31,6 +33,7 @@ const MainPage = () => {
       if(value){
         const response = await axios.get(`http://localhost:3000/movies/search/${encodeURIComponent(value)}`);
         setMovies(response.data);
+        setMostLikes(false);
       }
       else {
         fetchData();
@@ -44,6 +47,7 @@ const MainPage = () => {
   return (
     <BaseLayout>
       <Search placeholder="search for movies" onSearch={onSearch} style={{ width: 400, marginLeft: 50 }} />
+      <h2 style={{ display: 'flex', justifyContent: 'center', color: '#39535c' }}>{mostLikes ? 'Movies most liked' : 'Results'}</h2>
       <div style={{ display: 'flex', flexWrap: 'wrap', justifyContent: 'center' }}>
         {movies.map(movie => (
           <Link to={`/movie/${encodeURIComponent(movie._id)}`} key={movie._id}>

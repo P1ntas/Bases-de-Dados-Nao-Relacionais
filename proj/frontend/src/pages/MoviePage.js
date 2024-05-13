@@ -4,7 +4,6 @@ import { useParams } from 'react-router-dom';
 import { Alert, Input, Button, List, Typography, Empty, Avatar, Tag, Descriptions } from 'antd';
 import { LikeOutlined, LikeTwoTone, DislikeOutlined, DislikeTwoTone } from '@ant-design/icons';
 import { Link } from 'react-router-dom';
-import ReactPlayer from 'react-player';
 import BaseLayout from '../components/BaseLayout';
 import useUserData from '../hook/useUserData';
 
@@ -20,9 +19,9 @@ function MoviePage() {
   const [genre, setGenre] = useState(null);
   const [similarMovies, setSimilarMovies] = useState(null);
   const [actorsInCommon, setActorsInCommon] = useState(null);
+  
   const [likeCount, setlikeCount] = useState({likes : 0, dislikes: 0});
 
-  const [videoError, setVideoError] = useState(false);
   const user = useUserData();
 
   const { movieId } = useParams();
@@ -190,10 +189,6 @@ function MoviePage() {
   };
   
 
-  const handleVideoError = () => {
-    setVideoError(true); // Set video error state to true
-  };
-
   const renderGenreTag = () => {
     if (!genre) return null;
     const genreColors = {
@@ -258,12 +253,6 @@ function MoviePage() {
               <br></br>
               <Descriptions.Item label="Description">{movie.description ? movie.description : "N/A"}</Descriptions.Item>
             </Descriptions>
-            {/* {!videoError && (
-              <ReactPlayer
-                url={movie.trailer}
-                onError={handleVideoError}
-              />
-            )} */}
           </>
         ) : (
           <Alert message="Movie not found" type="error" />

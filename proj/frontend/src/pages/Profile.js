@@ -13,6 +13,8 @@ const ProfilePage = () => {
   const user = useUserData();
   const [followers, setFollowers] = useState(null);
   const [following, setFollowing] = useState(null);
+  const [reactionsFollows, setReactionsFollows] = useState(null);
+
   const handleLogout = () => {
     localStorage.removeItem('user');
     navigate('/login');
@@ -27,8 +29,10 @@ const ProfilePage = () => {
         setFollowers(responseFollowers.data.followers);
         const responseFollowing = await axios.get(`http://localhost:3000/user/following/${encodeURIComponent(user.id)}`);
         setFollowing(responseFollowing.data.following);
-        console.log(responseFollowers)
 
+        const responseLikes= await axios.get(`http://localhost:3000/user/following/reactions/${encodeURIComponent(user.id)}`);
+        setReactionsFollows(responseLikes.data.moviesReactedByFollowedUsers[0]);
+        console.log(responseLikes.data.moviesReactedByFollowedUsers)
       } catch (error) {
         console.error('Failed to fetch user info', error);
       }
@@ -41,7 +45,7 @@ const ProfilePage = () => {
 
   return (
     <BaseLayout>
-      <div style={{ padding: '20px', maxWidth: '600px', margin: 'auto' }}>
+      <div style={{ padding: '20px', maxWidth: '650px', margin: 'auto' }}>
         <Card>
           {user ? (
             <>
@@ -82,6 +86,19 @@ const ProfilePage = () => {
                       renderItem={follow => (
                         <List.Item>
                           <Link to={`/${follow._id}`}>{follow.name}</Link>
+                        </List.Item>
+                      )}
+                    />
+                    )}
+                </TabPane>
+                <TabPane tab="Movies liked by the users followed by the users you follow" key="Movies">
+                  {reactionsFollows && (
+                      <List
+                      bordered
+                      dataSource={reactionsFollows}
+                      renderItem={movie => (
+                        <List.Item>
+                          <Link to={`/${movie._id}`}>{movie.title}</Link>
                         </List.Item>
                       )}
                     />

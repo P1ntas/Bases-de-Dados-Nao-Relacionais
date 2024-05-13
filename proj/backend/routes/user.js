@@ -10,8 +10,7 @@ router.post('/follow', controller.follow);
 router.delete('/unfollow', controller.unfollow);
 router.get('/search/:input', controller.searchUser);
 router.get('/timeline/:id', controller.getTimeline);
-
-
+router.get('/following/reactions/:id', controller.moviesReactedByFollowedUsers);
 
 
 

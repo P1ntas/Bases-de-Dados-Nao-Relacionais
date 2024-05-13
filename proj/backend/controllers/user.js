@@ -185,3 +185,34 @@ exports.getTimeline = async (req, res) => {
   }
 };
 
+exports.moviesReactedByFollowedUsers = async (req, res) => {
+  const { id } = req.params;
+  try {
+      const query = `
+          LET usersFollowedByUser = (
+            FOR user IN users
+                FILTER user._id == @userId
+                FOR followedUser, followEdge IN 1..1 OUTBOUND user follows
+                    FOR followedByFollowedUser IN 1..1 OUTBOUND followedUser follows
+                        RETURN DISTINCT followedByFollowedUser
+          )
+          LET moviesReacted = (
+              FOR followedUserId IN usersFollowedByUser
+                  FOR reaction IN reactions
+                      FILTER reaction._from == followedUserId._id
+                      LET movie = DOCUMENT(reaction._to)
+                      FILTER movie.type == "Movie"
+                      RETURN DISTINCT movie
+          )
+          RETURN UNIQUE(moviesReacted)
+      `;
+
+      const cursor = await db.query(query, { userId: id });
+      const movies = await cursor.all();
+
+      res.status(200).json({ moviesReactedByFollowedUsers: movies });
+  } catch (error) {
+      console.error("Database error:", error);
+      res.status(500).json({ error: error.message });
+  }
+};
