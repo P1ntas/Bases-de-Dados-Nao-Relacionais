@@ -11,3 +11,18 @@ services:
     volumes:
       - ./arangodb/arangoData:/var/lib/arangodb3
 
+  backend:
+    build: ./backend
+    image: my-node-backend
+    restart: always
+    ports:
+      - "3000:3000"
+    depends_on:
+      - arangodb
+
+  frontend:
+    build: ./frontend
+    image: my-react-frontend
+    ports:
+      - "8080:3000"
+

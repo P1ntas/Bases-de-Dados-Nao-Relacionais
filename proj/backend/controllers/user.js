@@ -230,7 +230,7 @@ exports.closestUsers = async (req, res) => {
             FILTER otherUser._id != @userId AND HAS(otherUser, 'geometry')
             LET distance = GEO_DISTANCE(userLocation, otherUser.geometry)
             SORT distance ASC
-            LIMIT 2
+            LIMIT 5
             RETURN { user: otherUser, distance: distance }
       
       `;
