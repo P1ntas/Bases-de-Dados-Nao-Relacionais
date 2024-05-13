@@ -53,7 +53,11 @@
     "username": "sandra_rodrigues",
     "email": "sandra.rodrigues@example.com",
     "name": "Sandra Rodrigues",
-    "password": "123"
+    "password": "123",
+    "geometry": {
+      "type": "Point",
+      "coordinates": [ -122.4195, 37.775 ]
+    }
   },
   {
     "_id": "users/6",
@@ -61,7 +65,11 @@
     "username": "tiago_costa",
     "email": "tiago.costa@example.com",
     "name": "Tiago Costa",
-    "password": "123"
+    "password": "123",
+    "geometry": {
+      "type": "Point",
+      "coordinates": [ -122.432, 37.762 ]
+    }
   },
   {
     "_id": "users/7",
@@ -69,7 +77,11 @@
     "username": "patricia_gomes",
     "email": "patricia.gomes@example.com",
     "name": "Patrícia Gomes",
-    "password": "123"
+    "password": "123",
+    "geometry": {
+      "type": "Point",
+      "coordinates": [ -122.437, 37.774 ]
+    }
   },
   {
     "_id": "users/8",
@@ -77,7 +89,11 @@
     "username": "luis_silveira",
     "email": "luis.silveira@example.com",
     "name": "Luís Silveira",
-    "password": "123"
+    "password": "123",
+    "geometry": {
+      "type": "Point",
+      "coordinates": [ 151.2094, -33.869 ]
+    }
   },
   {
     "_id": "users/9",
@@ -85,7 +101,11 @@
     "username": "rita_fernandes",
     "email": "rita.fernandes@example.com",
     "name": "Rita Fernandes",
-    "password": "123"
+    "password": "123",
+    "geometry": {
+      "type": "Point",
+      "coordinates": [ -122.418, 37.7755 ]
+    }
   },
   {
     "_id": "users/10",
@@ -93,7 +113,11 @@
     "username": "andre_martins",
     "email": "andre.martins@example.com",
     "name": "André Martins",
-    "password": "123"
+    "password": "123",
+    "geometry": {
+      "type": "Point",
+      "coordinates": [ -122.4317, 37.761 ]
+    }
   },
   {
     "_id": "users/11",
@@ -101,7 +125,11 @@
     "username": "diana_garcia",
     "email": "diana.garcia@example.com",
     "name": "Diana Garcia",
-    "password": "123"
+    "password": "123",
+    "geometry": {
+      "type": "Point",
+      "coordinates": [ -122.4371, 37.773 ]
+    }
   },
   {
     "_id": "users/12",
@@ -109,7 +137,11 @@
     "username": "pedro_ferreira",
     "email": "pedro.ferreira@example.com",
     "name": "Pedro Ferreira",
-    "password": "123"
+    "password": "123",
+    "geometry": {
+      "type": "Point",
+      "coordinates": [ 151.2095, -33.870 ]
+    }
   },
   {
     "_id": "users/13",
@@ -117,7 +149,11 @@
     "username": "laura_mendes",
     "email": "laura.mendes@example.com",
     "name": "Laura Mendes",
-    "password": "123"
+    "password": "123",
+    "geometry": {
+      "type": "Point",
+      "coordinates": [ -122.4196, 37.775 ]
+    }
   },
   {
     "_id": "users/14",
@@ -125,7 +161,11 @@
     "username": "ricardo_silva",
     "email": "ricardo.silva@example.com",
     "name": "Ricardo Silva",
-    "password": "123"
+    "password": "123",
+    "geometry": {
+      "type": "Point",
+      "coordinates": [ -122.4321, 37.761 ]
+    }
   },
   {
     "_id": "users/15",
@@ -133,7 +173,11 @@
     "username": "ana_santos",
     "email": "ana.santos@example.com",
     "name": "Ana Santos",
-    "password": "123"
+    "password": "123",
+    "geometry": {
+      "type": "Point",
+      "coordinates": [ -122.4361, 37.774 ]
+    }
   },
   {
     "_id": "users/16",
@@ -141,7 +185,11 @@
     "username": "marta_almeida",
     "email": "marta.almeida@example.com",
     "name": "Marta Almeida",
-    "password": "123"
+    "password": "123",
+    "geometry": {
+      "type": "Point",
+      "coordinates": [ 151.2097, -33.871 ]
+    }
   },
   {
     "_id": "users/17",
@@ -149,7 +197,11 @@
     "username": "sergio_costa",
     "email": "sergio.costa@example.com",
     "name": "Sérgio Costa",
-    "password": "123"
+    "password": "123",
+    "geometry": {
+      "type": "Point",
+      "coordinates": [ -122.4188, 37.775 ]
+    }
   },
   {
     "_id": "users/18",
@@ -157,7 +209,11 @@
     "username": "carolina_oliveira",
     "email": "carolina.oliveira@example.com",
     "name": "Carolina Oliveira",
-    "password": "123"
+    "password": "123",
+    "geometry": {
+      "type": "Point",
+      "coordinates": [ -122.4317, 37.762 ]
+    }
   },
   {
     "_id": "users/19",
@@ -165,7 +221,11 @@
     "username": "bruno_silva",
     "email": "bruno.silva@example.com",
     "name": "Bruno Silva",
-    "password": "123"
+    "password": "123",
+    "geometry": {
+      "type": "Point",
+      "coordinates": [ -122.437, 37.775 ]
+    }
   },
   {
     "_id": "users/20",
@@ -173,7 +233,11 @@
     "username": "ines_pereira",
     "email": "ines.pereira@example.com",
     "name": "Inês Pereira",
-    "password": "123"
+    "password": "123",
+    "geometry": {
+      "type": "Point",
+      "coordinates": [ 151.2099, -33.872 ]
+    }
   },
   {
     "_id": "users/21",
@@ -181,7 +245,11 @@
     "username": "goncalo_rodrigues",
     "email": "goncalo.rodrigues@example.com",
     "name": "Gonçalo Rodrigues",
-    "password": "123"
+    "password": "123",
+    "geometry": {
+      "type": "Point",
+      "coordinates": [ -122.4185, 37.7752 ]
+    }
   },
   {
     "_id": "users/22",
@@ -189,7 +257,11 @@
     "username": "ana_martins",
     "email": "ana.martins@example.com",
     "name": "Ana Martins",
-    "password": "123"
+    "password": "123",
+    "geometry": {
+      "type": "Point",
+      "coordinates": [ -122.4318, 37.7622 ]
+    }
   },
   {
     "_id": "users/23",
@@ -197,7 +269,11 @@
     "username": "hugo_sousa",
     "email": "hugo.sousa@example.com",
     "name": "Hugo Sousa",
-    "password": "123"
+    "password": "123",
+    "geometry": {
+      "type": "Point",
+      "coordinates": [ -122.4372, 37.774 ]
+    }
   },
   {
     "_id": "users/24",
@@ -205,7 +281,11 @@
     "username": "claudia_fernandes",
     "email": "claudia.fernandes@example.com",
     "name": "Cláudia Fernandes",
-    "password": "123"
+    "password": "123",
+    "geometry": {
+      "type": "Point",
+      "coordinates": [ 151.2101, -33.873 ]
+    }
   },
   {
     "_id": "users/25",
@@ -213,7 +293,11 @@
     "username": "marco_silveira",
     "email": "marco.silveira@example.com",
     "name": "Marco Silveira",
-    "password": "123"
+    "password": "123",
+    "geometry": {
+      "type": "Point",
+      "coordinates": [ -122.4182, 37.7754 ]
+    }
   },
   {
     "_id": "users/26",
@@ -221,7 +305,11 @@
     "username": "daniela_gomes",
     "email": "daniela.gomes@example.com",
     "name": "Daniela Gomes",
-    "password": "123"
+    "password": "123",
+    "geometry": {
+      "type": "Point",
+      "coordinates": [ -122.4319, 37.7624 ]
+    }
   },
   {
     "_id": "users/27",
@@ -229,7 +317,11 @@
     "username": "ricardo_mendes",
     "email": "ricardo.mendes@example.com",
     "name": "Ricardo Mendes",
-    "password": "123"
+    "password": "123",
+    "geometry": {
+      "type": "Point",
+      "coordinates": [ -122.4373, 37.773 ]
+    }
   },
   {
     "_id": "users/28",
@@ -237,7 +329,11 @@
     "username": "clara_costa",
     "email": "clara.costa@example.com",
     "name": "Clara Costa",
-    "password": "123"
+    "password": "123",
+    "geometry": {
+      "type": "Point",
+      "coordinates": [ 151.2103, -33.874 ]
+    }
   },
   {
     "_id": "users/29",
@@ -245,7 +341,11 @@
     "username": "joana_oliveira",
     "email": "joana.oliveira@example.com",
     "name": "Joana Oliveira",
-    "password": "123"
+    "password": "123",
+    "geometry": {
+      "type": "Point",
+      "coordinates": [ -122.4184, 37.7756 ]
+    }
   },
   {
     "_id": "users/30",
@@ -253,7 +353,11 @@
     "username": "nelson_santos",
     "email": "nelson.santos@example.com",
     "name": "Nelson Santos",
-    "password": "123"
+    "password": "123",
+    "geometry": {
+      "type": "Point",
+      "coordinates": [ -122.432, 37.7626 ]
+    }
   },
   {
     "_id": "users/31",
@@ -261,7 +365,11 @@
     "username": "vanessa_pereira",
     "email": "vanessa.pereira@example.com",
     "name": "Vanessa Pereira",
-    "password": "123"
+    "password": "123",
+    "geometry": {
+      "type": "Point",
+      "coordinates": [ -122.4374, 37.772 ]
+    }
   },
   {
     "_id": "users/32",
@@ -269,7 +377,11 @@
     "username": "sergio_martins",
     "email": "sergio.martins@example.com",
     "name": "Sérgio Martins",
-    "password": "123"
+    "password": "123",
+    "geometry": {
+      "type": "Point",
+      "coordinates": [ 151.2105, -33.875 ]
+    }
   },
   {
     "_id": "users/33",
@@ -277,7 +389,11 @@
     "username": "marta_silva",
     "email": "marta.silva@example.com",
     "name": "Marta Silva",
-    "password": "123"
+    "password": "123",
+    "geometry": {
+      "type": "Point",
+      "coordinates": [ -122.4186, 37.7758 ]
+    }
   },
   {
     "_id": "users/34",
@@ -285,7 +401,11 @@
     "username": "pedro_rodrigues",
     "email": "pedro.rodrigues@example.com",
     "name": "Pedro Rodrigues",
-    "password": "123"
+    "password": "123",
+    "geometry": {
+      "type": "Point",
+      "coordinates": [ -122.4321, 37.7628 ]
+    }
   },
   {
     "_id": "users/35",
@@ -293,7 +413,11 @@
     "username": "sara_oliveira",
     "email": "sara.oliveira@example.com",
     "name": "Sara Oliveira",
-    "password": "123"
+    "password": "123",
+    "geometry": {
+      "type": "Point",
+      "coordinates": [ -122.4375, 37.771 ]
+    }
   },
   {
     "_id": "users/36",
@@ -301,7 +425,11 @@
     "username": "manuel_sousa",
     "email": "manuel.sousa@example.com",
     "name": "Manuel Sousa",
-    "password": "123"
+    "password": "123",
+    "geometry": {
+      "type": "Point",
+      "coordinates": [ 151.2107, -33.876 ]
+    }
   },
   {
     "_id": "users/37",
@@ -309,7 +437,11 @@
     "username": "claudia_martins",
     "email": "claudia.martins@example.com",
     "name": "Cláudia Martins",
-    "password": "123"
+    "password": "123",
+    "geometry": {
+      "type": "Point",
+      "coordinates": [ -122.4188, 37.776 ]
+    }
   },
   {
     "_id": "users/38",
@@ -317,7 +449,11 @@
     "username": "carlos_pereira",
     "email": "carlos.pereira@example.com",
     "name": "Carlos Pereira",
-    "password": "123"
+    "password": "123",
+    "geometry": {
+      "type": "Point",
+      "coordinates": [ -122.4322, 37.763 ]
+    }
   },
   {
     "_id": "users/39",
@@ -325,7 +461,11 @@
     "username": "ana_rodrigues",
     "email": "ana.rodrigues@example.com",
     "name": "Ana Rodrigues",
-    "password": "123"
+    "password": "123",
+    "geometry": {
+      "type": "Point",
+      "coordinates": [ -122.4376, 37.77 ]
+    }
   },
   {
     "_id": "users/40",
@@ -333,7 +473,11 @@
     "username": "luis_oliveira",
     "email": "luis.oliveira@example.com",
     "name": "Luís Oliveira",
-    "password": "123"
+    "password": "123",
+    "geometry": {
+      "type": "Point",
+      "coordinates": [ 151.2109, -33.877 ]
+    }
   },
   {
     "_id": "users/41",
@@ -341,7 +485,11 @@
     "username": "marcelo_santos",
     "email": "marcelo.santos@example.com",
     "name": "Marcelo Santos",
-    "password": "123"
+    "password": "123",
+    "geometry": {
+      "type": "Point",
+      "coordinates": [ -122.419, 37.7762 ]
+    }
   },
   {
     "_id": "users/42",
@@ -349,7 +497,11 @@
     "username": "ana_lima",
     "email": "ana.lima@example.com",
     "name": "Ana Lima",
-    "password": "123"
+    "password": "123",
+    "geometry": {
+      "type": "Point",
+      "coordinates": [ -122.4323, 37.7632 ]
+    }
   },
   {
     "_id": "users/43",
@@ -357,7 +509,11 @@
     "username": "gabriela_silva",
     "email": "gabriela.silva@example.com",
     "name": "Gabriela Silva",
-    "password": "123"
+    "password": "123",
+    "geometry": {
+      "type": "Point",
+      "coordinates": [ -122.4377, 37.769 ]
+    }
   },
   {
     "_id": "users/44",
@@ -365,7 +521,11 @@
     "username": "rodrigo_costa",
     "email": "rodrigo.costa@example.com",
     "name": "Rodrigo Costa",
-    "password": "123"
+    "password": "123",
+    "geometry": {
+      "type": "Point",
+      "coordinates": [ 151.2111, -33.878 ]
+    }
   },
   {
     "_id": "users/45",
@@ -373,7 +533,11 @@
     "username": "carolina_oliveira",
     "email": "carolina.oliveira@example.com",
     "name": "Carolina Oliveira",
-    "password": "123"
+    "password": "123",
+    "geometry": {
+      "type": "Point",
+      "coordinates": [ -122.4192, 37.7764 ]
+    }
   },
   {
     "_id": "users/46",
@@ -381,7 +545,11 @@
     "username": "thiago_silva",
     "email": "thiago.silva@example.com",
     "name": "Thiago Silva",
-    "password": "123"
+    "password": "123",
+    "geometry": {
+      "type": "Point",
+      "coordinates": [ -122.4324, 37.7634 ]
+    }
   },
   {
     "_id": "users/47",
@@ -389,7 +557,11 @@
     "username": "beatriz_souza",
     "email": "beatriz.souza@example.com",
     "name": "Beatriz Souza",
-    "password": "123"
+    "password": "123",
+    "geometry": {
+      "type": "Point",
+      "coordinates": [ -122.4378, 37.768 ]
+    }
   },
   {
     "_id": "users/48",
@@ -397,7 +569,11 @@
     "username": "lucas_almeida",
     "email": "lucas.almeida@example.com",
     "name": "Lucas Almeida",
-    "password": "123"
+    "password": "123",
+    "geometry": {
+      "type": "Point",
+      "coordinates": [ 151.2113, -33.879 ]
+    }
   },
   {
     "_id": "users/49",
@@ -405,7 +581,11 @@
     "username": "isabella_oliveira",
     "email": "isabella.oliveira@example.com",
     "name": "Isabella Oliveira",
-    "password": "123"
+    "password": "123",
+    "geometry": {
+      "type": "Point",
+      "coordinates": [ -122.4194, 37.7766 ]
+    }
   },
   {
     "_id": "users/50",
@@ -413,6 +593,10 @@
     "username": "eduardo_silva",
     "email": "eduardo.silva@example.com",
     "name": "Eduardo Silva",
-    "password": "123"
+    "password": "123",
+    "geometry": {
+      "type": "Point",
+      "coordinates": [ -122.4325, 37.7636 ]
+    }
   }
 ]
