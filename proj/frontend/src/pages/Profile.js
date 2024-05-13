@@ -14,6 +14,7 @@ const ProfilePage = () => {
   const [followers, setFollowers] = useState(null);
   const [following, setFollowing] = useState(null);
   const [reactionsFollows, setReactionsFollows] = useState(null);
+  const [closestUsers, setClosestUsers] = useState(null);
 
   const handleLogout = () => {
     localStorage.removeItem('user');
@@ -32,7 +33,12 @@ const ProfilePage = () => {
 
         const responseLikes= await axios.get(`http://localhost:3000/user/following/reactions/${encodeURIComponent(user.id)}`);
         setReactionsFollows(responseLikes.data.moviesReactedByFollowedUsers[0]);
-        console.log(responseLikes.data.moviesReactedByFollowedUsers)
+        console.log(responseLikes.data.moviesReactedByFollowedUsers[0]);
+
+
+        const responseClosest= await axios.get(`http://localhost:3000/user/closest/${encodeURIComponent(user.id)}`);
+        console.log(responseClosest.data)
+        setClosestUsers(responseClosest.data)
       } catch (error) {
         console.error('Failed to fetch user info', error);
       }
@@ -45,7 +51,7 @@ const ProfilePage = () => {
 
   return (
     <BaseLayout>
-      <div style={{ padding: '20px', maxWidth: '650px', margin: 'auto' }}>
+      <div style={{ padding: '20px', maxWidth: '700px', margin: 'auto' }}>
         <Card>
           {user ? (
             <>
@@ -91,8 +97,25 @@ const ProfilePage = () => {
                     />
                     )}
                 </TabPane>
-                <TabPane tab="Movies liked by the users followed by the users you follow" key="Movies">
-                  {reactionsFollows && (
+                <TabPane tab="Closest users" key="Closest users">
+                {closestUsers && (
+                      <List
+                      bordered
+                      dataSource={closestUsers}
+                      renderItem={user => (
+                        <List.Item>
+                          <Link to={`/${user.user._id}`}>{user.user.name}</Link>
+                        </List.Item>
+                      )}
+                    />
+                    )}
+              
+                </TabPane>
+              </Tabs>
+              <div>
+                <br></br>
+                <h3>Movies liked by users followed by users that you follow</h3>
+              {reactionsFollows && (
                       <List
                       bordered
                       dataSource={reactionsFollows}
@@ -103,8 +126,7 @@ const ProfilePage = () => {
                       )}
                     />
                     )}
-                </TabPane>
-              </Tabs>
+              </div>
             </>
           ) : (
             <div>
