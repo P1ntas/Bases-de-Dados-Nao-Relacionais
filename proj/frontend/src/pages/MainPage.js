@@ -47,7 +47,7 @@ const MainPage = () => {
   return (
     <BaseLayout>
       <Search placeholder="search for movies" onSearch={onSearch} style={{ width: 400, marginLeft: 50 }} />
-      <h2 style={{ display: 'flex', justifyContent: 'center', color: '#39535c' }}>{mostLikes ? 'Movies most liked' : 'Results'}</h2>
+      <h2 style={{ display: 'flex', justifyContent: 'center', color: '#39535c' }}>{mostLikes ? '' : 'Results'}</h2>
       <div style={{ display: 'flex', flexWrap: 'wrap', justifyContent: 'center' }}>
         {movies.map(movie => (
           <Link to={`/movie/${encodeURIComponent(movie._id)}`} key={movie._id}>

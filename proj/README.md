@@ -5,23 +5,14 @@ Our prototype is a web application akin to IMDB. It allows users to search for m
 ## How to run
 
 In order to run the project, one must have <b>Docker</b> and <b>Python</b> installed. If these requirements are met, the user just needs to make sure it has a terminal window in the directory of the Makefile and input ``make run``.
-This will build and start the database container, create the database, load all data and create views.
+This will build and start the all container, create the database, load all data and create views.
 
-It takes a long time but it works.
-
-Then, from the backend folder run:
-- npm install
-- npm start
-
-Then the same for the frontend folder:
-- npm install
-- npm start
 
 ## Ports
 
 - Database (ArangoDB): http://localhost:8529
 - Backend (Node.js): http://localhost:3000
-- Frontend (React): http://localhost:3001
+- Frontend (React): http://localhost:8080
 
 ## Credentials
 
